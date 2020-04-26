@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:first_proj/pages/product_details.dart';
+import 'package:first_proj/pages/productDetails.dart';
 
-class gridProducts extends StatefulWidget {
+class GridProducts extends StatefulWidget {
   @override
   _ProductsState createState() => _ProductsState();
 }
 
 // STATEFUL Widget. Sends information about product to SINGLE_PRODUCT function which is STATELESS widget.
-class _ProductsState extends State<gridProducts> {
+class _ProductsState extends State<GridProducts> {
   var productList = [
     {
       "name": "Summer Ripped Jeans",
@@ -80,6 +80,8 @@ class _ProductsState extends State<gridProducts> {
   }
 }
 
+// ================== SINGLE PRODUCT ==================
+
 // Single_Product function. It has a class and a constructor who's information is provided by the stateful widget above.
 // It creates the card and description of a single product.
 class SingleProduct extends StatelessWidget {
@@ -103,27 +105,24 @@ class SingleProduct extends StatelessWidget {
               aspectRatio: 0.9,
               child: Card(
                 elevation: 0,
-                child: Hero(
-                  tag: productName,
-                  child: Material(
-                    child: InkWell(
-                      child: GridTile(
-                        child: Image.asset(
-                          productPic,
-                          fit: BoxFit.cover,
-                          ),
-                      ),
-                      onTap: (){
-                        return Navigator.of(context).push(
-                          new MaterialPageRoute(
-                            builder: (context){
-                              return new ProductDetails();
-                            }
-                          )
-                        );
-                      },
-                    )
-                  ),
+                child: Material(
+                  child: InkWell(
+                    child: GridTile(
+                      child: Image.asset(
+                        productPic,
+                        fit: BoxFit.cover,
+                        ),
+                    ),
+                    onTap: (){
+                      return Navigator.of(context).push(
+                        new MaterialPageRoute(
+                          builder: (context){
+                            return MyHomePage();
+                          }
+                        )
+                      );
+                    },
+                  )
                 ),
               ),
             ),

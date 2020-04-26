@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
             new Container(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               height: 700.0,
-              child: gridProducts(),
+              child: GridProducts(),
             ),
             // ====== END GRIDVIEW OF PRODUCTS ======
 
