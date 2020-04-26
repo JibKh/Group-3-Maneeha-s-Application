@@ -11,42 +11,42 @@ class _ProductsState extends State<GridProducts> {
   var productList = [
     {
       "name": "Summer Ripped Jeans",
-      "picture": "images/jeans.jpg",
+      "picture": "images/cute-cheap-clothes-under-50.jpeg",
       "price": 95,
     },
     {
       "name": "Striped Shirt",
-      "picture": "images/jeans.jpg",
+      "picture": "images/cute-cheap-clothes-under-50.jpeg",
       "price": 90,
     },
     {
       "name": "Sleeveles Shirt",
-      "picture": "images/jeans.jpg",
+      "picture": "images/cute-cheap-clothes-under-50.jpeg",
       "price": 90,
     },
     {
       "name": "Mom Jeans",
-      "picture": "images/jeans.jpg",
+      "picture": "images/cute-cheap-clothes-under-50.jpeg",
       "price": 910,
     },
     {
       "name": "Collared T-Shirt",
-      "picture": "images/jeans.jpg",
+      "picture": "images/cute-cheap-clothes-under-50.jpeg",
       "price": 910,
     },
     {
       "name": "Ripped Jeans",
-      "picture": "images/jeans.jpg",
+      "picture": "images/cute-cheap-clothes-under-50.jpeg",
       "price": 910,
     },
     {
       "name": "Jeans",
-      "picture": "images/jeans.jpg",
+      "picture": "images/cute-cheap-clothes-under-50.jpeg",
       "price": 910,
     },
     {
       "name": "Jeans",
-      "picture": "images/jeans.jpg",
+      "picture": "images/cute-cheap-clothes-under-50.jpeg",
       "price": 910,
     },
   ];
