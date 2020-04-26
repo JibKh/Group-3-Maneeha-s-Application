@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:first_proj/pages/product_details.dart';
 
 class gridProducts extends StatefulWidget {
   @override
@@ -113,7 +114,13 @@ class SingleProduct extends StatelessWidget {
                           ),
                       ),
                       onTap: (){
-                        print('wooo');
+                        return Navigator.of(context).push(
+                          new MaterialPageRoute(
+                            builder: (context){
+                              return new ProductDetails();
+                            }
+                          )
+                        );
                       },
                     )
                   ),
