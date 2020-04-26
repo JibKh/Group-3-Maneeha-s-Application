@@ -1,3 +1,4 @@
+import 'package:first_proj/pages/cart.dart';
 import 'package:flutter/material.dart';
 import 'gridProducts.dart';
 //import 'homepage.dart';
@@ -83,7 +84,16 @@ class _HomePageState extends State<HomePage> {
               ),
 
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  return Navigator.of(context).push(new MaterialPageRoute(builder: (context){
+                    var dictToSend = {
+                      'name': 'Empty',
+                      "size": "Empty",
+                      "price": -1,
+                    };
+                    return ShoppingCart(text: dictToSend,);
+                  }));
+                },
                 child: ListTile(
                   title: Text('Shopping Cart'),
                   leading: Icon(Icons.shopping_cart),
