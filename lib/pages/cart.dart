@@ -17,7 +17,7 @@ class ShoppingCart extends StatelessWidget {
   final dict = {
     'name': 'retro shirt',
     "size": "M",
-    "pic": Image.asset('cute-cheap-clothes-under-50.jpeg'),
+    "pic": Image.asset('images/cute-cheap-clothes-under-50.jpeg'),
     "price": 1200
   };
 

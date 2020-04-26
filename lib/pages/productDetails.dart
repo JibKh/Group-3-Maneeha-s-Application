@@ -83,12 +83,12 @@ class _MyHomePageState extends State<MyHomePage> {
         boxFit: BoxFit.cover,
         //images array stores the images that will be displayed in the carousel
         images: [
-          AssetImage('cute-cheap-clothes-under-50.jpeg'),
-          AssetImage('cute-cheap-clothes-under-50.jpeg'),
-          AssetImage('cute-cheap-clothes-under-50.jpeg'),
-          AssetImage('cute-cheap-clothes-under-50.jpeg'),
-          AssetImage('cute-cheap-clothes-under-50.jpeg'),
-          AssetImage('cute-cheap-clothes-under-50.jpeg'),
+          AssetImage('images/cute-cheap-clothes-under-50.jpeg'),
+          AssetImage('images/cute-cheap-clothes-under-50.jpeg'),
+          AssetImage('images/cute-cheap-clothes-under-50.jpeg'),
+          AssetImage('images/cute-cheap-clothes-under-50.jpeg'),
+          AssetImage('images/cute-cheap-clothes-under-50.jpeg'),
+          AssetImage('images/cute-cheap-clothes-under-50.jpeg'),
         ],
         //keeping autoplay off as we donot want the images to change on their own
         autoplay: false,
