@@ -23,8 +23,10 @@ class Checkout extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.green,
       ),
-      body: Center(
-        child: new TextFormField(
+
+      body: Padding(
+        padding: EdgeInsets.all(10),
+           child: new TextFormField(
           decoration: new InputDecoration(
             hintText: "Delivery Address",
             border: new OutlineInputBorder(
@@ -36,7 +38,26 @@ class Checkout extends StatelessWidget {
             print(str);
           },
         ),
-      ),
+
+      )
+
+
+
+
+      // body: Center(
+      //   child: new TextFormField(
+      //     decoration: new InputDecoration(
+      //       hintText: "Delivery Address",
+      //       border: new OutlineInputBorder(
+      //         borderRadius: new BorderRadius.circular(25.0),
+      //         borderSide: new BorderSide(),
+      //       ),
+      //     ),
+      //     onChanged: (String str) {
+      //       print(str);
+      //     },
+      //   ),
+      // ),
     );
   }
 }

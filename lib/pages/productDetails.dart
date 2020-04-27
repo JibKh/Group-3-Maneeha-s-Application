@@ -38,9 +38,14 @@ class _MyHomePageState extends State<MyHomePage> {
     "price": 1200
   };
 
+
+
   //price and prodName are the price and product name of the product to be displayed on this page
   var price = 'PKR 1150';
   var prodName = 'Summer T';
+
+
+
 
   //This function sends the relevant information to the shopping cart screen
   //the default values that the dictionary was initialised to, are now changed to the details of the product to be displayed and sent to the shopping cart
@@ -59,6 +64,9 @@ class _MyHomePageState extends State<MyHomePage> {
         ));
   }
 
+
+
+
   //Drop down starts
   String curSize = "";
   //array that stores size values for drop down
@@ -72,6 +80,9 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
   //Drop down ends
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +111,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     //Image Carousel ends
 
+
+
     return Scaffold(
       //AppBar starts
       appBar: AppBar(
@@ -123,14 +136,19 @@ class _MyHomePageState extends State<MyHomePage> {
               child: GestureDetector(
                 onTap: () {},
                 child:
-                    Icon(Icons.shopping_cart, color: Colors.white, size: 22.0),
+                    Icon(Icons.shopping_cart, color: Colors.white, size: 22.0)
               ))
         ],
       ),
       //AppBar ends
 
+
+
+
       // extending body behind app bar to make image visible from under app bar
       extendBodyBehindAppBar: true,
+
+
 
       //using SingleChildScrollView to enable scroll in case page contents do not fit the device screen
       body: SingleChildScrollView(
@@ -139,6 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             //calling the image carousel widget class
             imageCarousel,
+
 
             //display product name
             Row(
@@ -154,6 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
 
+
             //display price
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -167,6 +187,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
+
+
+
 
             //container starts
             Container(
@@ -238,8 +261,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 )
                 //inner column ends
 
+                
+
                 ),
             //container ends
+
+
 
             //button starts
             ButtonTheme(
@@ -267,9 +294,13 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             )
             //button ends
+
+
           ],
         ),
         //column ends
+
+        
       ),
     );
   }
