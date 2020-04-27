@@ -13,6 +13,13 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
 
       // ======================== START BODY ========================
+      // body: Column(
+      //   children: <Widget>[
+      //     new Flexible(
+      //       child: GridProducts(),
+      //     )
+      //   ],
+      // )
       body: ListView(
         children: <Widget>[
           

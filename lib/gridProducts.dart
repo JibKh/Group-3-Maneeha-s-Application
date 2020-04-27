@@ -54,28 +54,31 @@ class _ProductsState extends State<GridProducts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: GridView.count(
-            //mainAxisSpacing: 15,
-            crossAxisCount: 2,
-            //childAspectRatio: 0.90,
-            childAspectRatio: MediaQuery.of(context).size.width /
-                (MediaQuery.of(context).size.height / 1.4),
+      body: GridView.count(
+        //mainAxisSpacing: 15,
+        crossAxisCount: 2,
+        //childAspectRatio: 0.90,
+        childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.4),
 
-            // This is a function that traverses through all the items and makes a gridview out of all of them.
-            // It Calls stateless widget Single_Product function after padding.
-            children: List.generate(productList.length, (index) {
-              return Container(
-                //height:200,
-                padding: EdgeInsets.symmetric(horizontal: 9, vertical: 0),
+        // This is a function that traverses through all the items and makes a gridview out of all of them.
+        // It Calls stateless widget Single_Product function after padding.
+        children: List.generate(productList.length, (index) 
+        {
+          return Padding(
+            //height:200,
+            padding: EdgeInsets.symmetric(horizontal: 9, vertical: 0),
 
-                //Calling of stateless function. This will create the card and the description.
-                child: SingleProduct(
-                  productName: productList[index]['name'],
-                  productPic: productList[index]['picture'],
-                  productPrice: productList[index]['price'],
-                ),
-              );
-            })));
+            //Calling of stateless function. This will create the card and the description.
+            child: SingleProduct(
+              productName: productList[index]['name'],
+              productPic: productList[index]['picture'],
+              productPrice: productList[index]['price'],
+            ),
+          );
+        }
+        )
+      )
+    );
   }
 }
 
@@ -97,7 +100,7 @@ class SingleProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         // width: 50,
-        child: Column(
+      child: Column(
       children: <Widget>[
         // ITEM PICTURE IS SET HERE ON A CARD
         AspectRatio(
@@ -105,7 +108,7 @@ class SingleProduct extends StatelessWidget {
           child: Card(
             elevation: 0,
             child: Material(
-                child: InkWell(
+              child: InkWell(
               child: GridTile(
                 child: Image.asset(
                   productPic,
@@ -118,7 +121,8 @@ class SingleProduct extends StatelessWidget {
                   return MyHomePage();
                 }));
               },
-            )),
+              )
+            ),
           ),
         ),
 
