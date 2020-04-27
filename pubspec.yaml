@@ -20,6 +20,8 @@ dependencies:
   flutter:
     sdk: flutter
   
+  cloud_firestore: 
+  provider: ^4.0.5+1
   photo_view: ^0.9.1
   carousel_pro: ^1.0.0
 

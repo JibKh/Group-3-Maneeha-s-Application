@@ -1,5 +1,9 @@
+import 'package:first_proj/Services/product.dart';
 import 'package:flutter/material.dart';
 import 'package:first_proj/pages/productDetails.dart';
+import 'package:first_proj/Services/prod.dart';
+import 'package:provider/provider.dart';
+import 'package:first_proj/prodlist.dart';
 
 class GridProducts extends StatefulWidget {
   @override
@@ -53,31 +57,34 @@ class _ProductsState extends State<GridProducts> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GridView.count(
-        //mainAxisSpacing: 15,
-        crossAxisCount: 2,
-        //childAspectRatio: 0.90,
-        childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.4),
+    return StreamProvider<List<Product>>.value(
+        value: DatabaseService().prods,
+        child: Scaffold(
+        body: GridView.count(
+          //mainAxisSpacing: 15,
+          crossAxisCount: 2,
+          //childAspectRatio: 0.90,
+          childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.4),
 
-        // This is a function that traverses through all the items and makes a gridview out of all of them.
-        // It Calls stateless widget Single_Product function after padding.
-        children: List.generate(productList.length, (index) 
-        {
-          return Padding(
-            //height:200,
-            padding: EdgeInsets.symmetric(horizontal: 9, vertical: 0),
+          // This is a function that traverses through all the items and makes a gridview out of all of them.
+          // It Calls stateless widget Single_Product function after padding.
+          children: List.generate(productList.length, (index) 
+          {
+            return Padding(
+              //height:200,
+              padding: EdgeInsets.symmetric(horizontal: 9, vertical: 0),
 
-            //Calling of stateless function. This will create the card and the description.
-            child: SingleProduct(
-              productName: productList[index]['name'],
-              productPic: productList[index]['picture'],
-              productPrice: productList[index]['price'],
-            ),
-          );
-        }
+              //Calling of stateless function. This will create the card and the description.
+              child: SingleProduct(
+                productName: productList[index]['name'],
+                productPic: productList[index]['picture'],
+                productPrice: productList[index]['price'],
+              ),
+            );
+          }
+          )
         )
-      )
+      ),
     );
   }
 }
