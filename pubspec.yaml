@@ -45,6 +45,8 @@ flutter:
     - images/pic1.jpg
     - images/pic2.jpg
     - images/pic3.jpg
+    - images/icons8-checkout-100.png
+    - images/completed-icon-6.jpg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
