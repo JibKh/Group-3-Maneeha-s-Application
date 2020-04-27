@@ -14,11 +14,7 @@ class GridProducts extends StatefulWidget {
 class _ProductsState extends State<GridProducts> {
   var productList = [
     {
-<<<<<<< HEAD
-      "name": "edgfg Ripped Jeans",
-=======
       "name": "Summer Ripped Jeans",
->>>>>>> 19dfc5c5a56d2697aa7b65366ff711d3d48cb241
       "picture": "images/cute-cheap-clothes-under-50.jpeg",
       "price": 95,
     },

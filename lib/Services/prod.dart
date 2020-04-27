@@ -1,3 +1,5 @@
+// THIS FILE IS CURRENTLY NOT BEING USED ANYWHERE AT ALL
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'product.dart';
 /*

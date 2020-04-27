@@ -1,3 +1,6 @@
+// THIS FILE IS COMPLETELY USELESS.
+// ITS PURPOSE IS TO STOP THE TEST ERRORS IN DEBUGGING.
+
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {

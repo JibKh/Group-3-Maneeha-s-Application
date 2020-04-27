@@ -1,6 +1,6 @@
 //import 'package:first_proj/pages/cart.dart';
 import 'package:flutter/material.dart';
-import 'package:first_proj/gridProducts.dart';
+import 'package:first_proj/util/gridProducts.dart';
 
 class HomePage extends StatefulWidget {
   @override

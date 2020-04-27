@@ -1,3 +1,5 @@
+// THIS FILE IS CURRENTLY NOT BEING USED ANYWHERE AT ALL
+
 import 'package:flutter/material.dart';
 import 'package:first_proj/Services/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
