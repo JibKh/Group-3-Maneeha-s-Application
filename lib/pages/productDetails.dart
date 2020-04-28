@@ -28,7 +28,75 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+
+class SizeDD {
+  int id;
+  String size;
+
+  SizeDD(this.id, this.size);
+
+  static List<SizeDD> getSizes() {
+    return <SizeDD>[
+      SizeDD(1, "XS"),
+      SizeDD(2, "S"),
+      SizeDD(3, "M"),
+      SizeDD(4, "L"),
+      SizeDD(5, "XL"),
+    ];
+  }
+}
+
+
+
+
+
+
 class _MyHomePageState extends State<MyHomePage> {
+  
+
+   List<SizeDD> _sizes = SizeDD.getSizes();
+  List<DropdownMenuItem<SizeDD>> sizesArray;
+  SizeDD alrSelectedSize;
+
+  @override
+  void initState() {
+    sizesArray=buildDropDownMenuItems(_sizes);
+    alrSelectedSize=sizesArray[0].value;
+    super.initState();
+  }
+  
+
+  List<DropdownMenuItem<SizeDD>> buildDropDownMenuItems(List sizes) {
+    List<DropdownMenuItem<SizeDD>> items = List();
+    for(SizeDD size in sizes) {
+      items.add(
+        DropdownMenuItem(
+          value: size, 
+          child: Text(size.size),
+          ),
+        );
+    }
+    return items;
+  }
+
+  onChangeDropdownItem(SizeDD selectedSize){
+    setState(() {
+      alrSelectedSize=selectedSize;
+    });
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   //This is the dictionary that stores the price, name, size of the product
   //It is assigned random default name, price and size in the beginning
   var dictToSend = {
@@ -235,6 +303,26 @@ class _MyHomePageState extends State<MyHomePage> {
                     //       ),
                     //     //dropdown implementation ends
                     //  ),
+
+
+                     new Align(
+                          alignment: Alignment(-0.9, 1),
+                          child: Column(
+                            children: <Widget>[
+                              Text("Size"),
+                              DropdownButton(
+                                value: alrSelectedSize,
+                                items: sizesArray,
+                                onChanged: onChangeDropdownItem,
+                              ),
+                              Text('selected: ${alrSelectedSize.size}')
+                            ],
+                          ),
+                    ),
+
+
+
+
 
                     new Align(
                       alignment: Alignment(-0.9, 0.7),
