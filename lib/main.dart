@@ -8,7 +8,12 @@ import 'package:provider/provider.dart';
 // Wrapped in a Strea so it is constantly listening for changes in signin/signup
 // The Wrapper function choose which screen to send it to, Homepage or the Authentication page (signin/signup)
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: MyApp(),
+  ));
+}
 
 class MyApp extends StatelessWidget {
   @override
