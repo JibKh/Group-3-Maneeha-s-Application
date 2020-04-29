@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:first_proj/pages/confirmation.dart';
 
+// The purpose of this page is to create the checkout page
+
 class Checkout extends StatelessWidget {
   final String res = "";
   final text;
@@ -24,67 +26,51 @@ class Checkout extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.green,
       ),
-
       body: SingleChildScrollView(
-        child: Container(
-          child: Padding(
+          child: Container(
+        child: Padding(
             padding: EdgeInsets.all(20),
-           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-             children: <Widget>[
-                 SizedBox(
-                      height: 200.0,
-                      child: Image.asset(
-                        "images/icons8-checkout-100.png",
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(
+                  height: 200.0,
+                  child: Image.asset(
+                    "images/icons8-checkout-100.png",
+                    fit: BoxFit.cover,
+                  ),
+                ),
                 SizedBox(height: 40.0),
-
                 TextFormField(
-          decoration: new InputDecoration(
-            hintText: "Delivery Address",
-            border: new OutlineInputBorder(
-              borderRadius: new BorderRadius.circular(20.0),
-              borderSide: new BorderSide(),
-            ),
-          ),
-          onChanged: (String str) {
-            print(str);
-          },
-        ),
-
-          SizedBox(height: 20.0),
-
-
-        TextField(
-          decoration: new InputDecoration(
-            hintText: "Contact number",
-            border: new OutlineInputBorder(
-              borderRadius: new BorderRadius.circular(20.0),
-              borderSide: new BorderSide(),
-            ),
-          ),
-          keyboardType: TextInputType.number,
-
-          
-          onChanged: (String str) {
-            print(str);
-          },
-        ),
-
-
-
-             ],
-           )
-
-          ),
-        )
-      ),
-
-
+                  decoration: new InputDecoration(
+                    hintText: "Delivery Address",
+                    border: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(20.0),
+                      borderSide: new BorderSide(),
+                    ),
+                  ),
+                  onChanged: (String str) {
+                    print(str);
+                  },
+                ),
+                SizedBox(height: 20.0),
+                TextField(
+                  decoration: new InputDecoration(
+                    hintText: "Contact number",
+                    border: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(20.0),
+                      borderSide: new BorderSide(),
+                    ),
+                  ),
+                  keyboardType: TextInputType.number,
+                  onChanged: (String str) {
+                    print(str);
+                  },
+                ),
+              ],
+            )),
+      )),
       bottomNavigationBar: Container(
         child: Row(
           children: <Widget>[
@@ -115,7 +101,6 @@ class Checkout extends StatelessWidget {
           ],
         ),
       ),
-
     );
   }
 }

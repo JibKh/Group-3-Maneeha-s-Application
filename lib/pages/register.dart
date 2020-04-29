@@ -1,32 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:first_proj/util/firebase_auth.dart';
 
-// Purpose of this page is to allow user to input login data and verify it using firebase_auth.dart file.
+// The purpose of this document is to create the registration page where users can signup
 
-class LoginPage extends StatefulWidget {
+class Signup extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _SignupState createState() => _SignupState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignupState extends State<Signup> {
 
   // Create firebase authentication variable
   final AuthService _auth = AuthService();
 
   // For input validation
   final _formKey = GlobalKey<FormState>();
-
-  // To load up the loading screen. Not being used currently.
-  bool loading = false;
-
+  
   String email = "";
   String password = ""; 
   String error = "";
 
-  // START UI
   @override
-  Widget build(BuildContext context){
-    //return loading ? Loading() : Scaffold(
+  Widget build(BuildContext context) {
+    
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -55,8 +51,8 @@ class _LoginPageState extends State<LoginPage> {
                   children: <Widget>[
                     const SizedBox(height: 180.0),
 
-                    // Login Input
-                    Text("Login", style: TextStyle(
+                    // Signup
+                    Text("Signup", style: TextStyle(
                         fontSize: 20.0
                     ),),
                     const SizedBox(height: 20.0),
@@ -84,66 +80,29 @@ class _LoginPageState extends State<LoginPage> {
                           hintText: "Enter password"
                       ),
                     ),
-                    
-                    // Login Button
+
+                    // Signup button
                     const SizedBox(height: 50.0),
                     RaisedButton(
                       color: Colors.white,
-                      child: Text("Login"),
+                      child: Text("Signup"),
                       onPressed: () async {
                         if(_formKey.currentState.validate()) {
-                          setState(() => loading = true);
                           Navigator.pop(context);
-                          dynamic result = await _auth.signInWithEmailAndPassword(email, password);
-
+                          dynamic result = await _auth.registerWithEmailAndPassword(email, password);
                           if (result == null) {
-                            setState(() {
-                              error = 'Could not sign in.';
-                              loading = false;
-                            });
+                            setState(() => error = 'Please apply valid email');
                           }
                         }
-                        // if(_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-                        //   print("Email and password cannot be empty");
-                        //   return;
-                        // }
-                        // bool res = await AuthProvider().signInWithEmail(_emailController.text, _passwordController.text);
-                        // if(!res) {
-                        //   print("Login failed");
-                        // }
                       },
                     ),
 
-                    // If there is an error, display it under the login button.
+                    // If there is an error, display it under the signup button.
                     SizedBox(height:12.0),
                     Text(
                       error,
                       style: TextStyle(color: Colors.red, fontSize: 14.0),
-                    ),
-                    //  RaisedButton(
-                    //   color: Colors.green,
-                    //   child: Text("Login with Google"),
-                    //   onPressed: () async {
-                    //     bool res = await AuthProvider().loginWithGoogle();
-                    //     if(!res)
-                    //       print("error logging in with google");
-                    //   },
-                    // ),
-                    RaisedButton(
-                      color: Colors.white,
-                      child: Text("SignIn Anonymously"),
-                      onPressed: () async {
-                        Navigator.pop(context);
-                        dynamic result = await _auth.signInAnon();
-                        if (result == null) {
-                          print('Error signing in');
-                        } else {
-                          print('Signed in');
-                          print(result);
-                        }
-                      },
                     )
-
                   ],
                 ),
               ),
@@ -157,5 +116,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
       backgroundColor: Colors.white,
     );
+  
   }
 }

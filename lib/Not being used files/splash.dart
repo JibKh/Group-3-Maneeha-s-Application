@@ -1,3 +1,5 @@
+// THIS FILE IS CURRENTLY NOT BEING USED ANYWHERE
+
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatelessWidget {

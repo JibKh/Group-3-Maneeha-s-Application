@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-class HorizontalList extends StatelessWidget {
+// The purpose of this page is to create the categories page
+
+class Categories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

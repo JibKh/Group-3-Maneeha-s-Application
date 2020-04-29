@@ -5,6 +5,10 @@ import 'package:first_proj/pages/Categories.dart';
 import 'package:first_proj/pages/cart.dart';
 import 'package:first_proj/util/firebase_auth.dart';
 
+// The purpose of this page is to create:
+// App bar
+// Tabbar (home-categories bar) - Redirects to the homepage or categories page
+// Navigation bar 
 
 class HomePageTabs extends StatefulWidget {
   @override
@@ -12,13 +16,16 @@ class HomePageTabs extends StatefulWidget {
 }
 
 class _HomePageTabsState extends State<HomePageTabs> {
+
+  final AuthService _auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
 
-        // ======================== START APP BAR and HOME - CATEGORIES BAR========================
+        // ======================== START of APP BAR and HOME - CATEGORIES BAR ========================
 
         appBar: AppBar(
           elevation: 2,
@@ -29,6 +36,8 @@ class _HomePageTabsState extends State<HomePageTabs> {
             IconButton(icon: Icon(Icons.search), color: Colors.black, onPressed: () {},),
           ],
 
+
+          // Creates the Home-Categories bar
           bottom: TabBar(
             labelColor: Colors.black,
             tabs: <Widget>[
@@ -38,17 +47,17 @@ class _HomePageTabsState extends State<HomePageTabs> {
           )
         ),
 
-        // REDIRECTS TO HOMEPAGE OR HORIZONTAL LIST PAGE BASED ON SELECTION
+        // Redirects to Homepage or Categories page
         body: TabBarView(
           children: <Widget>[
             HomePage(),
-            HorizontalList(),
+            Categories(),
           ],
         ),
 
-        // ======================== END APP BAR and HOME - CATEGORIES BAR========================
+        // ======================== END APP BAR and HOME - CATEGORIES BAR ========================
 
-        // ======================== START NAVIGATION BAR ========================
+      // ======================== START NAVIGATION BAR ========================
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
@@ -87,8 +96,8 @@ class _HomePageTabsState extends State<HomePageTabs> {
               onTap: () {
                 return Navigator.of(context).push(new MaterialPageRoute(builder: (context){
                   var dictToSend = {
-                    'name': 'Empty',
-                    "size": "Empty",
+                    'name': '-1',
+                    "size": "-1",
                     "price": -1,
                   };
                   return ShoppingCart(text: dictToSend,);
@@ -121,8 +130,9 @@ class _HomePageTabsState extends State<HomePageTabs> {
             Divider(),
 
             InkWell(
-              onTap: () {
-                AuthProvider().logOut();
+              onTap: () async {
+                Navigator.pop(context);
+                await _auth.signOut();
               },
               child: ListTile(
                 title: Text('Log Out'),

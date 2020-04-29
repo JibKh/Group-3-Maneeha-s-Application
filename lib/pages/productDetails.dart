@@ -6,29 +6,16 @@ void main() {
   //runApp(MyApp());
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: MyHomePage(),
+    home: ProductDescription(),
   ));
 }
 
-class MyApp extends StatelessWidget {
+class ProductDescription extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        brightness: Brightness.dark,
-      ),
-      home: MyHomePage(),
-    );
-  }
+  _ProductDescription createState() => _ProductDescription();
 }
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class _ProductDescription extends State<ProductDescription> {
   //This is the dictionary that stores the price, name, size of the product
   //It is assigned random default name, price and size in the beginning
   var dictToSend = {
