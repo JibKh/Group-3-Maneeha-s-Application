@@ -1,18 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:first_proj/pages/cart.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
   //runApp(MyApp());
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: ProductDescription(),
+    //home: MyHomePage(),
   ));
 }
 
-class ProductDescription extends StatefulWidget {
+class MyApp extends StatelessWidget {
   @override
-  _ProductDescription createState() => _ProductDescription();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        brightness: Brightness.dark,
+      ),
+      //home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  String productName;
+  String productPrice;
+  Image productImage;
+  String desc;
+  int stock;
+  MyHomePage(String name, String price, Image image, String desc, int stock){
+    this.productName = name;
+    this.productPrice = price;
+    this.productImage = image;
+    this.desc = desc;
+    this.stock = stock;
+  }
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
 
@@ -38,12 +64,17 @@ class SizeDD {
 
 
 
-class _ProductDescription extends State<ProductDescription> {
+class _MyHomePageState extends State<MyHomePage> {  
   
-
-   List<SizeDD> _sizes = SizeDD.getSizes();
+  List<SizeDD> _sizes = SizeDD.getSizes();
   List<DropdownMenuItem<SizeDD>> sizesArray;
   SizeDD alrSelectedSize;
+
+  Future getPosts() async{
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore.collection("Products").getDocuments();
+    return qn.documents;
+  }
 
   @override
   void initState() {
@@ -73,21 +104,10 @@ class _ProductDescription extends State<ProductDescription> {
   }
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   //This is the dictionary that stores the price, name, size of the product
   //It is assigned random default name, price and size in the beginning
   var dictToSend = {
-    'name': 'default name',
+    'name': 'Waleed',
     "size": "default size",
     // "pic": Image.asset('assets/20180421_112411.png'),
     "price": 1200
@@ -96,8 +116,8 @@ class _ProductDescription extends State<ProductDescription> {
 
 
   //price and prodName are the price and product name of the product to be displayed on this page
-  var price = 'PKR 1150';
-  var prodName = 'Summer T';
+  var price = 'PKR 1160';
+  var prodName = 'Waleed';
 
 
 
@@ -149,12 +169,12 @@ class _ProductDescription extends State<ProductDescription> {
         boxFit: BoxFit.cover,
         //images array stores the images that will be displayed in the carousel
         images: [
-          AssetImage('images/cute-cheap-clothes-under-50.jpeg'),
-          AssetImage('images/cute-cheap-clothes-under-50.jpeg'),
-          AssetImage('images/cute-cheap-clothes-under-50.jpeg'),
-          AssetImage('images/cute-cheap-clothes-under-50.jpeg'),
-          AssetImage('images/cute-cheap-clothes-under-50.jpeg'),
-          AssetImage('images/cute-cheap-clothes-under-50.jpeg'),
+          widget.productImage,
+          widget.productImage,
+          widget.productImage,
+          widget.productImage,
+          widget.productImage,
+          widget.productImage,
         ],
         //keeping autoplay off as we donot want the images to change on their own
         autoplay: false,
@@ -167,8 +187,10 @@ class _ProductDescription extends State<ProductDescription> {
     //Image Carousel ends
 
 
-
-    return Scaffold(
+    return FutureBuilder(
+      future: getPosts(), 
+      builder: (_, snapshot){
+      return Scaffold(
       //AppBar starts
       appBar: AppBar(
         leading: BackButton(
@@ -219,22 +241,21 @@ class _ProductDescription extends State<ProductDescription> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  prodName,
+                  widget.productName,
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
                   ),
+                
                 ),
               ],
             ),
-
-
             //display price
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  price,
+                  widget.productPrice,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -296,13 +317,13 @@ class _ProductDescription extends State<ProductDescription> {
                           alignment: Alignment(-0.9, 1),
                           child: Column(
                             children: <Widget>[
-                              Text("Size"),
+                              //Text("Size"),
                               DropdownButton(
                                 value: alrSelectedSize,
                                 items: sizesArray,
                                 onChanged: onChangeDropdownItem,
                               ),
-                              Text('selected: ${alrSelectedSize.size}')
+                              //Text('selected: ${alrSelectedSize.size}')
                             ],
                           ),
                     ),
@@ -314,7 +335,7 @@ class _ProductDescription extends State<ProductDescription> {
                     new Align(
                       alignment: Alignment(-0.9, 0.7),
                       child: Text(
-                        "DETAILS",
+                        "\nDETAILS",
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.normal,
@@ -325,7 +346,7 @@ class _ProductDescription extends State<ProductDescription> {
                     new Align(
                       alignment: Alignment(-0.9, 0.7),
                       child: Text(
-                        " - Upgrade your basics \n - High neck \n - Zip placket \n - Embroidered Nike Swoosh logo \n - Contrast piping \n - Drawstring hem \n - Regular fit \n - True to size",
+                        '   '+widget.desc,
                         style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.normal,
@@ -377,6 +398,6 @@ class _ProductDescription extends State<ProductDescription> {
 
 
       ),
-    );
+    );});
   }
 }

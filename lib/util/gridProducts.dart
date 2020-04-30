@@ -1,10 +1,9 @@
+import 'package:first_proj/pages/product.dart';
 import 'package:flutter/material.dart';
 import 'package:first_proj/pages/productDetails.dart';
 import 'package:provider/provider.dart';
+import 'package:first_proj/pages/prod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-// This page was made from scratch
-// The purpose of this page is to create the gridview of products in the homepage
 
 class GridProducts extends StatefulWidget {
   @override
@@ -13,12 +12,10 @@ class GridProducts extends StatefulWidget {
 
 // STATEFUL Widget. Sends information about product to SINGLE_PRODUCT function which is STATELESS widget.
 class _ProductsState extends State<GridProducts> {
-  
-  // Currently not being used. We are retrieving from the database now.
   var productList = [
     {
       "name": "Summer Ripped Jeans",
-      "picture": "images/cute-cheap-clothes-under-50.jpeg",
+      "picture": Image.network('https://firebasestorage.googleapis.com/v0/b/maneeha-s-app-database.appspot.com/o/pic3.jpg?alt=media&token=84c266da-98fa-425b-8dc6-f6db5dfb877a'),
       "price": 95,
     },
     {
@@ -58,44 +55,52 @@ class _ProductsState extends State<GridProducts> {
     },
   ];
 
+  Future getPosts() async{
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore.collection("Products").getDocuments();
+    return qn.documents;
+  }
+
   @override
   Widget build(BuildContext context) {
+    return StreamProvider<List<Product>>.value(
+        value: DatabaseService().prods,
+        child: FutureBuilder(
+          future: getPosts(),
+          builder: (_, snapshot){
+            if(snapshot.connectionState == ConnectionState.waiting){
+            return Scaffold();              
+            }
+            else{
+            return Scaffold(
+            body: GridView.count(
+            //mainAxisSpacing: 15,
+            crossAxisCount: 2,
+            //childAspectRatio: 0.90,
+            childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.4),
 
-    // Retrieve data from the stream
-    final product = Provider.of<QuerySnapshot>(context);
+            // This is a function that traverses through all the items and makes a gridview out of all of them.
+            // It Calls stateless widget Single_Product function after padding.
+            children: List.generate(4, (index) 
+            {
+              return Padding(
+                //height:200,
+                padding: EdgeInsets.symmetric(horizontal: 9, vertical: 0),
 
-    if (product == null) {
-      print('BOOOP');
-    }
-    
-    return Scaffold(
-      body: GridView.count(
-        //mainAxisSpacing: 15,
-        crossAxisCount: 2,
-        //childAspectRatio: 0.90,
-        childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.55),
-
-        // This is a function that traverses through all the items and makes a gridview out of all of them.
-        // It Calls stateless widget Single_Product function after padding.
-        children: List.generate(product.documents.length, (index) 
-        {
-          return Padding(
-            //height:200,
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-
-            //Calling of stateless function. This will create the card and the description.
-            child: SingleProduct(
-              // productName: productList[index]['name'],
-              // productPic: productList[index]['picture'],
-              // productPrice: productList[index]['price'],
-              productName: product.documents[index]['shortDesc'],
-              productPic: product.documents[index]['image'],
-              productPrice: product.documents[index]['price'],
-            ),
-          );
-        }
-        )
-      )
+                //Calling of stateless function. This will create the card and the description.
+                child: SingleProduct(
+                  productName: snapshot.data[index].data['name'],
+                  productPic: snapshot.data[index].data['image'],
+                  productPrice: snapshot.data[index].data['price'],
+                  desc: snapshot.data[index].data['Desc'],
+                  stock: snapshot.data[index].data['Stock']
+                ),
+              );
+            }
+            )
+          )
+      );};}
+        ),
     );
   }
 }
@@ -105,25 +110,29 @@ class _ProductsState extends State<GridProducts> {
 // Single_Product function. It has a class and a constructor who's information is provided by the stateful widget above.
 // It creates the card and description of a single product.
 class SingleProduct extends StatelessWidget {
-  
+  //Uint8List imageFile;
   final productName;
   final productPic;
   final productPrice;
+  final desc;
+  final stock;
 
   SingleProduct({
     this.productName,
     this.productPic,
     this.productPrice,
+    this.desc,
+    this.stock
   });
   @override
   Widget build(BuildContext context) {
-
     return Container(
         // width: 50,
       child: Column(
       children: <Widget>[
         // ITEM PICTURE IS SET HERE ON A CARD
-        Flexible(
+        AspectRatio(
+          aspectRatio: 0.9,
           child: Card(
             elevation: 0,
             child: Material(
@@ -134,12 +143,10 @@ class SingleProduct extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-
-              // If a product has been selected, take it to the product description page
               onTap: () {
                 return Navigator.of(context)
                     .push(new MaterialPageRoute(builder: (context) {
-                  return ProductDescription();
+                  return MyHomePage(productName, productPrice, Image.network(productPic), desc, stock);
                 }));
               },
               )
