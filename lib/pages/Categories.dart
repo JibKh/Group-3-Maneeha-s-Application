@@ -1,3 +1,4 @@
+import 'package:first_proj/pages/productListCategories.dart';
 import 'package:flutter/material.dart';
 
 // The purpose of this page is to create the categories page
@@ -12,7 +13,7 @@ class Categories extends StatelessWidget {
         children: <Widget>[
           Category(
             imageLocation: 'images/pic1.jpg',
-            imageCaption: 'Shirts',
+            imageCaption: 'Shirt',
           ),
           Category(
             imageLocation: 'images/pic2.jpg',
@@ -20,7 +21,7 @@ class Categories extends StatelessWidget {
           ),
           Category(
             imageLocation: 'images/pic3.jpg',
-            imageCaption: 'Skirts',
+            imageCaption: 'Skirt',
           ),
         ],
       ),
@@ -39,7 +40,12 @@ class Category extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          return Navigator.of(context)
+            .push(new MaterialPageRoute(builder: (context) {
+              return ProductListCategories(imageCaption);
+              }));
+        },
         child: Stack(
           children: <Widget>[
             Container(

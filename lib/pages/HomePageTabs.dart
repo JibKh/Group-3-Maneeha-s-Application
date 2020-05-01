@@ -1,5 +1,5 @@
+import 'package:first_proj/pages/search.dart';
 import 'package:flutter/material.dart';
-
 import 'package:first_proj/pages/homepage.dart';
 import 'package:first_proj/pages/Categories.dart';
 import 'package:first_proj/pages/cart.dart';
@@ -31,9 +31,12 @@ class _HomePageTabsState extends State<HomePageTabs> {
           elevation: 2,
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
-          title: Center(child: Text('Maneeha\'s', style: TextStyle(color: Colors.black))),
+          title: 
+          Center(child: Text('Maneeha\'s', style: TextStyle(color: Colors.black))),
           actions: <Widget>[
-            IconButton(icon: Icon(Icons.search), color: Colors.black, onPressed: () {},),
+            IconButton(icon: Icon(Icons.search), color: Colors.black, onPressed: () {
+              showSearch(context: context, delegate: Search());
+            },),
           ],
 
 

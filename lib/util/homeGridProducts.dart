@@ -1,9 +1,9 @@
-import 'package:first_proj/Not%20being%20used%20files/loading.dart';
-import 'package:first_proj/pages/product.dart';
+import 'package:first_proj/util/loading.dart';
+import 'package:first_proj/util/product.dart';
 import 'package:flutter/material.dart';
 import 'package:first_proj/pages/productDetails.dart';
 import 'package:provider/provider.dart';
-import 'package:first_proj/pages/prod.dart';
+import 'package:first_proj/util/databaseProduct.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GridProducts extends StatefulWidget {
@@ -98,18 +98,18 @@ class SingleProduct extends StatelessWidget {
             elevation: 0,
             child: Material(
               child: InkWell(
-              child: GridTile(
-                child: Image.network(
-                  productPic,
-                  fit: BoxFit.cover,
+                child: GridTile(
+                  child: Image.network(
+                    productPic,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              onTap: () {
-                return Navigator.of(context)
-                    .push(new MaterialPageRoute(builder: (context) {
-                  return MyHomePage(productName, productPrice, Image.network(productPic), desc, stock);
-                }));
-              },
+                onTap: () {
+                  return Navigator.of(context)
+                      .push(new MaterialPageRoute(builder: (context) {
+                    return MyHomePage(productName, productPrice, Image.network(productPic), desc, stock);
+                  }));
+                },
               )
             ),
           ),

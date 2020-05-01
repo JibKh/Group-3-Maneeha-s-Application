@@ -40,30 +40,3 @@ class Wrapper extends StatelessWidget {
     }
   }
 }
-
-// void main()
-// {
-//   runApp(MaterialApp(
-//     debugShowCheckedModeBanner: false,
-//     home: MainScreen()
-//   ));
-// }
-
-// // Splash page before login page
-// // If already logged in then directly to homepage
-// // Else show login page
-// class MainScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder(
-//       stream: FirebaseAuth.instance.onAuthStateChanged,
-//       builder: (context,AsyncSnapshot<FirebaseUser> snapshot) {
-//         if(snapshot.connectionState == ConnectionState.waiting)
-//           return SplashPage();
-//         if(!snapshot.hasData || snapshot.data == null)
-//           return LoginPage();
-//         return HomePageTabs();
-//       },
-//     );
-//   }
-// }

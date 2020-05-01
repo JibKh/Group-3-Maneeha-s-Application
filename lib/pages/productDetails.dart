@@ -165,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
     return FutureBuilder(
-      future: getPosts(), 
+      future: getPosts(),
       builder: (_, snapshot){
       return Scaffold(
       //AppBar starts
@@ -173,7 +173,9 @@ class _MyHomePageState extends State<MyHomePage> {
         leading: BackButton(
           color: Colors.white,
           //on pressing the back button, the user returns to the previous screen
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         // centre title is set to true as we want the title to be in the centre
         centerTitle: true,
