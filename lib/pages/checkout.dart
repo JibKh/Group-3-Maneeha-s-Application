@@ -13,149 +13,126 @@ class Checkout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    
 
-    //AppBar starts
-            appBar: AppBar(
-              leading: BackButton(
-                color: Colors.white,
-                //on pressing the back button, the user returns to the previous screen
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              title: Text("Checkout",
-                  style: TextStyle(
-                    color: Colors.white,
-                  )),
-              centerTitle: true,
-              backgroundColor: Colors.green,
-            ),
-      //AppBar ends
-
-
-
+      // AppBar starts
+      appBar: AppBar(
+        leading: BackButton(
+          color: Colors.white,
+          //on pressing the back button, the user returns to the previous screen
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        title: Text(
+          "Checkout",
+          style: TextStyle(
+            color: Colors.white,
+          )
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.green,
+      ),
+      // AppBar ends
 
       body: SingleChildScrollView(
         //container starts
-                child: Container(
-                  child: Padding(
-                    padding: EdgeInsets.all(20),
+        child: Container(
+          child: Padding(
+            padding: EdgeInsets.all(20),
 
-                  //column starts  
-                  child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
+            //column starts  
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
 
-                        children: <Widget>[
-                            SizedBox(
-                                  height: 200.0,
-                                  child: Image.asset(
-                                    "images/icons8-checkout-100.png",
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-
-                            SizedBox(height: 40.0),
-
-
-
-                    //textbox starts for entering delivery address
-                          TextFormField(
-                          decoration: new InputDecoration(
-                            hintText: "Delivery Address",
-                            border: new OutlineInputBorder(
-                              borderRadius: new BorderRadius.circular(20.0),
-                              borderSide: new BorderSide(),
-                            ),
-                          ),
-                          onChanged: (String str) {
-                            print(str);
-                          },
-                        ),
-                    //textbox ends
-
-
-                      SizedBox(height: 20.0),
-
-
-                    //textbox starts for entering contact number
-                          TextField(
-                            decoration: new InputDecoration(
-                              hintText: "Contact number",
-                              border: new OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(20.0),
-                                borderSide: new BorderSide(),
-                              ),
-                            ),
-                            keyboardType: TextInputType.number,
-                             onChanged: (String str) {
-                              print(str);
-                            },
-                          ),
-                    //textbox ends
-
-
-
-                        ],
-                      )
-                  //column ends
-
-
+              children: <Widget>[
+                SizedBox(
+                  height: 200.0,
+                  child: Image.asset(
+                    "images/icons8-checkout-100.png",
+                    fit: BoxFit.cover,
                   ),
-                )
+                ),
+
+                SizedBox(height: 40.0),
+
+                //textbox starts for entering delivery address
+                TextFormField(
+                  decoration: new InputDecoration(
+                    hintText: "Delivery Address",
+                    border: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(20.0),
+                      borderSide: new BorderSide(),
+                    ),
+                  ),
+                  onChanged: (String str) {
+                    print(str);
+                  },
+                ),
+                //textbox ends
+
+                SizedBox(height: 20.0),
+
+                //textbox starts for entering contact number
+                TextField(
+                  decoration: new InputDecoration(
+                    hintText: "Contact number",
+                    border: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(20.0),
+                      borderSide: new BorderSide(),
+                    ),
+                  ),
+                  keyboardType: TextInputType.number,
+                    onChanged: (String str) {
+                    print(str);
+                  },
+                ),
+                //textbox ends
+              ],
+            )
+            //column ends
+          ),
+        )
         //container ends
-
-
       ),
 
       //bottom bar starts
-            bottomNavigationBar: Container(
+      bottomNavigationBar: Container(
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              //button starts
+              child: RaisedButton(
+                shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(16.0),
+                  side: BorderSide(color: Colors.transparent)
+                ),
 
+                //on pressing this button, the user reaches the confirmation screen
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Confirmation(),
+                    ));
+                },
 
-              child: Row(
-
-
-                children: <Widget>[
-
-
-                  Expanded(
-
-                    //button starts
-                    child: RaisedButton(
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(16.0),
-                                side: BorderSide(color: Colors.transparent)),
-
-
-                            //on pressing this button, the user reaches the confirmation screen
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Confirmation(),
-                                  ));
-                                },
-
-
-                            color: Colors.green,
-                            child: Text(
-                                  'Confirm',
-                                  style: TextStyle(
-                                    fontSize: 15.0,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontStyle: FontStyle.italic,
-                                  ),
-                                ),
-                              ),
-                    //button ends
-
-                    
+                color: Colors.green,
+                child: Text(
+                  'Confirm',
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic,
                   ),
-                ],
+                ),
               ),
+              //button ends
             ),
+          ],
+        ),
+      ),
       //bottom bar ends
 
     );

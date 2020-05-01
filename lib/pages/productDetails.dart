@@ -3,14 +3,6 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:first_proj/pages/cart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
-  //runApp(MyApp());
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    //home: MyHomePage(),
-  ));
-}
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -25,6 +17,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
+  
   @override
   String productName;
   String productPrice;
@@ -58,11 +51,6 @@ class SizeDD {
     ];
   }
 }
-
-
-
-
-
 
 class _MyHomePageState extends State<MyHomePage> {  
   
@@ -113,14 +101,9 @@ class _MyHomePageState extends State<MyHomePage> {
     "price": 1200
   };
 
-
-
   //price and prodName are the price and product name of the product to be displayed on this page
   var price = 'PKR 1160';
   var prodName = 'Waleed';
-
-
-
 
   //This function sends the relevant information to the shopping cart screen
   //the default values that the dictionary was initialised to, are now changed to the details of the product to be displayed and sent to the shopping cart
@@ -139,9 +122,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ));
   }
 
-
-
-
   //Drop down starts
   String curSize = "";
   //array that stores size values for drop down
@@ -155,9 +135,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
   //Drop down ends
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -219,13 +196,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       //AppBar ends
 
-
-
-
       // extending body behind app bar to make image visible from under app bar
       extendBodyBehindAppBar: true,
-
-
 
       //using SingleChildScrollView to enable scroll in case page contents do not fit the device screen
       body: SingleChildScrollView(
@@ -234,7 +206,6 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             //calling the image carousel widget class
             imageCarousel,
-
 
             //display product name
             Row(
@@ -263,9 +234,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
-
-
-
 
             //container starts
             Container(
@@ -328,10 +296,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                     ),
 
-
-
-
-
                     new Align(
                       alignment: Alignment(-0.9, 0.7),
                       child: Text(
@@ -357,12 +321,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 )
                 //inner column ends
 
-                
-
                 ),
             //container ends
-
-
 
             //button starts
             ButtonTheme(
@@ -391,11 +351,9 @@ class _MyHomePageState extends State<MyHomePage> {
             )
             //button en
 
-
           ],
         ),
         //column ends
-
 
       ),
     );});

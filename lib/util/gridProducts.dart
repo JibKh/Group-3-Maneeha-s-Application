@@ -1,3 +1,4 @@
+import 'package:first_proj/Not%20being%20used%20files/loading.dart';
 import 'package:first_proj/pages/product.dart';
 import 'package:flutter/material.dart';
 import 'package:first_proj/pages/productDetails.dart';
@@ -12,48 +13,6 @@ class GridProducts extends StatefulWidget {
 
 // STATEFUL Widget. Sends information about product to SINGLE_PRODUCT function which is STATELESS widget.
 class _ProductsState extends State<GridProducts> {
-  var productList = [
-    {
-      "name": "Summer Ripped Jeans",
-      "picture": Image.network('https://firebasestorage.googleapis.com/v0/b/maneeha-s-app-database.appspot.com/o/pic3.jpg?alt=media&token=84c266da-98fa-425b-8dc6-f6db5dfb877a'),
-      "price": 95,
-    },
-    {
-      "name": "Striped Shirt",
-      "picture": "images/cute-cheap-clothes-under-50.jpeg",
-      "price": 90,
-    },
-    {
-      "name": "Sleeveles Shirt",
-      "picture": "images/cute-cheap-clothes-under-50.jpeg",
-      "price": 90,
-    },
-    {
-      "name": "Mom Jeans",
-      "picture": "images/cute-cheap-clothes-under-50.jpeg",
-      "price": 910,
-    },
-    {
-      "name": "Collared T-Shirt",
-      "picture": "images/cute-cheap-clothes-under-50.jpeg",
-      "price": 910,
-    },
-    {
-      "name": "Ripped Jeans",
-      "picture": "images/cute-cheap-clothes-under-50.jpeg",
-      "price": 910,
-    },
-    {
-      "name": "Jeans",
-      "picture": "images/cute-cheap-clothes-under-50.jpeg",
-      "price": 910,
-    },
-    {
-      "name": "Jeans",
-      "picture": "images/cute-cheap-clothes-under-50.jpeg",
-      "price": 910,
-    },
-  ];
 
   Future getPosts() async{
     var firestore = Firestore.instance;
@@ -64,43 +23,45 @@ class _ProductsState extends State<GridProducts> {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<List<Product>>.value(
-        value: DatabaseService().prods,
-        child: FutureBuilder(
-          future: getPosts(),
-          builder: (_, snapshot){
-            if(snapshot.connectionState == ConnectionState.waiting){
-            return Scaffold();              
-            }
-            else{
+      value: DatabaseService().prods,
+      child: FutureBuilder(
+        future: getPosts(),
+        builder: (_, snapshot){
+          if(snapshot.connectionState == ConnectionState.waiting){
+            return Loading();
+          }
+          else {
             return Scaffold(
-            body: GridView.count(
-            //mainAxisSpacing: 15,
-            crossAxisCount: 2,
-            //childAspectRatio: 0.90,
-            childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.4),
+              body: GridView.count(
+                //mainAxisSpacing: 15,
+                crossAxisCount: 2,
+                //childAspectRatio: 0.90,
+                childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.4),
 
-            // This is a function that traverses through all the items and makes a gridview out of all of them.
-            // It Calls stateless widget Single_Product function after padding.
-            children: List.generate(4, (index) 
-            {
-              return Padding(
-                //height:200,
-                padding: EdgeInsets.symmetric(horizontal: 9, vertical: 0),
+                // This is a function that traverses through all the items and makes a gridview out of all of them.
+                // It Calls stateless widget Single_Product function after padding.
+                children: List.generate(
+                  snapshot.data.length, (index) {
+                    return Padding(
+                      //height:200,
+                      padding: EdgeInsets.symmetric(horizontal: 9, vertical: 0),
 
-                //Calling of stateless function. This will create the card and the description.
-                child: SingleProduct(
-                  productName: snapshot.data[index].data['name'],
-                  productPic: snapshot.data[index].data['image'],
-                  productPrice: snapshot.data[index].data['price'],
-                  desc: snapshot.data[index].data['Desc'],
-                  stock: snapshot.data[index].data['Stock']
-                ),
-              );
-            }
-            )
-          )
-      );};}
-        ),
+                      //Calling of stateless function. This will create the card and the description.
+                      child: SingleProduct(
+                        productName: snapshot.data[index].data['name'],
+                        productPic: snapshot.data[index].data['image'],
+                        productPrice: snapshot.data[index].data['price'],
+                        desc: snapshot.data[index].data['Desc'],
+                        stock: snapshot.data[index].data['Stock']
+                      ),
+                    );
+                  }
+                )
+              )
+            );
+          };
+        }
+      ),
     );
   }
 }

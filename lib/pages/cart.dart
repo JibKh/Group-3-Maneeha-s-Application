@@ -12,10 +12,11 @@ class ShoppingCart extends StatelessWidget {
   //sendStuff function sends product details to the nexr screen
   void sendStuff(BuildContext context) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Checkout(text: text),
-        ));
+      context,
+      MaterialPageRoute(
+        builder: (context) => Checkout(text: text),
+      )
+    );
   }
 
   //final dict stores the name, size, picture and price of the product
@@ -38,36 +39,112 @@ class ShoppingCart extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
-        title: Text("My Cart",
-            style: TextStyle(
-              color: Colors.white,
-            )),
+        title: Text(
+          "My Cart",
+          style: TextStyle(
+            color: Colors.white,
+          )
+        ),
         centerTitle: true,
         backgroundColor: Colors.green,
       ),
       //AppBar ends
 
-      body: SingleChildScrollView(
-        //Column starts
-        child: Column(
-          children: <Widget>[
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-              Expanded(
-                //dict['pic'] returns the price of the product
-                child: dict['pic'],
-              ),
-              Expanded(
-                child: ListTile(
-                  //dict['name'] returns the name of the product
-                  title: Text(text['name']),
-                  //dict['size'] returns the size of the product
-                  subtitle: Text(text['size']),
+      body: ListView(
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Container(
+                  alignment: Alignment(-1,0),
+                  height: 150,
+                  width: 150,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12.0),
+                    //dict['pic'] returns the price of the product
+                    child: dict['pic'],
+                  ),
                 ),
               ),
-            ])
-          ],
-        ),
-        //Column ends
+
+              Stack(
+                children: <Widget>[
+                  Container(
+                    height: 150,
+                    child: Align(
+                      alignment: Alignment(0,-0.9),
+                      child: Text(text['name'],)
+                    ),
+                  ),
+                  Container(
+                    height: 150,
+                    child: Align(
+                      alignment: Alignment(0,-0.6),
+                      child: Text(text['price']),
+                    ),
+                  ),
+                  Container(
+                    height: 150,
+                    child: Align(
+                      alignment: Alignment(0,-0.1),
+                      child: RaisedButton(
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(16.0),
+                            side: BorderSide(color: Colors.black)
+                        ),
+                        color: Colors.white,
+                        child: Text('Size'),
+                        onPressed: (){},
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 150,
+                    width: 200,
+                    child: Align(
+                      alignment: Alignment(0.8,-0.1),
+                      child: RaisedButton(
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(16.0),
+                            side: BorderSide(color: Colors.black)
+                        ),
+                        color: Colors.white,
+                        child: Text('Color'),
+                        onPressed: (){},
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 150,
+                    child: Align(
+                      alignment: Alignment(0,1),
+                      child: RaisedButton(
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(5),
+                          side: BorderSide(color: Colors.black)
+                        ),
+                        color: Colors.white,
+                        child: Text('Quantity'),
+                        onPressed: (){},
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 150,
+                    width: 200,
+                    alignment: Alignment(1.5,-1.15),
+                    child: IconButton(icon: Icon(Icons.delete,color: Colors.black,),onPressed: (){},),
+                  )
+
+                ],
+              ),
+            ],
+          ),
+        ],
+
+        //ListView ends
       ),
 
       //Bottom bar starts
