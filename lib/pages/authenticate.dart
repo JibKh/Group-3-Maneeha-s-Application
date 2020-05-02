@@ -19,7 +19,7 @@ class _AuthenticateState extends State<Authenticate> {
           // SIGNIN and redirect to SIGNIN page
           RaisedButton(
             color: Colors.white,
-            child: Text("SignIn"),
+            child: Text("SigvvvvvnIn"),
             onPressed: () {
               return Navigator.of(context).push(new MaterialPageRoute(builder: (context){
                   return LoginPage();
