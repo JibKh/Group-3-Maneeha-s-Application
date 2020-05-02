@@ -75,14 +75,14 @@ class ShoppingCart extends StatelessWidget {
                     height: 150,
                     child: Align(
                       alignment: Alignment(0,-0.9),
-                      child: Text(text['name'],)
+                      child: Text('Generic Coat')
                     ),
                   ),
                   Container(
                     height: 150,
                     child: Align(
                       alignment: Alignment(0,-0.6),
-                      child: Text(text['price']),
+                      child: Text('PKR 600'),
                     ),
                   ),
                   Container(
