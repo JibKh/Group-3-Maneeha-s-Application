@@ -1,3 +1,4 @@
+import 'package:first_proj/pages/admin.dart';
 import 'package:first_proj/pages/search.dart';
 import 'package:flutter/material.dart';
 import 'package:first_proj/pages/homepage.dart';
@@ -57,6 +58,23 @@ class _HomePageTabsState extends State<HomePageTabs> {
             Categories(),
           ],
         ),
+
+
+
+        
+                      //TEMPORARILY ADDED
+                          floatingActionButton: new FloatingActionButton(
+                            elevation: 0.0,
+                            child: new Icon(Icons.person),
+                            backgroundColor: new Color(0xFFE57373),
+                            onPressed: (){
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Admin(),
+                                  ));
+                            }
+                          ),
 
         // ======================== END APP BAR and HOME - CATEGORIES BAR ========================
 
