@@ -5,7 +5,9 @@ import 'package:first_proj/util/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// Wrapped in a Strea so it is constantly listening for changes in signin/signup
+// PURPOSE:
+// Main file is the first file to be called.
+// We call the MyApp function which is wrapped in a stream so it is constantly listening for changes in signin/signup
 // The Wrapper function choose which screen to send it to, Homepage or the Authentication page (signin/signup)
 
 void main() {

@@ -6,14 +6,19 @@ import 'package:provider/provider.dart';
 import 'package:first_proj/util/databaseProduct.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// PURPOSE:
+// Creates the gridview of products for the HOMEPAGE
+
 class GridProducts extends StatefulWidget {
   @override
   _ProductsState createState() => _ProductsState();
 }
 
-// STATEFUL Widget. Sends information about product to SINGLE_PRODUCT function which is STATELESS widget.
+// Sets up the gridview structure for all the products.
+// It calls the SingleProduct function to create a single product
 class _ProductsState extends State<GridProducts> {
 
+  // Setup an instance of firestore and retrieve the Product data.
   Future getPosts() async{
     var firestore = Firestore.instance;
     QuerySnapshot qn = await firestore.collection("Products").getDocuments();
@@ -28,6 +33,7 @@ class _ProductsState extends State<GridProducts> {
         future: getPosts(),
         builder: (_, snapshot){
           if(snapshot.connectionState == ConnectionState.waiting){
+            // Shows a loading screen while waiting
             return Loading();
           }
           else {
@@ -39,14 +45,14 @@ class _ProductsState extends State<GridProducts> {
                 childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.4),
 
                 // This is a function that traverses through all the items and makes a gridview out of all of them.
-                // It Calls stateless widget Single_Product function after padding.
+                // It calls the widget SingleProduct
                 children: List.generate(
                   snapshot.data.length, (index) {
                     return Padding(
                       //height:200,
                       padding: EdgeInsets.symmetric(horizontal: 9, vertical: 0),
 
-                      //Calling of stateless function. This will create the card and the description.
+                      //This function will create the card and the description.
                       child: SingleProduct(
                         productName: snapshot.data[index].data['name'],
                         productPic: snapshot.data[index].data['image'],
@@ -71,6 +77,7 @@ class _ProductsState extends State<GridProducts> {
 // Single_Product function. It has a class and a constructor who's information is provided by the stateful widget above.
 // It creates the card and description of a single product.
 class SingleProduct extends StatelessWidget {
+
   //Uint8List imageFile;
   final productName;
   final productPic;
@@ -85,13 +92,14 @@ class SingleProduct extends StatelessWidget {
     this.desc,
     this.stock
   });
+
   @override
   Widget build(BuildContext context) {
     return Container(
         // width: 50,
       child: Column(
       children: <Widget>[
-        // ITEM PICTURE IS SET HERE ON A CARD
+        // ========== START ITEM PICTURE ==========
         AspectRatio(
           aspectRatio: 0.9,
           child: Card(
@@ -107,15 +115,19 @@ class SingleProduct extends StatelessWidget {
                 onTap: () {
                   return Navigator.of(context)
                       .push(new MaterialPageRoute(builder: (context) {
-                    return MyHomePage(productName, productPrice, Image.network(productPic), desc, stock);
+                    //return MyHomePage(productName, productPrice, productPic, desc, stock);
+                    return ProductDescription(productName, productPrice, productPic, desc, stock);
                   }));
                 },
               )
             ),
           ),
         ),
+        // ========== END ITEM PICTURE ==========
 
-        // ITEM DESCRIPTION - NAME
+        // ========== START DESCRIPTION ==========
+
+        // Name
         Align(
           alignment: Alignment.centerLeft,
           child: Padding(
@@ -125,7 +137,7 @@ class SingleProduct extends StatelessWidget {
           ),
         ),
 
-        // ITEM DESCRIPTION - PRICE
+        // Price
         Align(
           alignment: Alignment.centerLeft,
           child: Padding(
@@ -136,6 +148,7 @@ class SingleProduct extends StatelessWidget {
             ),
           ),
         ),
+        // ========== END DESCRIPTION ==========
       ],
     ));
   }

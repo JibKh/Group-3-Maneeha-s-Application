@@ -1,3 +1,5 @@
+//Creates the map structure of the product
+
 class Product{
   final String name;
   final String image;

@@ -13,6 +13,10 @@ class Product{
   }
 }
 */
+
+// PURPOSE:
+// This is the file that retrieves and sends mapped out PRODUCT data to the calling function
+
 class DatabaseService {
 
   DatabaseService();

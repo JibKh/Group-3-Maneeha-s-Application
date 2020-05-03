@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:first_proj/util/product.dart';
-import 'package:first_proj/pages/productDetails.dart';
 import 'package:first_proj/util/databaseProduct.dart';
+
+// PURPOSE:
+// Carries out the search function
+// Currently incomplete (selecting doesn't direct u to any page)
 
 class Search extends SearchDelegate<String> {
 

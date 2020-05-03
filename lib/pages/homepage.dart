@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:first_proj/util/homeGridProducts.dart';
 
-// The purpose of this page is to setup the homescreen body.
+// PURPOSE: 
+// Setup the homescreen body which is a gridview of products
 
 class HomePage extends StatefulWidget {
   @override

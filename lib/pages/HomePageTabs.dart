@@ -6,7 +6,7 @@ import 'package:first_proj/pages/Categories.dart';
 import 'package:first_proj/pages/cart.dart';
 import 'package:first_proj/util/firebase_auth.dart';
 
-// The purpose of this page is to create:
+// PURPOSE:
 // App bar
 // Tabbar (home-categories bar) - Redirects to the homepage or categories page
 // Navigation bar 

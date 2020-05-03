@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:first_proj/util/categoriesGridProducts.dart';
 
-// The purpose of this page is to setup the homescreen body.
+// PURPOSE:
+// Set up the list of products when a category is selected
 
 class ProductListCategories extends StatefulWidget {
 

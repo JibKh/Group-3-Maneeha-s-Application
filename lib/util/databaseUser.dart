@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// This is the database for out PRODUCTS.
-// It receives and sends out updated data.
+// PURPOSE:
+// This is the file that retrieves and sends mapped out updated USER data to the calling function
 
 class DatabaseService {
 

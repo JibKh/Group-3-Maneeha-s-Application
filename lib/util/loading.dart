@@ -1,7 +1,8 @@
-// THIS FILE IS NOT BEING USED ANYWHERE CURRENTLY
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+// PURPOSE:
+// This is the loading screen for anytime we are waiting for data
 
 class Loading extends StatelessWidget {
   @override
