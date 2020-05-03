@@ -1,5 +1,6 @@
 //import 'package:first_proj/pages/addProducts.dart';
 import 'package:first_proj/pages/addProducts.dart';
+import 'package:first_proj/pages/viewStock.dart';
 import 'package:flutter/material.dart';
 
 class Inventory extends StatelessWidget {
@@ -24,6 +25,19 @@ class Inventory extends StatelessWidget {
               leading: Icon(Icons.remove),
               title: Text("Remove Product"),
               onTap: () {},
+            ),
+
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.remove),
+              title: Text("View Stock"),
+              onTap: () {
+                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MyList(),
+                                  ));
+              },
             )
           ]
     );
