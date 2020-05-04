@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:first_proj/util/homeGridProducts.dart';
+import 'package:first_proj/util/gridProducts.dart';
 
 // PURPOSE: 
 // Setup the homescreen body which is a gridview of products

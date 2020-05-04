@@ -8,8 +8,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 // PURPOSE:
 // Creates the gridview of products for the HOMEPAGE
+// OR
+// Creates the gridview of a selected CATEGORY page
 
 class GridProducts extends StatefulWidget {
+
+  String category;
+
+  // DEFAULT CONSTRUCTOR
+  GridProducts();
+
+  // NAMED CONSTRUCTOR
+  GridProducts.categoryList(String category) {
+    this.category = category;
+  }
+
   @override
   _ProductsState createState() => _ProductsState();
 }
@@ -19,10 +32,19 @@ class GridProducts extends StatefulWidget {
 class _ProductsState extends State<GridProducts> {
 
   // Setup an instance of firestore and retrieve the Product data.
-  Future getPosts() async{
-    var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore.collection("Products").getDocuments();
-    return qn.documents;
+  Future getPosts() async {
+
+    // If its called for a category, then return products of that category. Else return all.
+    if (widget.category != '') {
+      var firestore = Firestore.instance;
+      QuerySnapshot qn = await firestore.collection('Products')
+        .where('category', isEqualTo: widget.category).getDocuments();
+        return qn.documents;
+    } else {
+      var firestore = Firestore.instance;
+      QuerySnapshot qn = await firestore.collection("Products").getDocuments();
+      return qn.documents;
+    }
   }
 
   @override

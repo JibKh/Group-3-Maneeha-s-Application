@@ -1,6 +1,6 @@
 //import 'package:first_proj/pages/addProducts.dart';
-import 'package:first_proj/pages/addProducts.dart';
-import 'package:first_proj/pages/viewStock.dart';
+import 'package:first_proj/admin/addProducts.dart';
+import 'package:first_proj/admin/viewStock.dart';
 import 'package:flutter/material.dart';
 
 import 'UpdateOrders.dart';

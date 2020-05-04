@@ -1,5 +1,5 @@
+import 'package:first_proj/util/gridProducts.dart';
 import 'package:flutter/material.dart';
-import 'package:first_proj/util/categoriesGridProducts.dart';
 
 // PURPOSE:
 // Set up the list of products when a category is selected
@@ -50,7 +50,7 @@ class _ProductListCategories extends State<ProductListCategories> {
           ),
           // ====== START GRIDVIEW OF PRODUCTS ======
           new Flexible(
-            child: CategoryGridProducts(category),
+            child: GridProducts.categoryList(category),
           )
           // ====== END GRIDVIEW OF PRODUCTS ======
         ],

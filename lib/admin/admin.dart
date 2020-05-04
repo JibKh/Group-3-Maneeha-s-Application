@@ -1,4 +1,4 @@
-import 'package:first_proj/pages/inventory.dart';
+import 'package:first_proj/admin/inventory.dart';
 //import 'package:first_proj/pages/orders.dart';
 import 'package:flutter/material.dart';
 

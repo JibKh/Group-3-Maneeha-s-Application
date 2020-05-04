@@ -1,4 +1,4 @@
-import 'package:first_proj/pages/admin.dart';
+import 'package:first_proj/admin/admin.dart';
 import 'package:first_proj/pages/search.dart';
 import 'package:flutter/material.dart';
 import 'package:first_proj/pages/homepage.dart';
