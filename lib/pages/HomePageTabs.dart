@@ -157,7 +157,7 @@ class _HomePageTabsState extends State<HomePageTabs> {
               },
               child: ListTile(
                 title: Text('Log Out'),
-                leading: Icon(Icons.help),
+                leading: Icon(Icons.exit_to_app),
               )
             ),
           ],

@@ -61,6 +61,7 @@ class _ProductsState extends State<GridProducts> {
           else {
             return Scaffold(
               body: GridView.count(
+                physics: BouncingScrollPhysics(),
                 //mainAxisSpacing: 15,
                 crossAxisCount: 2,
                 //childAspectRatio: 0.90,
@@ -77,7 +78,7 @@ class _ProductsState extends State<GridProducts> {
                       //This function will create the card and the description.
                       child: SingleProduct(
                         productName: snapshot.data[index].data['name'],
-                        productPic: snapshot.data[index].data['image'],
+                        productPic: snapshot.data[index].data['image'][0],
                         productPrice: snapshot.data[index].data['price'],
                         desc: snapshot.data[index].data['Desc'],
                         stock: snapshot.data[index].data['Stock']

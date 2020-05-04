@@ -18,6 +18,9 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: <Widget>[
           // ====== START GRIDVIEW OF PRODUCTS ======
+          new Padding(
+            padding: EdgeInsets.symmetric(vertical: 10),
+          ),
           new Flexible(
             child: GridProducts(),
           )

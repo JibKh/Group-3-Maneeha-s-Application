@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:first_proj/util/gridProducts.dart';
 import 'package:flutter/material.dart';
 
@@ -39,16 +41,34 @@ class _ProductListCategories extends State<ProductListCategories> {
       // ======================== START BODY ========================
       body: Column(
         children: <Widget>[
-          new Padding(
-            padding: EdgeInsets.all(15),
+          new Container(
+            padding: EdgeInsets.symmetric(horizontal: 18),
+            height: 47,
+            width: double.infinity,
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Container(
-                child: Text('N'),
-              )
+              child: Text(
+                category,
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.8,
+                )),
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.9),
+                  blurRadius: 0.6,
+                )
+              ]
             )
           ),
           // ====== START GRIDVIEW OF PRODUCTS ======
+          new Padding(
+            padding: EdgeInsets.symmetric(vertical: 10),
+          ),
           new Flexible(
             child: GridProducts.categoryList(category),
           )

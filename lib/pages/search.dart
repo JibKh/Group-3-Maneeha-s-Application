@@ -64,8 +64,8 @@ class Search extends SearchDelegate<String> {
             } else {
               List output = [];
               for (var x in snapshot.data) {
-                if(x.data['searchKey'].contains(query)){
-                  output.add(x.data['shortDesc']);
+                if(x.data['name'].contains(query)){
+                  output.add(x.data['name']);
                 }
               }
               return ListView.builder(
@@ -82,11 +82,3 @@ class Search extends SearchDelegate<String> {
   }
 
 }
-
-
-// Future getPosts() async {
-//     var firestore = Firestore.instance;
-//     QuerySnapshot qn = await firestore.collection('Products')
-//       .where('searchKey', arrayContains: 'jeans').getDocuments();
-//       return qn.documents;
-//   }
