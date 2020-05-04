@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+var firestore=Firestore.instance;
 
+//=========MyList holds all information about products displayed in Card format============
 class MyList extends StatefulWidget {
   @override
   _MyListState createState() => _MyListState();
@@ -12,38 +15,67 @@ class _MyListState extends State<MyList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ListView Firestore"),
+        title: Text("Products List"),
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance.collection("newDoc1").snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) return new Text('${snapshot.error}');
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-            case ConnectionState.waiting:
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            case ConnectionState.active:
-            case ConnectionState.done:
-              if (snapshot.hasError)
-                return Center(child: Text('Error: ${snapshot.error}'));
-              if (!snapshot.hasData) return Text('No data found!');
-              return Card(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children:
-                      snapshot.data.documents.map((DocumentSnapshot document){
-                        return new Text(document['name']);
+      body: List_of_Products()
+    );
+  }
+}
 
-                        return new Text(document['price']);
-                      }).toList()
-                  ),
-                ),
-              );
+//==========DISPLAYS LIST OF PRODUCTS==================================================
+class List_of_Products extends StatefulWidget {
+  @override
+  _List_of_ProductsState createState() => _List_of_ProductsState();
+}
+
+class _List_of_ProductsState extends State<List_of_Products> {
+  @override
+
+//  =========getting products from database===============================
+
+  Future getProducts() async{
+
+    QuerySnapshot snap= await firestore.collection("Products").getDocuments();
+    return snap.documents;
+
+  }
+
+  Widget build(BuildContext context) {
+
+    return Container(
+//      ==============taking the values from the database and displaying them============
+      child: FutureBuilder(future:getProducts(),
+        builder: (context,snapshot){
+        if(snapshot.connectionState==ConnectionState.waiting)
+        {
+            return Center(child:Text("Loading"));
+        }
+        else {
+            print("heloo");
+            return ListView.builder(
+            itemCount: snapshot.data.length,
+            itemBuilder:(context,index){
+//  =====================WE HAVE THE PRODUCTS NOW WE WILL DISPLAY THEM===============
+
+                String ProductName=snapshot.data[index].data["name"];
+////                int price=snapshot.data[index].data["price"];
+                String image=snapshot.data[index].data["image"];
+                var i=snapshot.data[index].documentID  ;
+//                print(i);
+//
+////                String quantity=snapshot.data[index].data["quantity"];
+                return ListTile(
+                  leading: Image.network(image,
+                    width: 120,
+                  fit: BoxFit.fitWidth,),
+                  title: Text(ProductName ),
+
+
+                );
+
+            } );
           }
-        },
-      ),
+      },),
     );
   }
 }

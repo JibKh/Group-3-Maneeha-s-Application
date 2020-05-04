@@ -7,6 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+//====================================================================================/
+//this page takes user input and adds products to the database on the basis of that input========
 
 class AddProduct extends StatefulWidget {
   @override
@@ -17,6 +19,10 @@ class _AddProductState extends State<AddProduct> {
   File FirstImage;
   File SecondImage;
   File ThirdImage;
+
+  Image img1;
+  Image img2;
+  Image img3;
 
   TextEditingController ProdName = TextEditingController();
   TextEditingController ProdCat = TextEditingController();
@@ -46,13 +52,13 @@ class _AddProductState extends State<AddProduct> {
             children: <Widget> [
 
             Row (
-
+//=========================DISPLAYING BUTTONS TO UPLOAD IMAGES=======================
                 children: <Widget>[
 
                   Expanded (
                     child: RaisedButton(
                       onPressed: () async {
-                        _selectImage(ImagePicker.pickImage(source: ImageSource.gallery), FirstImage);
+                        _selectImage(ImagePicker.pickImage(source: ImageSource.gallery), 1);
                       },
 
                       child: 
@@ -64,11 +70,11 @@ class _AddProductState extends State<AddProduct> {
                   Expanded (
                     child: RaisedButton(
                       onPressed: () async {
-                        _selectImage(ImagePicker.pickImage(source: ImageSource.gallery), SecondImage);
+                        _selectImage(ImagePicker.pickImage(source: ImageSource.gallery), 2);
                       },
 
                       child:
-                        _displayChild1(SecondImage)
+                        _displayChild2(SecondImage)
                         
                     ),
                   ),
@@ -76,11 +82,11 @@ class _AddProductState extends State<AddProduct> {
                   Expanded (
                     child: RaisedButton(
                       onPressed: () async {
-                        _selectImage(ImagePicker.pickImage(source: ImageSource.gallery), ThirdImage);
+                        _selectImage(ImagePicker.pickImage(source: ImageSource.gallery), 3);
                       },
 
                       child: 
-                        _displayChild1(ThirdImage)
+                        _displayChild3(ThirdImage)
                     ),
                   )
 
@@ -90,7 +96,7 @@ class _AddProductState extends State<AddProduct> {
                Padding (
                   padding: const EdgeInsets.all(8.0),
                 ),
-
+//=========================product name form================================
               Padding (
                   padding: const EdgeInsets.all(12.0),
                   child: TextFormField(
@@ -107,7 +113,7 @@ class _AddProductState extends State<AddProduct> {
               Padding (
                   padding: const EdgeInsets.all(8.0),
                 ),
-
+// ==========================PRODUCT CATEGORY FORM========================================
               Padding (
                   padding: const EdgeInsets.all(12.0),
                   child: TextFormField(
@@ -124,6 +130,7 @@ class _AddProductState extends State<AddProduct> {
                   padding: const EdgeInsets.all(8.0),
                 ),
 
+//  ===========================PRICE FORM==============================================
               Padding (
                   padding: const EdgeInsets.all(12.0),
                   child: TextFormField(
@@ -140,6 +147,7 @@ class _AddProductState extends State<AddProduct> {
                   padding: const EdgeInsets.all(8.0),
                 ),
 
+// ===============================DESCRIPTION FORM=================================
               Padding (
                   padding: const EdgeInsets.all(12.0),
                   child: TextFormField(
@@ -151,7 +159,7 @@ class _AddProductState extends State<AddProduct> {
                   )
                 ),
 
-
+//========================HERE WE WILL ADD OUR PRODUCT
                 OutlineButton(
                   borderSide: BorderSide(color: Colors.grey.withOpacity(0.5), width: 2),
                   color: Colors.black,
@@ -176,62 +184,98 @@ class _AddProductState extends State<AddProduct> {
 
 
 
-void _selectImage(Future<File> pickImage, File Image2Fill) async{
+void _selectImage(Future<File> pickImage, int imgnum) async{
     File tempImg = await pickImage;
-    setState(() => Image2Fill = tempImg);
+    switch(imgnum){
+      case 1 : setState(() => FirstImage = tempImg);
+      break;
+      case 2 : setState(() => SecondImage = tempImg);
+      break;
+      case 3 : setState(() => ThirdImage = tempImg);
+      break;
+    }
+    //setState(() => FirstImage = tempImg);
   }
 
 
 
   
-//  display the child
+//=========================  DISPLAYING IMAGES ========================================
   Widget _displayChild1(File Image2show) {
     if(FirstImage == null){
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(14, 70, 14, 70),
+        child: new Icon(Icons.add, color: Colors.black,),
+      );
+    }else{
+        return 
+        Image.file(FirstImage, height: 200, width:200);
+      //return Image.file(Image2show, fit: BoxFit.fill, width: double.infinity,);
+    }
+  }
+
+  Widget _displayChild2(File Image2show) {
+    if(SecondImage == null){
       return Padding(
         padding: const EdgeInsets.fromLTRB(14, 70, 14, 70),
         child: new Icon(Icons.add, color: Colors.grey,),
       );
     }else{
-      return Image.file(Image2show, fit: BoxFit.fill, width: double.infinity,);
+        return Image.file(SecondImage, height: 200, width: 200,);
+      //return Image.file(Image2show, fit: BoxFit.fill, width: double.infinity,);
     }
   }
 
+  Widget _displayChild3(File Image2show) {
+    if(ThirdImage == null){
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(14, 70, 14, 70),
+        child: new Icon(Icons.add, color: Colors.grey,),
+      );
+    }else{
+        return Image.file(Image2show, height: 200, width: 200);
+    }
+  }
 
   void validateAndUpload() async{
     if(_formKey.currentState.validate()){
-      if(FirstImage != null && SecondImage != null && ThirdImage != null){
+//      if(FirstImage != null && SecondImage != null && ThirdImage != null){
 //        this code snippet uploads images in the storage
           String imageUrl1;
           String imageUrl2;
           String imageUrl3;
           final FirebaseStorage storage= FirebaseStorage.instance;
-          final  String pic1="1${DateTime.now().millisecondsSinceEpoch.toString()}.jpg";
-          StorageUploadTask task1= storage.ref().child(pic1).putFile(FirstImage);
-          final  String pic2="2${DateTime.now().millisecondsSinceEpoch.toString()}.jpg";
+          final  String pic1="test_image_1.jpg";
+          final ref = storage.ref().child(pic1);
+          StorageUploadTask task1= ref.putFile(FirstImage);
+          var storageTaskSnapshot = await task1.onComplete;
+          var downloadUrl = await storageTaskSnapshot.ref.getDownloadURL();
+          /*final  String pic2="2${DateTime.now().millisecondsSinceEpoch.toString()}.jpg";
           StorageUploadTask task2= storage.ref().child(pic1).putFile(SecondImage);
           final  String pic3="3${DateTime.now().millisecondsSinceEpoch.toString()}.jpg";
-          StorageUploadTask task3= storage.ref().child(pic1).putFile(ThirdImage);
+          StorageUploadTask task3= storage.ref().child(pic1).putFile(ThirdImage);*/
 
-          StorageTaskSnapshot snapshot1= await task1.onComplete.then((snapshot)=>snapshot);
-          StorageTaskSnapshot snapshot2= await task2.onComplete.then((snapshot)=>snapshot);
+          //StorageTaskSnapshot snapshot1= await task1.onComplete.then((snapshot)=>snapshot);
+          //StorageTaskSnapshot snapshot2= await task2.onComplete.then((snapshot)=>snapshot);
 
-          task3.onComplete.then((snapshot3) async {
+          /*task3.onComplete.then((snapshot3) async {
             imageUrl1 = await snapshot1.ref.getDownloadURL();
             imageUrl2 = await snapshot2.ref.getDownloadURL();
-            imageUrl3 = await snapshot3.ref.getDownloadURL();
+            imageUrl3 = await snapshot3.ref.getDownloadURL();*/
 //            list of images we'll upload
 
-            List <String> imageList= [imageUrl1,imageUrl2,imageUrl3];
+            //List <String> imageList= [imageUrl1,imageUrl2,imageUrl3];
 
 //            now well call the function to upload the products
 //            inside the function arguments pass the product information
-        ProductService().uploadProducts(ProdName.text, imageList, ProdCat.text, ProdPrice.text, ProdDesc.text);
-          });
+        ProductService().uploadProducts(ProdName.text, ProdCat.text, downloadUrl,ProdPrice.text, ProdDesc.text);
+          };
 
-      }else{
-        Fluttertoast.showToast(msg: 'all the images must be provided');
-      }
+//      }
+//      else{
+//        Fluttertoast.showToast(msg: 'all the images must be provided');
+//      }
     }
   }
-}
+
 
