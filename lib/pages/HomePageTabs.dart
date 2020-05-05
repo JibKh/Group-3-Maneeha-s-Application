@@ -105,11 +105,14 @@ class _HomePageTabsState extends State<HomePageTabs> {
               )
             ),
 
+            // My Orders 
             InkWell(
-              onTap: () {},
+              onTap: () {
+
+              },
               child: ListTile(
-                title: Text('My Account'),
-                leading: Icon(Icons.person),
+                title: Text('My Orders'),
+                leading: Icon(Icons.airport_shuttle),
               )
             ),
 
@@ -127,24 +130,6 @@ class _HomePageTabsState extends State<HomePageTabs> {
               child: ListTile(
                 title: Text('Shopping Cart'),
                 leading: Icon(Icons.shopping_cart),
-              )
-            ),
-
-            Divider(),
-
-            InkWell(
-              onTap: () {},
-              child: ListTile(
-                title: Text('Settings'),
-                leading: Icon(Icons.settings),
-              )
-            ),
-
-            InkWell(
-              onTap: () {},
-              child: ListTile(
-                title: Text('About'),
-                leading: Icon(Icons.help),
               )
             ),
 

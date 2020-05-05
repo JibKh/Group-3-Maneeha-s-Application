@@ -45,7 +45,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
       future: getPosts(),
       builder: (_, snapshot) {
         return SafeArea(
-                  child: Scaffold(
+          child: Scaffold(
             body: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Column(
