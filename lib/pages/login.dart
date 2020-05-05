@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'package:first_proj/util/firebase_auth.dart';
 
 // Purpose of this page is to allow user to input login data and verify it using firebase_auth.dart file.
@@ -28,17 +29,40 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context){
     //return loading ? Loading() : Scaffold(
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: <Widget>[
+          Container(
+            height: 1000,
+            width: 500,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("images/Maneeha.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: new BackdropFilter(filter: new ImageFilter.blur(
+                sigmaX: 3.0, sigmaY: 3.0
+            ),
+              child: new Container(
+                decoration: new BoxDecoration(color: Colors.white.withOpacity(0.0)),
+              ),
+            ),
+
+          ),
           Positioned(
-            top: 80,
-            left: 100,
-            child: Align(
-              child: Text('Welcome to Maneeha\'s',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold
+            top: 120,
+            child: Container(
+              width: 250,
+              height: 50,
+              color: Colors.blueGrey,
+              child: Align(
+                child: Text('Welcome to Maneeha\'s',
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold
+                  ),
                 ),
               ),
             ),
@@ -115,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
 
                     // If there is an error, display it under the login button.
-                    SizedBox(height:12.0),
+                    SizedBox(height:5.0),
                     Text(
                       error,
                       style: TextStyle(color: Colors.red, fontSize: 14.0),
@@ -130,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                     //   },
                     // ),
                     RaisedButton(
-                      color: Colors.white,
+                      color: Colors.blueGrey,
                       child: Text("SignIn Anonymously"),
                       onPressed: () async {
                         Navigator.pop(context);

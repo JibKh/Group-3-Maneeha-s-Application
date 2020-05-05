@@ -15,7 +15,7 @@ class _EditProductsState extends State<EditProducts> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Products List"),
+          title: Text("Edit Products"),
         ),
         body: List_of_Products()
     );
@@ -61,7 +61,7 @@ class _List_of_ProductsState extends State<List_of_Products> {
 
                   String ProductName=snapshot.data[index].data["name"];
 //                int price=snapshot.data[index].data["price"];
-                  String image=snapshot.data[index].data["image"];
+                  String image=snapshot.data[index].data["image"][0];
                   var i=snapshot.data[index].documentID  ;
 //                String quantity=snapshot.data[index].data["quantity"];
                   return ListTile(

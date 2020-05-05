@@ -16,10 +16,10 @@ class _AuthenticateState extends State<Authenticate> {
     return Scaffold(
       body: Container(
         height: 1000,
-        width: 500,
+        width: 550,
         decoration: BoxDecoration(
         image: DecorationImage(
-        image: AssetImage("images/back_1.jpg"),
+        image: AssetImage("images/Maneeha.jpg"),
     fit: BoxFit.cover,
     ),
     ),
@@ -40,7 +40,7 @@ class _AuthenticateState extends State<Authenticate> {
                     margin: EdgeInsets.only(top: 40, left: 40, right: 40),
 
                     decoration: BoxDecoration(
-                      color: Colors.greenAccent.withOpacity(0.6),
+                      color: Colors.white.withOpacity(0.3),
                         borderRadius: new BorderRadius.all(Radius.elliptical(120, 60)),
                     ),
                     child: Align(
@@ -56,9 +56,9 @@ class _AuthenticateState extends State<Authenticate> {
 
 
                 Padding(
-                    padding: const EdgeInsets.all(12.0)
+                    padding: const EdgeInsets.all(110.0)
                 ),
-                Align(
+               /* Align(
                   alignment: Alignment(0,0),
                   child: Container(
                     height: 200,
@@ -71,7 +71,7 @@ class _AuthenticateState extends State<Authenticate> {
                       shape: BoxShape.circle
                     ),
                   ),
-                ),
+                ),*/
 
 
 
@@ -169,7 +169,7 @@ class _AuthenticateState extends State<Authenticate> {
                   height: 40,
                   width: 250,
                   child: RaisedButton(
-                    color: Colors.greenAccent,
+                    color: Colors.blueGrey,
                     child: Text("SignUp"),
                     onPressed: () {
                       return Navigator.of(context).push(new MaterialPageRoute(builder: (context){

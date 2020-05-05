@@ -15,7 +15,7 @@ class _MyListState extends State<MyList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Products List"),
+        title: Text("Products in inventory"),
       ),
       body: List_of_Products()
     );
@@ -58,19 +58,80 @@ class _List_of_ProductsState extends State<List_of_Products> {
 //  =====================WE HAVE THE PRODUCTS NOW WE WILL DISPLAY THEM===============
 
                 String ProductName=snapshot.data[index].data["name"];
-////                int price=snapshot.data[index].data["price"];
-                String image=snapshot.data[index].data["image"];
+                var ProductPrice=snapshot.data[index].data["price"];
+                String image=snapshot.data[index].data["image"][0];
                 var i=snapshot.data[index].documentID  ;
 //                print(i);
-//
-////                String quantity=snapshot.data[index].data["quantity"];
-                return ListTile(
-                  leading: Image.network(image,
-                    width: 120,
-                  fit: BoxFit.fitWidth,),
-                  title: Text(ProductName ),
+                String Quantity=snapshot.data[index].data["quantity"];
+                
+                
+
+                return ListView(
+                  
+                  children: <Widget>[
+
+                    Row (
+                            children: <Widget>[
+                              Padding(
+                              padding: const EdgeInsets.all(12.0),
 
 
+                              //product picture
+                              child: Container(
+                                alignment: Alignment(-1,0),
+                                height: 150,
+                                width: 150,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12.0),
+
+                                child: Image.network(image,
+                                    width: 120,
+                                    fit: BoxFit.fitWidth,),
+                              ),
+                            ),
+                        ),
+
+                        
+
+                        Stack (
+                            children: <Widget>[
+
+
+                            //product name
+                            Container(
+                              height: 150,
+                              child: Align(
+                                alignment: Alignment(0,-0.9),
+                                child: Text(ProductName)
+                              ),
+                            ),
+
+
+                            //product price
+                            Container(
+                              height: 150,
+                              child: Align(
+                                alignment: Alignment(0,-0.6),
+                                child: Text(ProductPrice),
+                              ),
+                            ),
+
+
+                            //product quantity
+                            Container(
+                              height: 150,
+                              child: Align(
+                                alignment: Alignment(0,-0.3),
+                                child: Text(Quantity),
+                              ),
+                            ),
+
+
+                          ]
+                        ),
+                      ],
+              )
+           ] 
                 );
 
             } );
