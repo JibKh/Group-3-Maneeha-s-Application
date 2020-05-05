@@ -28,6 +28,7 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController ProdCat = TextEditingController();
   TextEditingController ProdPrice = TextEditingController();
   TextEditingController ProdDesc = TextEditingController();
+  TextEditingController ProdQuantity = TextEditingController();
 //  links db_products class to this file
   ProductService productService=ProductService();
 
@@ -124,7 +125,20 @@ class _AddProductState extends State<AddProduct> {
                     ),
                   )
                 ),
-
+              Padding (
+                padding: const EdgeInsets.all(8.0),
+              ),
+// ==========================PRODUCT CATEGORY FORM========================================
+              Padding (
+                  padding: const EdgeInsets.all(12.0),
+                  child: TextFormField(
+                    controller: ProdQuantity,
+                    decoration: InputDecoration(
+                        labelText: "Quantity",
+                        hintText: 'Quantity'
+                    ),
+                  )
+              ),
 
               Padding (
                   padding: const EdgeInsets.all(8.0),
@@ -268,8 +282,20 @@ void _selectImage(Future<File> pickImage, int imgnum) async{
 
 //            now well call the function to upload the products
 //            inside the function arguments pass the product information
-        ProductService().uploadProducts(ProdName.text, ProdCat.text, downloadUrl,ProdPrice.text, ProdDesc.text);
+        ProductService().uploadProducts(ProdName.text, ProdCat.text, downloadUrl,ProdPrice.text,ProdQuantity.text, ProdDesc.text);
           };
+        showDialog(
+            context: context,
+            builder: (context) {
+              Future.delayed(Duration(seconds: 2), () {
+                Navigator.of(context).pop(true);
+              });
+              return AlertDialog(
+                title: Text('Product has been added'),
+              );
+            });
+
+         _formKey..currentState.reset();
 
 //      }
 //      else{

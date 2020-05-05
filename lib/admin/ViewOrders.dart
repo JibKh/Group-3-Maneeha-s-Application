@@ -62,6 +62,11 @@ class _List_of_OrdersState extends State<List_of_Orders> {
                   String Oaddress=snapshot.data[index].data["address"];
                   String Ocontact=snapshot.data[index].data["contact"];
                   String Opn=snapshot.data[index].data["product name"];
+
+                  print(Ostatus);
+                  print(Oaddress);
+                  print(Ocontact);
+                  print(Opn);
 //                print(i);
 //
 ////                String quantity=snapshot.data[index].data["quantity"];

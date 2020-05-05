@@ -60,10 +60,11 @@ class _List_of_ProductsState extends State<List_of_Products> {
 // =========================we have the data. store it in values and display it===========
 
                   String ProductName=snapshot.data[index].data["name"];
-//                int price=snapshot.data[index].data["price"];
+                  String ProductPrice=snapshot.data[index].data["price"];
                   String image=snapshot.data[index].data["image"][0];
                   var i=snapshot.data[index].documentID  ;
-//                String quantity=snapshot.data[index].data["quantity"];
+                  String Quantity=snapshot.data[index].data["quantity"];
+                  String Category=snapshot.data[index].data["Category"];
                   return ListTile(
                       leading: Image.network(image,
                         width: 120,

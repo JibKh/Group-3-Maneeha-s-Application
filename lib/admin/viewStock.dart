@@ -57,12 +57,17 @@ class _List_of_ProductsState extends State<List_of_Products> {
             itemBuilder:(context,index){
 //  =====================WE HAVE THE PRODUCTS NOW WE WILL DISPLAY THEM===============
 
-                String ProductName=snapshot.data[index].data["name"];
-                var ProductPrice=snapshot.data[index].data["price"];
-                String image=snapshot.data[index].data["image"][0];
-                var i=snapshot.data[index].documentID  ;
-//                print(i);
-                String Quantity=snapshot.data[index].data["quantity"];
+              String ProductName=snapshot.data[index].data["name"];
+              String ProductPrice=snapshot.data[index].data["price"];
+              String image=snapshot.data[index].data["image"][0];
+              var i=snapshot.data[index].documentID  ;
+              String Quantity=snapshot.data[index].data["quantity"];
+              String Category=snapshot.data[index].data["Category"];
+
+              print("here are the names");
+              print(ProductName);
+              print(ProductPrice);
+              print(Quantity);
                 
                 
 
@@ -72,24 +77,24 @@ class _List_of_ProductsState extends State<List_of_Products> {
 
                     Row (
                             children: <Widget>[
-                              Padding(
-                              padding: const EdgeInsets.all(12.0),
-
-
-                              //product picture
-                              child: Container(
-                                alignment: Alignment(-1,0),
-                                height: 150,
-                                width: 150,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12.0),
-
-                                child: Image.network(image,
-                                    width: 120,
-                                    fit: BoxFit.fitWidth,),
-                              ),
-                            ),
-                        ),
+//                              Padding(
+//                              padding: const EdgeInsets.all(12.0),
+//
+//
+//                              //product picture
+//                              child: Container(
+//                                alignment: Alignment(-1,0),
+//                                height: 150,
+//                                width: 150,
+//                              child: ClipRRect(
+//                                borderRadius: BorderRadius.circular(12.0),
+//
+//                                child: Image.network(image,
+//                                    width: 120,
+//                                    fit: BoxFit.fitWidth,),
+//                              ),
+//                            ),
+//                        ),
 
                         
 

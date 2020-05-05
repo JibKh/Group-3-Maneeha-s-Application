@@ -7,7 +7,7 @@ final CollectionReference orders = Firestore.instance.collection('Products');
 //  name of our collection
   String ref = 'Products';
 
-  void uploadProducts(String productName, String productCat, String url, String productPrice, String productDesc) {
+  void uploadProducts(String productName, String productCat, String url, String productPrice, String ProdQuantity ,String productDesc) {
 //    giving each new product an id
     var id = Uuid();
     String ProductId = id.v1();
@@ -28,9 +28,8 @@ final CollectionReference orders = Firestore.instance.collection('Products');
                       'name' : productName,
                       'price' : productPrice,
                       'Desc' : productDesc,
-                      //'status' : 'in-progress',
-                      //'size' : 'M',
-                      'quantity' : 1,
+                      'Category':productCat,
+                      'quantity' : ProdQuantity,
                       'image' : url
                     });
                   }
