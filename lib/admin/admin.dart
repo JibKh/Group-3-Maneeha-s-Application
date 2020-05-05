@@ -1,5 +1,5 @@
 import 'package:first_proj/admin/inventory.dart';
-//import 'package:first_proj/pages/orders.dart';
+import 'package:first_proj/admin/orders.dart';
 import 'package:flutter/material.dart';
 
 class Admin extends StatefulWidget {
@@ -26,7 +26,7 @@ class _AdminState extends State<Admin> {
             labelColor: Colors.black,
             tabs: <Widget>[
               Tab(text: 'Inventory',),
-              Tab(text: 'Inventory')
+              Tab(text: 'Orders')
             ]
           )
         ),
@@ -34,7 +34,7 @@ class _AdminState extends State<Admin> {
         body: TabBarView(
           children: <Widget>[
             Inventory(),
-            Inventory(),
+            Orders(),
           ],
         ),
 

@@ -54,18 +54,101 @@ class _List_of_OrdersState extends State<List_of_Orders> {
             return ListView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder:(context,index){
-// ====================WE GOT THE DATA FROM DATABASE NOW WE WILL DISPLAY IT===============
-                  String status=snapshot.data[index].data["status"];
-////                int price=snapshot.data[index].data["price"];
-//                  String image=snapshot.data[index].data["image"];
-                  var i=snapshot.data[index].documentID  ;
-//                print(i);
-//
-////                String quantity=snapshot.data[index].data["quantity"];
-                  return ListTile(
 
-                    title: Text(status),
-                    onTap: ()=> showPopup(context,i),
+// ====================WE GOT THE DATA FROM DATABASE NOW WE WILL DISPLAY IT===============
+
+                  
+                  String Ostatus=snapshot.data[index].data["status"];
+                  String Oaddress=snapshot.data[index].data["address"];
+                  String Ocontact=snapshot.data[index].data["contact"];
+                  String Opn=snapshot.data[index].data["product name"];
+                  var i=snapshot.data[index].documentID  ;
+
+                  return ListView(
+
+                    children: <Widget>[
+
+                    Row (
+                            children: <Widget>[
+                        
+
+                        Stack (
+                            children: <Widget>[
+
+                            
+
+                            //status
+                            Container(
+                              height: 150,
+                              child: Align(
+                                alignment: Alignment(0,-0.9),
+                                child: Text(Ostatus)
+                              ),
+                            ),
+
+
+
+                            //address
+                            Container(
+                              height: 150,
+                              child: Align(
+                                alignment: Alignment(0,-0.6),
+                                child: Text(Oaddress),
+                              ),
+                            ),
+
+
+
+                            //contact
+                            Container(
+                              height: 150,
+                              child: Align(
+                                alignment: Alignment(0,-0.3),
+                                child: Text(Ocontact),
+                              ),
+                            ),
+
+
+
+                            //product name
+                            Container(
+                              height: 150,
+                              child: Align(
+                                alignment: Alignment(0,-0.1),
+                                child: Text(Opn),
+                              ),
+                            ),
+
+
+
+                            Container(
+                              height: 150,
+                              width: 200,
+                              child: Align(
+                                alignment: Alignment(0.8,-0.1),
+                                child: RaisedButton(
+                                  shape: new RoundedRectangleBorder(
+                                      borderRadius: new BorderRadius.circular(16.0),
+                                      side: BorderSide(color: Colors.black)
+                                  ),
+                                  color: Colors.white,
+                                  child: Text('Delete'),
+                                  onPressed: (){
+                                    showPopup(context, i);
+                                  },
+                                ),
+                              ),
+                            ),
+
+
+
+                          ]
+                        ),
+                      ],
+              )
+           ]
+
+                   // onTap: ()=> showPopup(context,i),
 
                   );
 

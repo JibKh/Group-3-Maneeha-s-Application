@@ -15,7 +15,7 @@ class _ViewOrdersState extends State<ViewOrders> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Products List"),
+          title: Text("View Orders"),
         ),
         body: List_of_Orders()
     );
@@ -58,17 +58,74 @@ class _List_of_OrdersState extends State<List_of_Orders> {
 
 // =========================we got the order info now we will display it==================
 
-                  String status=snapshot.data[index].data["status"];
-////                int price=snapshot.data[index].data["price"];
-//                  String image=snapshot.data[index].data["image"];
-//                  var i=snapshot.data[index].documentID  ;
+                  String Ostatus=snapshot.data[index].data["status"];
+                  String Oaddress=snapshot.data[index].data["address"];
+                  String Ocontact=snapshot.data[index].data["contact"];
+                  String Opn=snapshot.data[index].data["product name"];
 //                print(i);
 //
 ////                String quantity=snapshot.data[index].data["quantity"];
-                  return ListTile(
+                  return ListView(
 
-                    title: Text(status),
+                    children: <Widget>[
 
+                    Row (
+                            children: <Widget>[
+                        
+
+                        Stack (
+                            children: <Widget>[
+
+                            
+
+                            //status
+                            Container(
+                              height: 150,
+                              child: Align(
+                                alignment: Alignment(0,-0.9),
+                                child: Text(Ostatus)
+                              ),
+                            ),
+
+
+
+                            //address
+                            Container(
+                              height: 150,
+                              child: Align(
+                                alignment: Alignment(0,-0.6),
+                                child: Text(Oaddress),
+                              ),
+                            ),
+
+
+
+                            //contact
+                            Container(
+                              height: 150,
+                              child: Align(
+                                alignment: Alignment(0,-0.3),
+                                child: Text(Ocontact),
+                              ),
+                            ),
+
+
+
+                            //product name
+                            Container(
+                              height: 150,
+                              child: Align(
+                                alignment: Alignment(0,-0.1),
+                                child: Text(Opn),
+                              ),
+                            ),
+
+
+                          ]
+                        ),
+                      ],
+              )
+           ]
 
                   );
 
