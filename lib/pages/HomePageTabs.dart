@@ -119,12 +119,7 @@ class _HomePageTabsState extends State<HomePageTabs> {
             InkWell(
               onTap: () {
                 return Navigator.of(context).push(new MaterialPageRoute(builder: (context){
-                  var dictToSend = {
-                    'name': '-1',
-                    "size": "-1",
-                    "price": -1,
-                  };
-                  return ShoppingCart(text: dictToSend,);
+                  return ShoppingCart();
                 }));
               },
               child: ListTile(

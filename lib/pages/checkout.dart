@@ -4,12 +4,7 @@ import 'package:first_proj/pages/confirmation.dart';
 
 // The purpose of this page is to create the checkout page
 
-class Checkout extends StatelessWidget {
-  final String res = "";
-  final text;
-  Checkout({Key key, @required this.text}) : super(key: key);
- 
- 
+class Checkout extends StatelessWidget { 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +12,7 @@ class Checkout extends StatelessWidget {
       // AppBar starts
       appBar: AppBar(
         leading: BackButton(
-          color: Colors.white,
+          color: Colors.black,
           //on pressing the back button, the user returns to the previous screen
           onPressed: () {
             Navigator.of(context).pop();
@@ -26,11 +21,11 @@ class Checkout extends StatelessWidget {
         title: Text(
           "Checkout",
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
           )
         ),
         centerTitle: true,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.white,
       ),
       // AppBar ends
 
@@ -40,54 +35,91 @@ class Checkout extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(20),
 
-            //column starts  
+            //column starts
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
 
               children: <Widget>[
-                SizedBox(
-                  height: 200.0,
-                  child: Image.asset(
-                    "images/icons8-checkout-100.png",
-                    fit: BoxFit.cover,
+                Padding(padding: EdgeInsets.all(10)),
+
+                // ================== START DELIVERY INFORMATION ==================
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Delivery Information: ',
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500, letterSpacing: 1,),
                   ),
                 ),
 
-                SizedBox(height: 40.0),
+                SizedBox(height: 30,),
 
-                //textbox starts for entering delivery address
+                // House and street textfield
                 TextFormField(
                   decoration: new InputDecoration(
-                    hintText: "Delivery Address",
-                    border: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(20.0),
-                      borderSide: new BorderSide(),
-                    ),
+                    hintText: "House and Street",
                   ),
                   onChanged: (String str) {
                     print(str);
                   },
                 ),
-                //textbox ends
 
-                SizedBox(height: 20.0),
+                SizedBox(height: 20,),
 
-                //textbox starts for entering contact number
+                // City and Province Textfield
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Expanded(
+                      child: TextFormField(
+                        decoration: new InputDecoration(
+                          hintText: "City",
+                        ),
+                        onChanged: (String str) {
+                          print(str);
+                        },
+                      ),
+                    ),
+                    SizedBox(width: 25,),
+                    Expanded(
+                      child: TextFormField(
+                        decoration: new InputDecoration(
+                          hintText: "Province",
+                        ),
+                        onChanged: (String str) {
+                          print(str);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 30.0),
+                
+                // Contact Number textfield
                 TextField(
                   decoration: new InputDecoration(
                     hintText: "Contact number",
-                    border: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(20.0),
-                      borderSide: new BorderSide(),
-                    ),
                   ),
                   keyboardType: TextInputType.number,
                     onChanged: (String str) {
                     print(str);
                   },
                 ),
-                //textbox ends
+                // ================== END DELIVERY INFORMATION ==================
+
+                // ================== START SUMMARY ==================
+                
+                SizedBox(height: 50,),
+                
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Cart Summary: ',
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500, letterSpacing: 1,),
+                  ),
+                ),
+                
               ],
             )
             //column ends
@@ -97,44 +129,52 @@ class Checkout extends StatelessWidget {
       ),
 
       //bottom bar starts
-      bottomNavigationBar: Container(
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              //button starts
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(16.0),
-                  side: BorderSide(color: Colors.transparent)
-                ),
+      bottomNavigationBar: BottomNavigation(),
+    );
+  }
+}
 
-                //on pressing this button, the user reaches the confirmation screen
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Confirmation(),
-                    ));
-                },
+// Bottom Navigation for Shopping cart button and size dropdown
+class BottomNavigation extends StatefulWidget {
+  @override
+  _BottomNavigationState createState() => _BottomNavigationState();
+}
 
-                color: Colors.green,
-                child: Text(
-                  'Confirm',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic,
-                  ),
+class _BottomNavigationState extends State<BottomNavigation> {
+  @override
+  Widget build(BuildContext context) {
+    return BottomAppBar(
+      shape: CircularNotchedRectangle(),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
+        child: InkWell(
+          onTap: () {
+            // CALL ADD TO CART PAGE USING THE FUNCTION ABOVE
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+              Confirmation()), (Route<dynamic> route) => false);
+          },
+          child: Container(
+            height: 45,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+            ),
+            child: Center(
+              child: Text(
+                'Place Order',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                  wordSpacing: 2.0,
+                  letterSpacing: 0.9,
                 ),
               ),
-              //button ends
-            ),
-          ],
-        ),
+            )
+          ),
+        )
       ),
-      //bottom bar ends
-
     );
   }
 }

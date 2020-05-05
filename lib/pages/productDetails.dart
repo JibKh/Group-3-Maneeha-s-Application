@@ -170,7 +170,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     };
     Navigator.push(context,
       MaterialPageRoute(
-        builder: (context) => ShoppingCart(text: dictToSend),
+        builder: (context) => ShoppingCart(),
       ));
   }
 
@@ -214,9 +214,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
               },
               child: Container(
                 height: 45,
-                width: 220,
+                width: 200,
                 decoration: BoxDecoration(
                   color: Colors.black,
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
                 ),
                 child: Center(
                   child: Text(
