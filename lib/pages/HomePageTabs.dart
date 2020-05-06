@@ -87,7 +87,7 @@ class _HomePageTabsState extends State<HomePageTabs> {
         child: ListView(
           children: <Widget>[
             UserAccountsDrawerHeader(
-              accountName: Text(''), accountEmail: Text( widget.user.email != null ? widget.user.email : 'Anonymous'), 
+              accountName: Text(''), accountEmail: Text('Hello@gmail.com'),//accountEmail: Text( widget.user.email != null ? widget.user.email : 'Anonymous'), 
               currentAccountPicture: GestureDetector(
                 child: CircleAvatar(
                   child: Icon(

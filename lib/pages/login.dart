@@ -1,3 +1,4 @@
+import 'package:first_proj/util/loading.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:first_proj/util/firebase_auth.dart';
@@ -17,8 +18,13 @@ class _LoginPageState extends State<LoginPage> {
   // For input validation
   final _formKey = GlobalKey<FormState>();
 
-  // To load up the loading screen. Not being used currently.
-  bool loading = false;
+  // To load up the loading screen.
+  bool loading;
+  @override
+  void initState() { 
+    super.initState();
+    loading = false;
+  }
 
   String email = "";
   String password = ""; 
@@ -27,8 +33,8 @@ class _LoginPageState extends State<LoginPage> {
   // START UI
   @override
   Widget build(BuildContext context){
-    //return loading ? Loading() : Scaffold(
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
+    //return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: <Widget>[
@@ -117,7 +123,6 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () async {
                         if(_formKey.currentState.validate()) {
                           setState(() => loading = true);
-                          Navigator.pop(context);
                           dynamic result = await _auth.signInWithEmailAndPassword(email, password);
 
                           if (result == null) {
@@ -125,6 +130,10 @@ class _LoginPageState extends State<LoginPage> {
                               error = 'Could not sign in.';
                               loading = false;
                             });
+                            
+                          } else {
+                            //Navigator.pop(context);
+                            setState(() => loading = false);
                           }
                         }
                         // if(_emailController.text.isEmpty || _passwordController.text.isEmpty) {
@@ -157,13 +166,16 @@ class _LoginPageState extends State<LoginPage> {
                       color: Colors.blueGrey,
                       child: Text("SignIn Anonymously"),
                       onPressed: () async {
-                        Navigator.pop(context);
+                        setState(() => loading = true);
                         dynamic result = await _auth.signInAnon();
                         if (result == null) {
                           print('Error signing in');
+                          setState(() => loading = false);
                         } else {
                           print('Signed in');
                           print(result);
+                          Navigator.pop(context);
+                          setState(() => loading = false);
                         }
                       },
                     )

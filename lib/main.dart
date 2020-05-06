@@ -1,5 +1,6 @@
 import 'package:first_proj/pages/HomePageTabs.dart';
 import 'package:first_proj/pages/authenticate.dart';
+import 'package:first_proj/pages/login.dart';
 import 'package:first_proj/util/firebase_auth.dart';
 import 'package:first_proj/util/user.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +37,11 @@ class Wrapper extends StatelessWidget {
     final user = Provider.of<User>(context);
 
     if (user == null) {
+      print('main login');
       return Authenticate();
     } else {
+      print('main homepagetabs');
+      //Navigator.pop(context);
       return HomePageTabs(user: user,);
     }
   }

@@ -50,7 +50,7 @@ class Confirmation extends StatelessWidget {
                     child: new RaisedButton(
                       onPressed: () {
                         Navigator.pushReplacement(
-                          context, MaterialPageRoute(builder: (BuildContext context) => HomePageTabs())
+                          context, MaterialPageRoute(builder: (BuildContext context) => HomePageTabs(user: null))
                         );
                       },
                       child: Text('Back to homepage'),

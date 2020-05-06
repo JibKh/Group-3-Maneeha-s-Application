@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:first_proj/util/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:first_proj/util/firebase_auth.dart';
 
@@ -18,6 +19,15 @@ class _SignupState extends State<Signup> {
   // For input validation
   final _formKey = GlobalKey<FormState>();
   
+
+  // To load up the loading screen.
+  bool loading;
+  @override
+  void initState() { 
+    super.initState();
+    loading = false;
+  }
+
   String email = "";
   String password = ""; 
   String error = "";
@@ -25,7 +35,7 @@ class _SignupState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: <Widget>[
@@ -122,17 +132,17 @@ class _SignupState extends State<Signup> {
                             ),
                           ),
                           const SizedBox(height: 10.0),
-                          TextFormField(
-                            validator: (val) => val.length < 6 ? 'Enter a password 6+ chars long' : null,
-                            cursorColor: Colors.red,
-                            obscureText: true,
-                            onChanged: (val) {
-                              setState(() => password = val);
-                            },
-                            decoration: InputDecoration(
-                                hintText: "Confirm password"
-                            ),
-                          ),
+                          // TextFormField(
+                          //   validator: (val) => val.length < 6 ? 'Enter a password 6+ chars long' : null,
+                          //   cursorColor: Colors.red,
+                          //   obscureText: true,
+                          //   onChanged: (val) {
+                          //     setState(() => password = val);
+                          //   },
+                          //   decoration: InputDecoration(
+                          //       hintText: "Confirm password"
+                          //   ),
+                          // ),
 
                           // Signup button
                           const SizedBox(height: 50.0),
@@ -140,12 +150,24 @@ class _SignupState extends State<Signup> {
                             color: Colors.blueGrey,
                             child: Text("Signup"),
                             onPressed: () async {
+                              setState(() => loading = true);
                               if(_formKey.currentState.validate()) {
-                                Navigator.pop(context);
                                 dynamic result = await _auth.registerWithEmailAndPassword(email, password);
                                 if (result == null) {
-                                  setState(() => error = 'Please apply valid email');
+                                  setState(() {
+                                    error = 'Please apply a valid email ID'; 
+                                    print('HELP MY BRAIN');
+                                    loading = false;
+                                  });
+                                } else {
+                                  setState(() => loading = false);
+                                  Navigator.pop(context);
                                 }
+                              } else {
+                                setState(() {
+                                  loading = false;
+                                  error = 'Please input your credentials';
+                                  });
                               }
                             },
                           ),
