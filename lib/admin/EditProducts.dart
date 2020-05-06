@@ -1,3 +1,4 @@
+import 'package:first_proj/util/gridProducts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,7 +18,7 @@ class _EditProductsState extends State<EditProducts> {
         appBar: AppBar(
           title: Text("Edit Products"),
         ),
-        body: List_of_Products()
+        body: GridProducts.admin('adminEdit'), // This takes you to util/gridProducts.dart. Line 198 is the Edit Button. Add your function there.
     );
   }
 }
@@ -63,8 +64,8 @@ class _List_of_ProductsState extends State<List_of_Products> {
                   String ProductPrice=snapshot.data[index].data["price"];
                   String image=snapshot.data[index].data["image"][0];
                   var i=snapshot.data[index].documentID  ;
-                  String Quantity=snapshot.data[index].data["quantity"];
-                  String Category=snapshot.data[index].data["Category"];
+                  String Quantity=snapshot.data[index].data["stock"];
+                  String Category=snapshot.data[index].data["category"];
                   return ListTile(
                       leading: Image.network(image,
                         width: 120,

@@ -228,7 +228,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
             // ========= START ADD TO CART BUTTON =========
             InkWell(
               onTap: () {
-                if (widget.purpose != 'admin') { // The admin will not be able to press this button.
+                if (widget.purpose == 'homepage' || widget.purpose == 'category') { // The admin will not be able to press this button.
                   Navigator.push(context,
                     MaterialPageRoute(
                       builder: (context) => ShoppingCart(),
@@ -244,9 +244,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 ),
                 child: Center(
                   child: Text(
-                    widget.purpose == 'admin' ? 'Can\'t add to cart as admin' : 'Add to Cart', // This will inform the admin that they cannot press this button.
+                    widget.purpose != 'homepage' && widget.purpose != 'category' ? 'Can\'t add to cart as admin' : 'Add to Cart', // This will inform the admin that they cannot press this button.
                     style: TextStyle(
-                      fontSize: widget.purpose == 'admin' ? 13.0 : 18.0,
+                      fontSize: widget.purpose != 'homepage' && widget.purpose != 'category' ? 13.0 : 18.0,
                       fontWeight: FontWeight.w400,
                       color: Colors.white,
                       wordSpacing: 2.0,

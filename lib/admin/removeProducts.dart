@@ -1,3 +1,4 @@
+import 'package:first_proj/util/gridProducts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,7 +18,7 @@ class _RemoveItemsState extends State<RemoveItems> {
         appBar: AppBar(
           title: Text("Remove Products"),
         ),
-        body: List_of_Products()
+        body: GridProducts.admin('adminRemove'), // Displays all products with a remove button
     );
   }
 }
@@ -63,7 +64,7 @@ class _List_of_ProductsState extends State<List_of_Products> {
                   String ProductPrice=snapshot.data[index].data["price"];
                   String image=snapshot.data[index].data["image"][0];
                   var i=snapshot.data[index].documentID  ;
-                  String Quantity=snapshot.data[index].data["quantity"];
+                  String Quantity=snapshot.data[index].data["stock"];
                   String Category=snapshot.data[index].data["Category"];
 
                   return ListView (

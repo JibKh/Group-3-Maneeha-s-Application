@@ -29,7 +29,7 @@ final CollectionReference orders = Firestore.instance.collection('Products');
                       'price' : productPrice,
                       'desc' : productDesc,
                       'category':productCat,
-                      'quantity' : ProdQuantity,
+                      'stock' : ProdQuantity,
                       'image' : url
                     });
                   }

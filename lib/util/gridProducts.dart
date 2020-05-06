@@ -1,3 +1,4 @@
+import 'package:first_proj/admin/EditProducts.dart';
 import 'package:first_proj/util/loading.dart';
 import 'package:first_proj/util/product.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class GridProducts extends StatefulWidget {
 
   // Purpose: 
-  // admin -> remove onTap to product description
+  // adminView -> remove onTap to product description
   // category -> show only those category
   // homepage -> display all products
   String purpose;
@@ -26,8 +27,8 @@ class GridProducts extends StatefulWidget {
     this.purpose = 'homepage';
   }
 
-  GridProducts.admin() {
-    this.purpose = 'admin';
+  GridProducts.admin(String purpose) {
+    this.purpose = purpose;
   }
 
   // NAMED CONSTRUCTOR - For when a category is selected
@@ -96,6 +97,7 @@ class _ProductsState extends State<GridProducts> {
                         desc: snapshot.data[index].data['desc'],
                         stock: snapshot.data[index].data['stock'],
                         allPictures: snapshot.data[index].data['image'],
+                        prodID: snapshot.data[index].documentID,
                         purpose: widget.purpose,
                       ),
                     );
@@ -124,6 +126,7 @@ class SingleProduct extends StatelessWidget {
   final stock;
   final allPictures;
   final purpose;
+  final prodID;
 
   SingleProduct({
     this.productName,
@@ -133,6 +136,7 @@ class SingleProduct extends StatelessWidget {
     this.stock,
     this.allPictures,
     this.purpose,
+    this.prodID,
   });
 
   @override
@@ -141,7 +145,7 @@ class SingleProduct extends StatelessWidget {
         // width: 50,
       child: Column(
       children: <Widget>[
-        // ========== START ITEM PICTURE ==========
+        // ============== START ITEM PICTURE ==============
         AspectRatio(
           aspectRatio: 0.9,
           child: Card(
@@ -164,17 +168,38 @@ class SingleProduct extends StatelessWidget {
             ),
           ),
         ),
-        // ========== END ITEM PICTURE ==========
+        // ============== END ITEM PICTURE ==============
 
-        // ========== START DESCRIPTION ==========
+        // ============== START DESCRIPTION WITH ADMIN BUTTONS ==============
 
         // Name
         Align(
           alignment: Alignment.centerLeft,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 3, vertical: 4),
-            child: Text('$productName',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 3, vertical: 4),
+                child: Text('$productName',
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400)),
+              ),
+
+              // Remove product button for admin only
+              purpose == 'adminRemove' ? RaisedButton(
+                child: Text('Remove'),
+                onPressed: (){
+                  showPopup(context, prodID);
+                },) : Container(),
+
+              // Edit product button for admin only
+              purpose == 'adminEdit' ? RaisedButton(
+                child: Text('Edit'),
+                onPressed: () {
+                  // YAHYA INSERT YOUR FUNCTION HERE
+                },
+              ) : Container(),
+              
+            ],
           ),
         ),
 
@@ -189,7 +214,7 @@ class SingleProduct extends StatelessWidget {
             ),
           ),
         ),
-        // ========== END DESCRIPTION ==========
+        // ============== START DESCRIPTION WITH ADMIN BUTTONS ==============
       ],
     ));
   }

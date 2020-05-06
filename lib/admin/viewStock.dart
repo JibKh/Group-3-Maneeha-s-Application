@@ -18,7 +18,7 @@ class _MyListState extends State<MyList> {
       appBar: AppBar(
         title: Text("Products in inventory"),
       ),
-      body: GridProducts.admin(), // This displays and disables the ' Add to cart ' button for the admin.
+      body: GridProducts.admin('adminView'), // This displays and disables the ' Add to cart ' button for the admin.
     );
   }
 }
