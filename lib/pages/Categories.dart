@@ -44,7 +44,7 @@ class Category extends StatelessWidget {
         onTap: () {
           return Navigator.of(context)
             .push(new MaterialPageRoute(builder: (context) {
-              return ProductListCategories(imageCaption);
+              return ProductListCategories(imageCaption.toLowerCase());
               }));
         },
         child: Stack(

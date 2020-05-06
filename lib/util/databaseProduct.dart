@@ -1,18 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'product.dart';
-/*
-class Product{
-  String image;
-  String name;
-  int price;
-
-  Product.fromMap(Map<String, dynamic> data){
-    image = data['image'];
-    name = data['name'];
-    price = data['price'];
-  }
-}
-*/
 
 // PURPOSE:
 // This is the file that retrieves and sends mapped out PRODUCT data to the calling function

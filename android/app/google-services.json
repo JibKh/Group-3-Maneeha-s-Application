@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "1055229362475",
-    "firebase_url": "https://maneeha-s-app-database.firebaseio.com",
-    "project_id": "maneeha-s-app-database",
-    "storage_bucket": "maneeha-s-app-database.appspot.com"
+    "project_number": "364856487517",
+    "firebase_url": "https://maneeha-v2.firebaseio.com",
+    "project_id": "maneeha-v2",
+    "storage_bucket": "maneeha-v2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1055229362475:android:64d803787c82f75887456e",
+        "mobilesdk_app_id": "1:364856487517:android:e44562b299efb00a1ee7b4",
         "android_client_info": {
           "package_name": "com.group3.maneehas_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1055229362475-m3uhf17h20rnag7jhumkbd48hdt7tk98.apps.googleusercontent.com",
+          "client_id": "364856487517-svvfo70cvag1o4gm5sj5de7q48cla4mj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDVBxtF7ElhuLelGU-tIR0BOXXLnOURFY0"
+          "current_key": "AIzaSyDAQZU4Ca2At1te3Wk5ptEX6d-Tn8B5bn4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1055229362475-m3uhf17h20rnag7jhumkbd48hdt7tk98.apps.googleusercontent.com",
+              "client_id": "364856487517-svvfo70cvag1o4gm5sj5de7q48cla4mj.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

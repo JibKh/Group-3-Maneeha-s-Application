@@ -48,7 +48,7 @@ class _ProductListCategories extends State<ProductListCategories> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                category,
+                category[0].toUpperCase() + category.substring(1), // Make first letter capital, rest small.
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w500,

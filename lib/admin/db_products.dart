@@ -27,8 +27,8 @@ final CollectionReference orders = Firestore.instance.collection('Products');
                     return await orders.document(ProductId).setData({
                       'name' : productName,
                       'price' : productPrice,
-                      'Desc' : productDesc,
-                      'Category':productCat,
+                      'desc' : productDesc,
+                      'category':productCat,
                       'quantity' : ProdQuantity,
                       'image' : url
                     });

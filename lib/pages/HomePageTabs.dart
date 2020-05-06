@@ -12,6 +12,10 @@ import 'package:first_proj/util/firebase_auth.dart';
 // Navigation bar 
 
 class HomePageTabs extends StatefulWidget {
+
+  var user;
+  HomePageTabs({this.user});
+
   @override
   _HomePageTabsState createState() => _HomePageTabsState();
 }
@@ -83,7 +87,7 @@ class _HomePageTabsState extends State<HomePageTabs> {
         child: ListView(
           children: <Widget>[
             UserAccountsDrawerHeader(
-              accountName: Text('Jibran Khalil'), accountEmail: Text('jibrankhalilur@outlook.com'), 
+              accountName: Text(''), accountEmail: Text( widget.user.email != null ? widget.user.email : 'Anonymous'), 
               currentAccountPicture: GestureDetector(
                 child: CircleAvatar(
                   child: Icon(

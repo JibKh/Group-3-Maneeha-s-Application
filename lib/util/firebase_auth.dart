@@ -7,7 +7,7 @@ class AuthService {
 
   // Create user object based on firebase user
   User _userFromFirebaseUser(FirebaseUser user) {
-    return user != null ? User(uid: user.uid) : null;
+    return user != null ? User(user.uid, user.email) : null;
   }
 
   // Stream for changed user

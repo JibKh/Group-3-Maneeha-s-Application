@@ -1,7 +1,12 @@
 // This is the user class information. To be expanded soon.
 
 class User {
-  final String uid;
+  String uid;
+  String email;
+  dynamic cart;
 
-  User( { this.uid } );
+  User(String uid, String email){
+    this.uid = uid;
+    this.email = email;
+  }
 }

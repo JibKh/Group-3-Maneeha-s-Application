@@ -38,7 +38,7 @@ class Wrapper extends StatelessWidget {
     if (user == null) {
       return Authenticate();
     } else {
-      return HomePageTabs();
+      return HomePageTabs(user: user,);
     }
   }
 }
