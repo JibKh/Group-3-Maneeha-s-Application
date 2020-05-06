@@ -66,7 +66,8 @@ class BuildCard extends StatelessWidget {
   String prodQuantity;
 
   BuildCard({this.prodName, this.prodPrice, this.prodQuantity, this.prodSize});
-
+  static const sizeList = ['Small', 'Medium', 'Large'];
+  var currentSelected = "Small";
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -119,9 +120,19 @@ class BuildCard extends StatelessWidget {
                       side: BorderSide(color: Colors.black)
                   ),
                   color: Colors.white,
-                  child: Text('Size'),
+                  child:  Text('Size: '),
                   onPressed: (){},
                 ),
+              ),
+            ),
+            Positioned(
+              top: 62,
+              left: 59 ,
+              child: Container(
+                height: 23,
+                width: 25,
+                color: Colors.white,
+                child: Text('XL', style: TextStyle(fontWeight: FontWeight.bold), ),
               ),
             ),
 
