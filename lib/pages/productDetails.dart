@@ -2,6 +2,7 @@ import 'package:first_proj/pages/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:carousel_pro/carousel_pro.dart';
 
 // PURPOSE:
 // Display the product details: Pictures, description, price and reviews (yet to be done)
@@ -14,12 +15,12 @@ class ProductDescription extends StatefulWidget {
   @override
   String productName;
   String productPrice;
-  String productImage;
+  dynamic productImage;
   String productDesc;
   int productStock;
 
   // Constructor
-  ProductDescription(String name, String price, String image, String desc, int stock){
+  ProductDescription(String name, String price, dynamic image, String desc, int stock){
     this.productName = name;
     this.productPrice = price;
     this.productImage = image;
@@ -38,33 +39,58 @@ class _ProductDescriptionState extends State<ProductDescription> {
     return qn.documents;
   }
 
+  int photoIndex = 0;
+
+  void _previousImage() {
+    setState(() {
+      photoIndex = photoIndex > 0 ? photoIndex - 1 : 0;
+    });
+  }
+  void _nextImage() {
+    setState(() {
+      photoIndex = photoIndex < widget.productImage.length - 1 ? photoIndex + 1 : 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(Colors.black);
     return FutureBuilder(
       future: getPosts(),
       builder: (_, snapshot) {
+        print(widget.productImage[0]);
         return SafeArea(
           child: Scaffold(
             body: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Column(
                 children: [
-                  // =============== START IMAGE ===============
+                  // =================== START IMAGE ===================
                   Stack(
                     children: <Widget>[
                       SizedBox(
                         height: 40,
                       ),
-                      // Image
-                      Hero(
-                        tag: widget.productName,
-                        child: Image.network(
-                          widget.productImage,
-                          height: MediaQuery.of(context).size.height / 2 + 65,
-                          width: MediaQuery.of(context).size.width,
-                          fit: BoxFit.cover,
-                          alignment: Alignment.topCenter,
+
+                      // Image Carousel
+                      Container(
+                        height: MediaQuery.of(context).size.height / 2 + 65,
+                        width: MediaQuery.of(context).size.width,
+                        child: Carousel(
+                          boxFit: BoxFit.cover,
+                          images: [
+                            Image.network(widget.productImage[0], fit: BoxFit.cover), //height: MediaQuery.of(context).size.height / 2 + 65, width: MediaQuery.of(context).size.width, 
+                            Image.network(widget.productImage[1], fit: BoxFit.cover),
+                            Image.network(widget.productImage[2], fit: BoxFit.cover),
+                          ],
+                          autoplay: false,
+                          animationCurve: Curves.easeInOutQuad,
+                          animationDuration: Duration(milliseconds: 900),
+                          dotSize: 8.0,
+                          dotBgColor: Colors.grey.withOpacity(0),
+                          dotIncreaseSize: 1.5,
+                          dotIncreasedColor: Colors.white,
+                          dotColor: Colors.grey,
                         ),
                       ),
 
@@ -83,9 +109,9 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       ),
                     ],
                   ),
-                  // =============== END IMAGE ===============
+                  // =================== END IMAGE ===================
 
-                  // =============== START BODY ===============
+                  // =================== START BODY ===================
                   Container(
                     padding: const EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 15.0),
                     child: Column(
@@ -137,7 +163,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       ],
                     ),
                   ),
-                  // ============ END BODY ============
+                  // ================ END BODY ================
                 ],
               ),
             ),
@@ -159,20 +185,6 @@ class BottomNavigation extends StatefulWidget {
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
-
-  // Sasti trick to send to cart. The dictionary is currently NOT being used in the cart however.
-  // This is called in the add to cart button.
-  void sentDataToCart(BuildContext context, name, size, price) {
-    var dictToSend = {
-      'name': name,
-      'size': size,
-      'price': price,
-    };
-    Navigator.push(context,
-      MaterialPageRoute(
-        builder: (context) => ShoppingCart(),
-      ));
-  }
 
   // For the dropdown list
   static const sizeList = ['Small', 'Medium', 'Large'];
@@ -209,8 +221,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
             // ========= START ADD TO CART BUTTON =========
             InkWell(
               onTap: () {
-                // CALL ADD TO CART PAGE USING THE FUNCTION ABOVE
-                sentDataToCart(context, 'Testing', 2, 'Testing');
+                Navigator.push(context,
+                  MaterialPageRoute(
+                    builder: (context) => ShoppingCart(),
+                  ));
               },
               child: Container(
                 height: 45,

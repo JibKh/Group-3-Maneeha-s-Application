@@ -37,7 +37,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
       // ================= START LIST VIEW =================
       body: ListView.builder(
-        itemCount: 2,
+        itemCount: 7,
         // Calls the same function to make the details of one product
         itemBuilder: (BuildContext context, int index) {
           return BuildCard(

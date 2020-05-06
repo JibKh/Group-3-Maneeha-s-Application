@@ -81,14 +81,15 @@ class _ProductsState extends State<GridProducts> {
                         productPic: snapshot.data[index].data['image'][0],
                         productPrice: snapshot.data[index].data['price'],
                         desc: snapshot.data[index].data['Desc'],
-                        stock: snapshot.data[index].data['Stock']
+                        stock: snapshot.data[index].data['Stock'],
+                        allPictures: snapshot.data[index].data['image'],
                       ),
                     );
                   }
                 )
               )
             );
-          };
+          }
         }
       ),
     );
@@ -107,13 +108,15 @@ class SingleProduct extends StatelessWidget {
   final productPrice;
   final desc;
   final stock;
+  final allPictures;
 
   SingleProduct({
     this.productName,
     this.productPic,
     this.productPrice,
     this.desc,
-    this.stock
+    this.stock,
+    this.allPictures,
   });
 
   @override
@@ -139,7 +142,7 @@ class SingleProduct extends StatelessWidget {
                   return Navigator.of(context)
                       .push(new MaterialPageRoute(builder: (context) {
                     //return MyHomePage(productName, productPrice, productPic, desc, stock);
-                    return ProductDescription(productName, productPrice, productPic, desc, stock);
+                    return ProductDescription(productName, productPrice, allPictures, desc, stock);
                   }));
                 },
               )
