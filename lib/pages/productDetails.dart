@@ -18,14 +18,16 @@ class ProductDescription extends StatefulWidget {
   dynamic productImage;
   String productDesc;
   int productStock;
+  String purpose;
 
   // Constructor
-  ProductDescription(String name, String price, dynamic image, String desc, int stock){
+  ProductDescription(String name, String price, dynamic image, String desc, int stock, String purpose){
     this.productName = name;
     this.productPrice = price;
     this.productImage = image;
     this.productDesc = desc;
     this.productStock = stock;
+    this.purpose = purpose;
   }
   _ProductDescriptionState createState() => _ProductDescriptionState();
 }
@@ -169,7 +171,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
             ),
 
             // ====== BOTTOM NAVIGATION BAR FOR CART AND SIZE ======
-            bottomNavigationBar: BottomNavigation(),
+            bottomNavigationBar: BottomNavigation(purpose: widget.purpose,),
 
           ),
         );
@@ -180,6 +182,11 @@ class _ProductDescriptionState extends State<ProductDescription> {
 
 // Bottom Navigation for Shopping cart button and size dropdown
 class BottomNavigation extends StatefulWidget {
+
+  String purpose;
+
+  BottomNavigation({this.purpose});
+
   @override
   _BottomNavigationState createState() => _BottomNavigationState();
 }
@@ -221,10 +228,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
             // ========= START ADD TO CART BUTTON =========
             InkWell(
               onTap: () {
-                Navigator.push(context,
-                  MaterialPageRoute(
-                    builder: (context) => ShoppingCart(),
-                  ));
+                if (widget.purpose != 'admin') { // The admin will not be able to press this button.
+                  Navigator.push(context,
+                    MaterialPageRoute(
+                      builder: (context) => ShoppingCart(),
+                    ));
+                }
               },
               child: Container(
                 height: 45,
@@ -235,9 +244,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 ),
                 child: Center(
                   child: Text(
-                    'Add to Cart',
+                    widget.purpose == 'admin' ? 'Can\'t add to cart as admin' : 'Add to Cart', // This will inform the admin that they cannot press this button.
                     style: TextStyle(
-                      fontSize: 18.0,
+                      fontSize: widget.purpose == 'admin' ? 13.0 : 18.0,
                       fontWeight: FontWeight.w400,
                       color: Colors.white,
                       wordSpacing: 2.0,

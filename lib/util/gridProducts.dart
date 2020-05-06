@@ -13,13 +13,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GridProducts extends StatefulWidget {
 
+  // Purpose: 
+  // admin -> remove onTap to product description
+  // category -> show only those category
+  // homepage -> display all products
+  String purpose;
   String category;
 
-  // DEFAULT CONSTRUCTOR
-  GridProducts();
 
-  // NAMED CONSTRUCTOR
+  // DEFAULT CONSTRUCTOR - This is for the homepage
+  GridProducts() {
+    this.purpose = 'homepage';
+  }
+
+  GridProducts.admin() {
+    this.purpose = 'admin';
+  }
+
+  // NAMED CONSTRUCTOR - For when a category is selected
   GridProducts.categoryList(String category) {
+    this.purpose = 'category';
     this.category = category;
   }
 
@@ -35,7 +48,7 @@ class _ProductsState extends State<GridProducts> {
   Future getPosts() async {
 
     // If its called for a category, then return products of that category. Else return all.
-    if (widget.category != '') {
+    if (widget.purpose == 'category') {
       var firestore = Firestore.instance;
       QuerySnapshot qn = await firestore.collection('Products')
         .where('category', isEqualTo: widget.category).getDocuments();
@@ -83,6 +96,7 @@ class _ProductsState extends State<GridProducts> {
                         desc: snapshot.data[index].data['Desc'],
                         stock: snapshot.data[index].data['Stock'],
                         allPictures: snapshot.data[index].data['image'],
+                        purpose: widget.purpose,
                       ),
                     );
                   }
@@ -109,6 +123,7 @@ class SingleProduct extends StatelessWidget {
   final desc;
   final stock;
   final allPictures;
+  final purpose;
 
   SingleProduct({
     this.productName,
@@ -117,6 +132,7 @@ class SingleProduct extends StatelessWidget {
     this.desc,
     this.stock,
     this.allPictures,
+    this.purpose,
   });
 
   @override
@@ -141,8 +157,7 @@ class SingleProduct extends StatelessWidget {
                 onTap: () {
                   return Navigator.of(context)
                       .push(new MaterialPageRoute(builder: (context) {
-                    //return MyHomePage(productName, productPrice, productPic, desc, stock);
-                    return ProductDescription(productName, productPrice, allPictures, desc, stock);
+                    return ProductDescription(productName, productPrice, allPictures, desc, stock, purpose);
                   }));
                 },
               )
