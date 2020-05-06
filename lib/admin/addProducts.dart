@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:uuid/uuid.dart';
 
 //====================================================================================/
 //this page takes user input and adds products to the database on the basis of that input========
@@ -258,14 +259,37 @@ void _selectImage(Future<File> pickImage, int imgnum) async{
           String imageUrl1;
           String imageUrl2;
           String imageUrl3;
+          var urls = new List();
+
           final FirebaseStorage storage= FirebaseStorage.instance;
-          final  String pic1="test_image_1.jpg";
+          var uuid = Uuid();
+          
+          final  String pic1= uuid.v4();
           final ref = storage.ref().child(pic1);
           StorageUploadTask task1= ref.putFile(FirstImage);
           var storageTaskSnapshot = await task1.onComplete;
-          var downloadUrl = await storageTaskSnapshot.ref.getDownloadURL();
+          var downloadUrl1 = await storageTaskSnapshot.ref.getDownloadURL();
+          urls.add(downloadUrl1);
+
+          final  String pic2= uuid.v4();
+          final ref2 = storage.ref().child(pic2);
+          StorageUploadTask task2= ref2.putFile(SecondImage);
+          var storageTaskSnapshot2 = await task2.onComplete;
+          var downloadUrl2 = await storageTaskSnapshot2.ref.getDownloadURL();
+          urls.add(downloadUrl2);
+
+          final  String pic3= uuid.v4();
+          final ref3 = storage.ref().child(pic3);
+          StorageUploadTask task3= ref3.putFile(ThirdImage);
+          var storageTaskSnapshot3 = await task3.onComplete;
+          var downloadUrl3 = await storageTaskSnapshot3.ref.getDownloadURL();
+          urls.add(downloadUrl3);
+
           /*final  String pic2="2${DateTime.now().millisecondsSinceEpoch.toString()}.jpg";
           StorageUploadTask task2= storage.ref().child(pic1).putFile(SecondImage);
+          storageTaskSnapshot = await task2.onComplete;
+          downloadUrl = await storageTaskSnapshot.ref.getDownloadURL();
+
           final  String pic3="3${DateTime.now().millisecondsSinceEpoch.toString()}.jpg";
           StorageUploadTask task3= storage.ref().child(pic1).putFile(ThirdImage);*/
 
@@ -282,7 +306,7 @@ void _selectImage(Future<File> pickImage, int imgnum) async{
 
 //            now well call the function to upload the products
 //            inside the function arguments pass the product information
-        ProductService().uploadProducts(ProdName.text, ProdCat.text, downloadUrl,ProdPrice.text,ProdQuantity.text, ProdDesc.text);
+        ProductService().uploadProducts(ProdName.text, ProdCat.text, urls,ProdPrice.text,ProdQuantity.text, ProdDesc.text);
           };
         showDialog(
             context: context,
