@@ -261,7 +261,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                     // ========= START ADD TO CART BUTTON =========
                     InkWell(
                       onTap: () async {
-                        if (widget.purpose == 'homepage' || widget.purpose == 'category') {
+                        if (widget.purpose == 'homepage' || widget.purpose == 'category' || widget.purpose == 'small') {
                           showDialog(
                             context: context,
                             builder: (_) => CupertinoAlertDialog(title: Text('Added!')),
@@ -280,7 +280,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                         ),
                         child: Center(
                           child: Text(
-                            widget.purpose != 'homepage' && widget.purpose != 'category' ? 'Can\'t add to cart as admin' : 'Add to Cart', // This will inform the admin that they cannot press this button.
+                            widget.purpose != 'homepage' && widget.purpose != 'category' && widget.purpose == 'small'? 'Can\'t add to cart as admin' : 'Add to Cart', // This will inform the admin that they cannot press this button.
                             style: TextStyle(
                               fontSize: widget.purpose != 'homepage' && widget.purpose != 'category' ? 13.0 : 18.0,
                               fontWeight: FontWeight.w400,
