@@ -45,6 +45,8 @@ class _AddProductState extends State<AddProduct> {
           title: Text("Add product", style: TextStyle(color: Colors.black),),
       ),
 
+
+
       body: Form (
         key: _formKey,
         child: SingleChildScrollView(
@@ -69,6 +71,7 @@ class _AddProductState extends State<AddProduct> {
                     ),
                   ),
 
+
                   Expanded (
                     child: RaisedButton(
                       onPressed: () async {
@@ -81,6 +84,7 @@ class _AddProductState extends State<AddProduct> {
                     ),
                   ),
 
+
                   Expanded (
                     child: RaisedButton(
                       onPressed: () async {
@@ -91,6 +95,7 @@ class _AddProductState extends State<AddProduct> {
                         _displayChild3(ThirdImage)
                     ),
                   )
+                  
 
                 ],
               ),
@@ -285,24 +290,6 @@ void _selectImage(Future<File> pickImage, int imgnum) async{
           var downloadUrl3 = await storageTaskSnapshot3.ref.getDownloadURL();
           urls.add(downloadUrl3);
 
-          /*final  String pic2="2${DateTime.now().millisecondsSinceEpoch.toString()}.jpg";
-          StorageUploadTask task2= storage.ref().child(pic1).putFile(SecondImage);
-          storageTaskSnapshot = await task2.onComplete;
-          downloadUrl = await storageTaskSnapshot.ref.getDownloadURL();
-
-          final  String pic3="3${DateTime.now().millisecondsSinceEpoch.toString()}.jpg";
-          StorageUploadTask task3= storage.ref().child(pic1).putFile(ThirdImage);*/
-
-          //StorageTaskSnapshot snapshot1= await task1.onComplete.then((snapshot)=>snapshot);
-          //StorageTaskSnapshot snapshot2= await task2.onComplete.then((snapshot)=>snapshot);
-
-          /*task3.onComplete.then((snapshot3) async {
-            imageUrl1 = await snapshot1.ref.getDownloadURL();
-            imageUrl2 = await snapshot2.ref.getDownloadURL();
-            imageUrl3 = await snapshot3.ref.getDownloadURL();*/
-//            list of images we'll upload
-
-            //List <String> imageList= [imageUrl1,imageUrl2,imageUrl3];
 
 //            now well call the function to upload the products
 //            inside the function arguments pass the product information
@@ -328,4 +315,7 @@ void _selectImage(Future<File> pickImage, int imgnum) async{
     }
   }
 
+
+// ideas for this page were taken from 
+//https://github.com/Santos-Enoque/admin_side_flutter_ecommerce_app/blob/product_details/lib/screens/add_product.dart
 
