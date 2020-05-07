@@ -4,16 +4,49 @@ import 'package:first_proj/pages/checkout.dart';
 
 // PURPOSE:
 // Create the cart page
+var no_of_products = 0;
+List<BuildCard> basket = new List<BuildCard>();
+var total_cost = 0;
 
 // This Function creates a ListView of the items in the user's shopping cart
 class ShoppingCart extends StatefulWidget {
   @override
+  String name, price;
+  String image;
+  ShoppingCart(String iname, String iprice, String iimage){
+    this.name = iname;
+    this.price = iprice;
+    this.image = iimage;
+    no_of_products = no_of_products + 1;
+    /*if (basket.length>0){    
+      for (var i=basket.length-1; i<basket.length; i++){
+        if (name != ''){total_cost = total_cost + int.parse(basket[i].prodPrice);}
+    }}*/
+  }
   _ShoppingCartState createState() => _ShoppingCartState();
 }
 
+
 class _ShoppingCartState extends State<ShoppingCart> {
   @override
+
   Widget build(BuildContext context) {
+    if (widget.name != ''){
+      
+        var card = BuildCard(
+            prodName: widget.name,
+            prodPrice: widget.price,
+            prodSize: 'Small',
+            prodQuantity: '2',
+            image: widget.image,
+          );
+          basket.add(card);
+              if (basket.length>0){    
+      for (var i=basket.length-1; i<basket.length; i++){
+        if (widget.name != ''){total_cost = total_cost + int.parse(basket[i].prodPrice);}
+    }}
+          no_of_products = no_of_products + 1;}
+    //else{return Container();}
     return Scaffold(
 
       // =========== START APP BAR ===========
@@ -34,18 +67,14 @@ class _ShoppingCartState extends State<ShoppingCart> {
         backgroundColor: Colors.white,
       ),
       // =========== END APP BAR ===========
+      
 
       // ================= START LIST VIEW =================
       body: ListView.builder(
-        itemCount: 7,
+        itemCount: basket.length,
         // Calls the same function to make the details of one product
         itemBuilder: (BuildContext context, int index) {
-          return BuildCard(
-            prodName: 'Generic Coat',
-            prodPrice: '600',
-            prodSize: 'Small',
-            prodQuantity: '2',
-          );
+           return basket[index];
         },
         scrollDirection: Axis.vertical,
       ),
@@ -64,8 +93,11 @@ class BuildCard extends StatelessWidget {
   String prodPrice;
   String prodSize;
   String prodQuantity;
+  String image;
+  int basketId = no_of_products;
 
-  BuildCard({this.prodName, this.prodPrice, this.prodQuantity, this.prodSize});
+  BuildCard({this.prodName, this.prodPrice, this.prodQuantity, this.prodSize, this.image});
+  //print(image);
   static const sizeList = ['Small', 'Medium', 'Large'];
   var currentSelected = "Small";
   @override
@@ -82,7 +114,7 @@ class BuildCard extends StatelessWidget {
             width: 150,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12.0),
-              child: Image.asset('images/cute-cheap-clothes-under-50.jpeg'),
+              child: Image.network(this.image),
             ),
           ),
         ),
@@ -96,7 +128,7 @@ class BuildCard extends StatelessWidget {
               height: 150,
               child: Align(
                 alignment: Alignment(0,-0.9),
-                child: Text('Generic Coat')
+                child: Text(prodName)
               ),
             ),
 
@@ -105,7 +137,7 @@ class BuildCard extends StatelessWidget {
               height: 150,
               child: Align(
                 alignment: Alignment(0,-0.6),
-                child: Text('PKR 600'),
+                child: Text(prodPrice),
               ),
             ),
 
@@ -147,8 +179,21 @@ class BuildCard extends StatelessWidget {
                     side: BorderSide(color: Colors.black)
                   ),
                   color: Colors.white,
-                  child: Text('Quantity'),
-                  onPressed: (){},
+                  child: Text('Remove Item'),
+                  onPressed: (){
+                    basket.remove(this);
+                    var price = int.parse(this.prodPrice);
+                    total_cost = total_cost - price;
+                    //basket.length = basket.length - 1;
+                    /*for (var i=0; i<20; i++) {
+                      if (i == basketId){
+                        basket.removeAt(i);
+                      }
+                    }*/
+                    //basket.clear();
+                    //basket.length = basket.length - 1;
+                    if (basket.length == 0){total_cost = 0;}
+                  },
                 ),
               ),
             ),
@@ -199,7 +244,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                     style: TextStyle(fontSize: 18),
                   ),
                   Text(
-                    'Rs. 600',
+                    total_cost.toString(),
                     style: TextStyle(fontSize: 24,)
                   ),
                 ]
@@ -209,9 +254,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
             // CHECKOUT BUTTON
             InkWell(
               onTap: () {
+                List temp = basket;
+                basket.clear();
+                total_cost = 0;
                 Navigator.push(context,
                   MaterialPageRoute(
-                    builder: (context) => Checkout(),
+                    builder: (context) => Checkout(temp),
                   ));
               },
               child: Container(

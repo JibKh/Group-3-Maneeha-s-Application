@@ -1,10 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:first_proj/pages/confirmation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:first_proj/util/databaseProduct.dart';
 
 // The purpose of this page is to create the checkout page
+List<String> product_names = List<String>();
+String add1, add2, add3, add4;
+int contact;
 
-class Checkout extends StatelessWidget { 
+class Checkout extends StatefulWidget { 
+  @override
+  //final CollectionReference orders = Firestore.instance.collection('Orders');
+  //final userid = DatabaseService().uid;
+  List shopcart;
+  Checkout(List bucket){
+    this.shopcart = bucket;
+    for (var i=0; i<shopcart.length; i++){
+      product_names.add(shopcart[i].prodName);
+    }
+  }
+  //List product_names;
+  _CheckoutState createState() => _CheckoutState();
+}
+
+class _CheckoutState extends State<Checkout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +74,7 @@ class Checkout extends StatelessWidget {
                 ),
                 onChanged: (String str) {
                   print(str);
+                  add1 = str;
                 },
               ),
 
@@ -70,6 +91,7 @@ class Checkout extends StatelessWidget {
                       ),
                       onChanged: (String str) {
                         print(str);
+                        add2 = str;
                       },
                     ),
                   ),
@@ -81,6 +103,7 @@ class Checkout extends StatelessWidget {
                       ),
                       onChanged: (String str) {
                         print(str);
+                        add3 = str;
                       },
                     ),
                   ),
@@ -97,6 +120,7 @@ class Checkout extends StatelessWidget {
                 keyboardType: TextInputType.number,
                   onChanged: (String str) {
                   print(str);
+                  add4 = str;
                 },
               ),
               // ================== END DELIVERY INFORMATION ==================
@@ -117,17 +141,18 @@ class Checkout extends StatelessWidget {
               // ===== Start List view builder of items =====
 
               ListView.builder(
-                  itemCount: 2,
+                  itemCount: widget.shopcart.length,
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: BuildCard(
-                        prodName: 'Generic Coat',
-                        prodPrice: '600',
+                        prodName: widget.shopcart[index].prodName,
+                        prodPrice: widget.shopcart[index].prodPrice,
                         prodSize: 'Small',
                         prodQuantity: '2',
+                        prodImage: widget.shopcart[index].image
                       ),
                     );
                   },
@@ -151,8 +176,9 @@ class BuildCard extends StatelessWidget {
   String prodPrice;
   String prodSize;
   String prodQuantity;
+  String prodImage;
 
-  BuildCard({this.prodName, this.prodPrice, this.prodQuantity, this.prodSize});
+  BuildCard({this.prodName, this.prodPrice, this.prodQuantity, this.prodSize, this.prodImage});
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +194,7 @@ class BuildCard extends StatelessWidget {
             width: 150,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12.0),
-              child: Image.asset('images/cute-cheap-clothes-under-50.jpeg'),
+              child: Image.network(prodImage),
             ),
           ),
         ),
@@ -181,7 +207,7 @@ class BuildCard extends StatelessWidget {
               height: 150,
               child: Align(
                 alignment: Alignment(0,-0.9),
-                child: Text('Generic Coat', style: TextStyle(fontSize: 17,)),
+                child: Text(prodName, style: TextStyle(fontSize: 17,)),
               ),
             ),
 
@@ -190,7 +216,7 @@ class BuildCard extends StatelessWidget {
               height: 150,
               child: Align(
                 alignment: Alignment(0,-0.6),
-                child: Text('PKR 600', style: TextStyle(fontSize: 17,)),
+                child: Text(prodPrice, style: TextStyle(fontSize: 17,)),
               ),
             ),
 
@@ -241,6 +267,7 @@ class BottomNavigation extends StatefulWidget {
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
+  final CollectionReference orders = Firestore.instance.collection('Orders');
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
@@ -250,6 +277,17 @@ class _BottomNavigationState extends State<BottomNavigation> {
         child: InkWell(
           onTap: () {
             // CALL ADD TO CART PAGE USING THE FUNCTION ABOVE
+                  Future updateOrders() async {
+                    return await orders.document().setData({
+                      'product name' : product_names,
+                      'address' : add1 + ', ' + add2 + ', ' + add3,
+                      'contact' : add4,
+                      'status' : 'in-progress',
+                      'size' : 'M',
+                      //'quantity' : 1,
+                    });
+                  }
+                  updateOrders();
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
               Confirmation()), (Route<dynamic> route) => false);
           },
