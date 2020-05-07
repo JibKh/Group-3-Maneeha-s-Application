@@ -144,6 +144,7 @@ class SingleProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var screensize = MediaQuery.of(context).size;
     return Container(
       // width: 50,
         child: Column(
@@ -182,7 +183,8 @@ class SingleProduct extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 3, vertical: 4),
+                    padding: EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+
                     child: Text('$productName',
                         style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400)),
                   ),
@@ -215,7 +217,7 @@ class SingleProduct extends StatelessWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 3, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: 3, vertical: 2),
                 child: Text(
                   '\$$productPrice',
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),

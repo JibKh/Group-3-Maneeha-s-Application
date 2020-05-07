@@ -107,15 +107,23 @@ class BuildCard extends StatelessWidget {
 
         // IMAGE
         Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Container(
+         padding: const EdgeInsets.all(12.0),
+           child: Container(
             alignment: Alignment(-1,0),
             height: 150,
             width: 150,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12.0),
-              child: Image.network(this.image),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                 image: NetworkImage(this.image),
+                fit: BoxFit.fill,
+              ),
+              borderRadius: BorderRadius.circular(12.0)
             ),
+
+              //child: FittedBox(child: Image.network(this.image,),
+                //fit: BoxFit.fill,
+              //),
+
           ),
         ),
 

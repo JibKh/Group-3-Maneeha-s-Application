@@ -244,7 +244,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
               },
               child: Container(
                 height: 45,
-                width: 200,
+                width: 180,
                 decoration: BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.all(Radius.circular(12)),

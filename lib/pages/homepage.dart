@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:first_proj/util/gridProducts.dart';
+import 'package:first_proj/util/gridProducts_small.dart';
 
 // PURPOSE: 
 // Setup the homescreen body which is a gridview of products
@@ -12,6 +13,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final double shortestSize=MediaQuery.of(context).size.width;
+    final bool UseSmall=shortestSize<415.0;
     return Scaffold(
 
       // ======================== START BODY ========================
@@ -22,7 +25,7 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.symmetric(vertical: 10),
           ),
           new Flexible(
-            child: GridProducts(),
+            child: /*Text('${shortestSize}')*/UseSmall ? GridProducts_small():GridProducts(),
           )
           // ====== END GRIDVIEW OF PRODUCTS ======
         ],
