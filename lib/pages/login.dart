@@ -39,6 +39,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Stack(
         children: <Widget>[
           Container(
+            //background image
             height: 1000,
             width: 500,
             decoration: BoxDecoration(
@@ -48,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             child: new BackdropFilter(filter: new ImageFilter.blur(
+              //blurring background here
                 sigmaX: 3.0, sigmaY: 3.0
             ),
               child: new Container(
@@ -59,6 +61,7 @@ class _LoginPageState extends State<LoginPage> {
           Positioned(
             top: 120,
             child: Container(
+              //welcome text
               width: 250,
               height: 50,
               color: Colors.blueGrey,
@@ -73,6 +76,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
+          //login UI
           SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(16.0),

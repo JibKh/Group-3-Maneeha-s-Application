@@ -7,6 +7,7 @@ class Categories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      //Catagory images
       padding: EdgeInsets.symmetric(vertical: 7),
       height: 500.0,
       child: ListView(
@@ -47,6 +48,7 @@ class Category extends StatelessWidget {
               return ProductListCategories(imageCaption.toLowerCase());
               }));
         },
+        //Images being places and positioned here
         child: Stack(
           children: <Widget>[
             Container(
@@ -90,16 +92,4 @@ class Category extends StatelessWidget {
   }
 }
 
-/* child: Container(
-      width: 200.0,
-      child: ListTile(
-        title: Image.asset(image_location,
-        width: 200.0 ,height: 130.0,fit: BoxFit.fill,),
-        subtitle: Container(
-          alignment: Alignment.centerLeft,
-          child: Text(image_caption,style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold ),),
 
-        ),
-      ),
-    ),
-    ),*/
