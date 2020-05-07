@@ -126,6 +126,7 @@ class BuildCard extends StatelessWidget {
 
           ),
         ),
+        //cart product image
 
         // INFORMATION
         Stack(

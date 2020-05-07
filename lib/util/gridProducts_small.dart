@@ -14,6 +14,7 @@ import 'EditProductsDisplayPage.dart';
 // Creates the gridview of products for the HOMEPAGE
 // OR
 // Creates the gridview of a selected CATEGORY page
+//This is another version of gridProuducts to accodmodate for smaller screen sizes
 
 class GridProducts_small extends StatefulWidget {
 

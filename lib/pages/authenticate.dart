@@ -15,6 +15,7 @@ class _AuthenticateState extends State<Authenticate> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        //background image
         height: 1000,
         width: 550,
         decoration: BoxDecoration(
@@ -24,6 +25,7 @@ class _AuthenticateState extends State<Authenticate> {
     ),
     ),
         child: ListView(
+          //UI starts here
           children: <Widget>[
 
             Padding(
@@ -58,85 +60,6 @@ class _AuthenticateState extends State<Authenticate> {
                 Padding(
                     padding: const EdgeInsets.all(110.0)
                 ),
-               /* Align(
-                  alignment: Alignment(0,0),
-                  child: Container(
-                    height: 200,
-                    width: 200,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("images/e_comm2.png"),
-                        fit: BoxFit.cover,
-                      ),
-                      shape: BoxShape.circle
-                    ),
-                  ),
-                ),*/
-
-
-
-                Container(
-                  width: 20,
-                  height: 100,
-                ),/*
-                Container(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12.0),
-                    //dict['pic'] returns the price of the product
-                    child: Image.asset(
-                      'images/auth_2.jpg',
-                      width: 170,
-                      height: 200,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
-
-              ],
-            ),
-            Container(
-              height: 20,
-              width: 400,
-            ),
-            Row(
-              children: <Widget>[
-                Padding(
-                    padding: const EdgeInsets.all(12.0)
-                ),
-                Container(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12.0),
-                    //dict['pic'] returns the price of the product
-                    child: Image.asset(
-                      'images/jeans.jpg',
-                      width: 170,
-                      height: 200,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 20,
-                  height: 200,
-                ),
-                Container(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12.0),
-                    //dict['pic'] returns the price of the product
-                    child: Image.asset(
-                      'images/cute-cheap-clothes-under-50.jpeg',
-                      width: 170,
-                      height: 200,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
-
-              ],
-            ),
-            Container(
-              height: 30,
-            ),*/
 
 
             // SIGNIN and redirect to SIGNIN page

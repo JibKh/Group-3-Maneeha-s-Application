@@ -40,6 +40,7 @@ class _SignupState extends State<Signup> {
       body: Stack(
         children: <Widget>[
           Container(
+            //Background image
             height: 1000,
             width: 500,
             decoration: BoxDecoration(
@@ -57,7 +58,8 @@ class _SignupState extends State<Signup> {
             ),
 
           ),
-                Positioned(
+              Positioned(
+                  //welcome text
                   top: 120,
                   child: Container(
                     width: 250,
@@ -75,6 +77,7 @@ class _SignupState extends State<Signup> {
                   ),
                 ),
                 Positioned(
+                  //signup button
                   top:190,
                   child: Align(
                     child: Container(

@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    //creating bool variable that check if the screen size is less than or greater than a certain threshold
     final double shortestSize=MediaQuery.of(context).size.width;
     final bool UseSmall=shortestSize<415.0;
     return Scaffold(
@@ -25,6 +26,7 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.symmetric(vertical: 10),
           ),
           new Flexible(
+            //depending on the threshold we choose the appropriate gridview
             child: /*Text('${shortestSize}')*/UseSmall ? GridProducts_small():GridProducts(),
           )
           // ====== END GRIDVIEW OF PRODUCTS ======
