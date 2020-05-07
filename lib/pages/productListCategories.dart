@@ -9,8 +9,11 @@ import 'package:flutter/material.dart';
 class ProductListCategories extends StatefulWidget {
 
   String category;
-  ProductListCategories(String category) {
+  var user;
+
+  ProductListCategories(String category, var user) {
     this.category = category;
+    this.user = user;
   }
 
   @override
@@ -70,7 +73,7 @@ class _ProductListCategories extends State<ProductListCategories> {
             padding: EdgeInsets.symmetric(vertical: 10),
           ),
           new Flexible(
-            child: GridProducts.categoryList(category),
+            child: GridProducts.categoryList(category, widget.user),
           )
           // ====== END GRIDVIEW OF PRODUCTS ======
         ],

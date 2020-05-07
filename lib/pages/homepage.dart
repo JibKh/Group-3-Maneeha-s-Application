@@ -5,6 +5,10 @@ import 'package:first_proj/util/gridProducts.dart';
 // Setup the homescreen body which is a gridview of products
 
 class HomePage extends StatefulWidget {
+
+  var user;
+  HomePage({this.user});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -22,7 +26,7 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.symmetric(vertical: 10),
           ),
           new Flexible(
-            child: GridProducts(),
+            child: GridProducts(widget.user),
           )
           // ====== END GRIDVIEW OF PRODUCTS ======
         ],

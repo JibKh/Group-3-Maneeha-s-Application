@@ -1,4 +1,4 @@
-//Creates the map structure of the product
+//Creates the product class for the map structure of the product
 
 class Product{
   final String name;

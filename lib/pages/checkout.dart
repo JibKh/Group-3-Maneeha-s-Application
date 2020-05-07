@@ -1,12 +1,30 @@
+import 'package:first_proj/util/loading.dart';
+import 'package:first_proj/util/databaseOrders.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:first_proj/pages/confirmation.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 // The purpose of this page is to create the checkout page
 
-class Checkout extends StatelessWidget { 
+int orderID = 0;
+String form1;
+String form2;
+String form3;
+int contact;
+
+class Checkout extends StatefulWidget {
+
+  var user;
+  Checkout({this.user});
+
+  @override
+  _CheckoutState createState() => _CheckoutState();
+}
+
+class _CheckoutState extends State<Checkout> {
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
@@ -53,6 +71,7 @@ class Checkout extends StatelessWidget {
                   hintText: "House and Street",
                 ),
                 onChanged: (String str) {
+                  form1 = str;
                   print(str);
                 },
               ),
@@ -69,6 +88,7 @@ class Checkout extends StatelessWidget {
                         hintText: "City",
                       ),
                       onChanged: (String str) {
+                        form2 = str;
                         print(str);
                       },
                     ),
@@ -80,6 +100,7 @@ class Checkout extends StatelessWidget {
                         hintText: "Province",
                       ),
                       onChanged: (String str) {
+                        form3 = str;
                         print(str);
                       },
                     ),
@@ -96,6 +117,7 @@ class Checkout extends StatelessWidget {
                 ),
                 keyboardType: TextInputType.number,
                   onChanged: (String str) {
+                    contact = int.parse(str);
                   print(str);
                 },
               ),
@@ -140,8 +162,9 @@ class Checkout extends StatelessWidget {
       ),
 
       // Bottom navigation bar
-      bottomNavigationBar: BottomNavigation(),
+      bottomNavigationBar: BottomNavigation(user: widget.user,),
     );
+  
   }
 }
 
@@ -236,6 +259,54 @@ class BuildCard extends StatelessWidget {
 
 // Bottom Navigation for Shopping cart button and size dropdown
 class BottomNavigation extends StatefulWidget {
+
+  var user;
+  BottomNavigation({this.user});
+
+  final CollectionReference userCart = Firestore.instance.collection('UserCart');
+  final CollectionReference userOrder = Firestore.instance.collection('UserOrders');
+  final CollectionReference orders = Firestore.instance.collection('Orders');
+
+  Future getPosts() async {
+    QuerySnapshot qn = await userCart.getDocuments();
+    return qn.documents;
+    //return await userCart.document(user.uid);
+  }
+
+  updateOrder(dynamic snapshot) async {
+    for (int i = 0; i < snapshot.data.length; i++) {
+      if (snapshot.data[i].data['userID'] == user.uid) {
+
+          await userOrder.document(user.uid).updateData({
+            'userID': user.uid,
+            'productID': FieldValue.arrayUnion(snapshot.data[i].data['productID']),
+            'products': FieldValue.arrayUnion(snapshot.data[i].data['products']),
+            'orderProgress': 'Started',
+            'location': form1 + ', ' + form2 +', ' + form3,
+            'contact': contact,
+          });
+          await userCart.document(user.uid).updateData({
+          'productID': [],
+          'products': [],
+          });
+          orderID = orderID + 1;
+          await DatabaseService(uid: orderID)
+            .updateOrderData(
+              snapshot.data[i].data['productID'], 
+              snapshot.data[i].data['products'], 
+              form1 + ', ' + form2 +', ' + form3, 
+              contact,
+              'Started', 
+              user.uid);
+          return;
+      } else {
+        print('sed');
+      }
+    }
+
+    
+  }
+
   @override
   _BottomNavigationState createState() => _BottomNavigationState();
 }
@@ -243,38 +314,47 @@ class BottomNavigation extends StatefulWidget {
 class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
-    return BottomAppBar(
-      shape: CircularNotchedRectangle(),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
-        child: InkWell(
-          onTap: () {
-            // CALL ADD TO CART PAGE USING THE FUNCTION ABOVE
-            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-              Confirmation()), (Route<dynamic> route) => false);
-          },
-          child: Container(
-            height: 45,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-            ),
-            child: Center(
-              child: Text(
-                'Place Order',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
-                  wordSpacing: 2.0,
-                  letterSpacing: 0.9,
-                ),
+    return FutureBuilder(
+      future: widget.getPosts(),
+      builder: (_, snapshot) {
+        if(snapshot.connectionState == ConnectionState.waiting){
+          return Loading();
+        } else {
+            return BottomAppBar(
+              shape: CircularNotchedRectangle(),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
+                child: InkWell(
+                  onTap: () async {
+                    // CALL ADD TO CART PAGE USING THE FUNCTION ABOVE
+                    await widget.updateOrder(snapshot);
+                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                      Confirmation(user: widget.user)), (Route<dynamic> route) => false);
+                  },
+                  child: Container(
+                    height: 45,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Place Order',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                          wordSpacing: 2.0,
+                          letterSpacing: 0.9,
+                        ),
+                      ),
+                    )
+                  ),
+                )
               ),
-            )
-          ),
-        )
-      ),
+            );
+        }}
     );
   }
 }

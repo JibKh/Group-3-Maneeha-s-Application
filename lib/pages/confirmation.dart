@@ -5,6 +5,10 @@ import 'package:first_proj/pages/HomePageTabs.dart';
 // The purpose of this page is to create the confirmation page after the checkout is complete
 
 class Confirmation extends StatelessWidget {
+
+  var user;
+  Confirmation({this.user});
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -50,7 +54,7 @@ class Confirmation extends StatelessWidget {
                     child: new RaisedButton(
                       onPressed: () {
                         Navigator.pushReplacement(
-                          context, MaterialPageRoute(builder: (BuildContext context) => HomePageTabs(user: null))
+                          context, MaterialPageRoute(builder: (BuildContext context) => HomePageTabs(user: user))
                         );
                       },
                       child: Text('Back to homepage'),

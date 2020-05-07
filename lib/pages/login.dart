@@ -153,15 +153,8 @@ class _LoginPageState extends State<LoginPage> {
                       error,
                       style: TextStyle(color: Colors.red, fontSize: 14.0),
                     ),
-                    //  RaisedButton(
-                    //   color: Colors.green,
-                    //   child: Text("Login with Google"),
-                    //   onPressed: () async {
-                    //     bool res = await AuthProvider().loginWithGoogle();
-                    //     if(!res)
-                    //       print("error logging in with google");
-                    //   },
-                    // ),
+
+                    // ANONYMOUS LOGIN
                     RaisedButton(
                       color: Colors.blueGrey,
                       child: Text("SignIn Anonymously"),

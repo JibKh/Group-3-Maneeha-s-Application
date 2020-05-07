@@ -1,5 +1,6 @@
 import 'package:first_proj/admin/admin.dart';
 import 'package:first_proj/pages/search.dart';
+import 'package:first_proj/pages/viewUserOrders.dart';
 import 'package:flutter/material.dart';
 import 'package:first_proj/pages/homepage.dart';
 import 'package:first_proj/pages/Categories.dart';
@@ -14,7 +15,7 @@ import 'package:first_proj/util/firebase_auth.dart';
 class HomePageTabs extends StatefulWidget {
 
   var user;
-  HomePageTabs({this.user});
+  HomePageTabs({@required this.user});
 
   @override
   _HomePageTabsState createState() => _HomePageTabsState();
@@ -58,8 +59,8 @@ class _HomePageTabsState extends State<HomePageTabs> {
         // Redirects to Homepage or Categories page
         body: TabBarView(
           children: <Widget>[
-            HomePage(),
-            Categories(),
+            HomePage(user: widget.user,),
+            Categories(user: widget.user,),
           ],
         ),
 
@@ -87,7 +88,7 @@ class _HomePageTabsState extends State<HomePageTabs> {
         child: ListView(
           children: <Widget>[
             UserAccountsDrawerHeader(
-              accountName: Text(''), accountEmail: Text('Hello@gmail.com'),//accountEmail: Text( widget.user.email != null ? widget.user.email : 'Anonymous'), 
+              accountName: Text(''), accountEmail: Text( widget.user.email != null ? widget.user.email : 'Anonymous'), 
               currentAccountPicture: GestureDetector(
                 child: CircleAvatar(
                   child: Icon(
@@ -112,7 +113,9 @@ class _HomePageTabsState extends State<HomePageTabs> {
             // My Orders 
             InkWell(
               onTap: () {
-
+                return Navigator.of(context).push(new MaterialPageRoute(builder: (context){
+                  return ListOfOrders(user: widget.user);
+                }));
               },
               child: ListTile(
                 title: Text('My Orders'),
@@ -123,7 +126,7 @@ class _HomePageTabsState extends State<HomePageTabs> {
             InkWell(
               onTap: () {
                 return Navigator.of(context).push(new MaterialPageRoute(builder: (context){
-                  return ShoppingCart();
+                  return ShoppingCart(user: widget.user,);
                 }));
               },
               child: ListTile(

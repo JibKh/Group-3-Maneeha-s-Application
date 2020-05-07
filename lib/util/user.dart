@@ -1,4 +1,4 @@
-// This is the user class information. To be expanded soon.
+// Creates the user class for the map structure of the user
 
 class User {
   String uid;

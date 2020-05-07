@@ -1,6 +1,10 @@
+import 'package:first_proj/util/databaseOrders.dart';
+import 'package:first_proj/util/loading.dart';
+import 'package:first_proj/util/order.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
 var firestore=Firestore.instance;
 
@@ -15,128 +19,99 @@ class _ViewOrdersState extends State<ViewOrders> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("View Orders"),
+          title: Text("View Orders - Backend working"),
         ),
-        body: List_of_Orders()
+        body: ListOfOrders()
     );
   }
 }
 
-//==================DISPLAYING ORDERS IN A LIST FORMAT======================
-class List_of_Orders extends StatefulWidget {
+class ListOfOrders extends StatefulWidget {
   @override
-  _List_of_OrdersState createState() => _List_of_OrdersState();
+  _ListOfOrdersState createState() => _ListOfOrdersState();
 }
 
-class _List_of_OrdersState extends State<List_of_Orders> {
-  @override
+class _ListOfOrdersState extends State<ListOfOrders> {
 
-//  =========getting orders from database===============================
-
-  Future getOrders() async{
-
-    QuerySnapshot snap= await firestore.collection("Orders").getDocuments();
-    return snap.documents;
-
+  Future getPosts() async {
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore.collection("Orders").getDocuments();
+    return qn.documents;
   }
-
+  
+  @override
   Widget build(BuildContext context) {
-
-    return Container(
-//      ==============taking the values from the database and displaying them============
-      child: FutureBuilder(future:getOrders(),
-        builder: (context,snapshot){
-          if(snapshot.connectionState==ConnectionState.waiting)
-          {
-            return Center(child:Text("Loading"));
-          }
-          else {
-            print("heloo");
-            return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder:(context,index){
-
-// =========================we got the order info now we will display it==================
-
-                  String Ostatus=snapshot.data[index].data["status"];
-                  String Oaddress=snapshot.data[index].data["address"];
-                  String Ocontact=snapshot.data[index].data["contact"];
-                  String Opn=snapshot.data[index].data["product name"];
-
-                  print(Ostatus);
-                  print(Oaddress);
-                  print(Ocontact);
-                  print(Opn);
-//                print(i);
-//
-////                String quantity=snapshot.data[index].data["quantity"];
-                  return ListView(
-
-                    children: <Widget>[
-
-                    Row (
-                            children: <Widget>[
-                        
-
-                        Stack (
-                            children: <Widget>[
-
-                            
-
-                            //status
-                            Container(
-                              height: 150,
-                              child: Align(
-                                alignment: Alignment(0,-0.9),
-                                child: Text(Ostatus)
-                              ),
-                            ),
-
-
-
-                            //address
-                            Container(
-                              height: 150,
-                              child: Align(
-                                alignment: Alignment(0,-0.6),
-                                child: Text(Oaddress),
-                              ),
-                            ),
-
-
-
-                            //contact
-                            Container(
-                              height: 150,
-                              child: Align(
-                                alignment: Alignment(0,-0.3),
-                                child: Text(Ocontact),
-                              ),
-                            ),
-
-
-
-                            //product name
-                            Container(
-                              height: 150,
-                              child: Align(
-                                alignment: Alignment(0,-0.1),
-                                child: Text(Opn),
-                              ),
-                            ),
-
-
-                          ]
-                        ),
-                      ],
-              )
-           ]
-
+    return StreamProvider<List<Order>>.value(
+      value: DatabaseService().order,
+      child: FutureBuilder(
+        future: getPosts(),
+        builder: (_, snapshot) {
+          if(snapshot.connectionState == ConnectionState.waiting){
+            // Shows a loading screen while waiting
+            return Loading();
+          } else {
+            return Scaffold (
+              body: GridView.count(
+                physics: BouncingScrollPhysics(),
+                crossAxisCount: 2,
+                children: List.generate(snapshot.data.length, (index) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 9, vertical: 0),
+                    child: SingleOrder(
+                      userID: snapshot.data[index].data['userID'],
+                      location: snapshot.data[index].data['location'],
+                      contact: snapshot.data[index].data['contact'],
+                      products: snapshot.data[index].data['products'],
+                    )
                   );
-
-                } );
+                })
+              )
+            );
           }
-        },),
+        }
+      )
+    );
+  }
+}
+
+class SingleOrder extends StatelessWidget {
+
+  String userID;
+  String location;
+  int contact;
+  dynamic products;
+
+  SingleOrder({this.userID, this.location, this.contact, this.products});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Card(
+        elevation: 5,
+        child: Container(
+        height: 100.0,
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: 10,),
+            Container(
+              padding: EdgeInsets.all(15),
+              alignment: Alignment.centerLeft,
+              child: Text('UserID: /$userID', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
+            ),
+            Container(
+              padding: EdgeInsets.all(8),
+              alignment: Alignment.centerLeft,
+              child: Text('Location: /$location', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
+            ),
+            Container(
+              padding: EdgeInsets.all(8),
+              alignment: Alignment.centerLeft,
+              child: Text('Contact: /$contact', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
+            ),
+          ],
+        ),
+      ),
+    ),
     );
   }
 }

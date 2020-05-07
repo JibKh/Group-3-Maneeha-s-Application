@@ -1,4 +1,5 @@
-import 'package:first_proj/pages/cart.dart';
+import 'package:first_proj/util/loading.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
@@ -19,39 +20,29 @@ class ProductDescription extends StatefulWidget {
   String productDesc;
   int productStock;
   String purpose;
+  dynamic prodID;
+  var user;
 
   // Constructor
-  ProductDescription(String name, String price, dynamic image, String desc, int stock, String purpose){
+  ProductDescription(String name, String price, dynamic image, String desc, int stock, String purpose, dynamic prodID, var user){
     this.productName = name;
     this.productPrice = price;
     this.productImage = image;
     this.productDesc = desc;
     this.productStock = stock;
     this.purpose = purpose;
+    this.prodID = prodID;
+    this.user = user;
   }
   _ProductDescriptionState createState() => _ProductDescriptionState();
 }
 
 class _ProductDescriptionState extends State<ProductDescription> {
 
-  // Retrieve data. Currently not being used anywhere.
-  Future getPosts() async{
+  Future getPosts() async {
     var firestore = Firestore.instance;
     QuerySnapshot qn = await firestore.collection("Products").getDocuments();
     return qn.documents;
-  }
-
-  int photoIndex = 0;
-
-  void _previousImage() {
-    setState(() {
-      photoIndex = photoIndex > 0 ? photoIndex - 1 : 0;
-    });
-  }
-  void _nextImage() {
-    setState(() {
-      photoIndex = photoIndex < widget.productImage.length - 1 ? photoIndex + 1 : 0;
-    });
   }
 
   @override
@@ -171,7 +162,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
             ),
 
             // ====== BOTTOM NAVIGATION BAR FOR CART AND SIZE ======
-            bottomNavigationBar: BottomNavigation(purpose: widget.purpose,),
+            bottomNavigationBar: BottomNavigation(widget.productName, widget.productPrice, widget.productImage, widget.purpose, widget.prodID, widget.user),
 
           ),
         );
@@ -183,9 +174,22 @@ class _ProductDescriptionState extends State<ProductDescription> {
 // Bottom Navigation for Shopping cart button and size dropdown
 class BottomNavigation extends StatefulWidget {
 
+  String productName;
+  String productPrice;
+  dynamic productImage;
   String purpose;
+  dynamic prodID;
+  var user;
 
-  BottomNavigation({this.purpose});
+  // Constructor
+  BottomNavigation(String name, String price, dynamic image, String purpose, dynamic prodID, var user){
+    this.productName = name;
+    this.productPrice = price;
+    this.productImage = image;
+    this.purpose = purpose;
+    this.prodID = prodID;
+    this.user = user;
+  }
 
   @override
   _BottomNavigationState createState() => _BottomNavigationState();
@@ -193,74 +197,115 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
 
+  Future getPosts() async{
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore.collection('UserCart').getDocuments();
+    return qn.documents;
+  }
+
+  final CollectionReference userCart = Firestore.instance.collection('UserCart');
+
+  Future updateCart(dynamic snapshot) async {
+    print('Product desc: ');
+    print(widget.user.uid);
+    var dict = {
+      'prodID': widget.prodID,
+      'name': widget.productName,
+      'price': widget.productPrice,
+      'image': widget.productImage,
+      'size': this.currentSelected,
+    };
+    return await userCart.document(widget.user.uid).updateData({
+        'productID': FieldValue.arrayUnion([widget.prodID]),
+        'products': FieldValue.arrayUnion([dict]),
+        //'location': '',
+        //'contact': 59,
+        //'orderProgress': 'none',
+        //'userID': "Ru2LbkdH8pUlieqBBee63ydVUxe2",
+      });
+  }
+
   // For the dropdown list
   static const sizeList = ['Small', 'Medium', 'Large'];
   var currentSelected = "Small";
 
   @override
   Widget build(BuildContext context) {
-    return BottomAppBar(
-      shape: CircularNotchedRectangle(),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            
-            // ========= START DROPDOWN =========
-            DropdownButton<String>(
-              hint: Text('Size'),
-              onChanged: (String select) {
-                setState(() {
-                  this.currentSelected = select;
-                });
-              },
-              items: sizeList.map((String dropDownStringItem) {
-                return DropdownMenuItem<String>(
-                  value: dropDownStringItem,
-                  child: Text(dropDownStringItem),
-                );
-              }).toList(),
-              value: currentSelected,
-            ),
-            // ========= END DROPDOWN =========
-
-            // ========= START ADD TO CART BUTTON =========
-            InkWell(
-              onTap: () {
-                if (widget.purpose == 'homepage' || widget.purpose == 'category') { // The admin will not be able to press this button.
-                  Navigator.push(context,
-                    MaterialPageRoute(
-                      builder: (context) => ShoppingCart(),
-                    ));
-                }
-              },
+    return FutureBuilder(
+      future: getPosts(),
+      builder: (_, snapshot) {
+        if(snapshot.connectionState == ConnectionState.waiting){
+          return Loading();
+        } else {
+            return BottomAppBar(
+              shape: CircularNotchedRectangle(),
               child: Container(
-                height: 45,
-                width: 200,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                ),
-                child: Center(
-                  child: Text(
-                    widget.purpose != 'homepage' && widget.purpose != 'category' ? 'Can\'t add to cart as admin' : 'Add to Cart', // This will inform the admin that they cannot press this button.
-                    style: TextStyle(
-                      fontSize: widget.purpose != 'homepage' && widget.purpose != 'category' ? 13.0 : 18.0,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white,
-                      wordSpacing: 2.0,
-                      letterSpacing: 0.9,
+                padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    
+                    // ========= START DROPDOWN =========
+                    DropdownButton<String>(
+                      hint: Text('Size'),
+                      onChanged: (String select) {
+                        setState(() {
+                          this.currentSelected = select;
+                        });
+                      },
+                      items: sizeList.map((String dropDownStringItem) {
+                        return DropdownMenuItem<String>(
+                          value: dropDownStringItem,
+                          child: Text(dropDownStringItem),
+                        );
+                      }).toList(),
+                      value: currentSelected,
                     ),
-                  ),
+                    // ========= END DROPDOWN =========
+
+                    // ========= START ADD TO CART BUTTON =========
+                    InkWell(
+                      onTap: () async {
+                        showDialog(
+                          context: context,
+                          builder: (_) => CupertinoAlertDialog(title: Text('Added!')),
+                          barrierDismissible: true,
+                        );
+                        if (widget.purpose == 'homepage' || widget.purpose == 'category') { // The admin will not be able to press this button.
+                          // WE WANT TO UPDATE THE USER CART WITH THIS PRODUCT AND GIVE A CONFIRMATION.
+                          await updateCart(snapshot);
+                        }
+                      },
+                      child: Container(
+                        height: 45,
+                        width: 200,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                        ),
+                        child: Center(
+                          child: Text(
+                            widget.purpose != 'homepage' && widget.purpose != 'category' ? 'Can\'t add to cart as admin' : 'Add to Cart', // This will inform the admin that they cannot press this button.
+                            style: TextStyle(
+                              fontSize: widget.purpose != 'homepage' && widget.purpose != 'category' ? 13.0 : 18.0,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white,
+                              wordSpacing: 2.0,
+                              letterSpacing: 0.9,
+                            ),
+                          ),
+                        )
+                      ),
+                    )
+                    // ========= END ADD TO CART BUTTON =========
+
+                  ],
                 )
               ),
-            )
-            // ========= END ADD TO CART BUTTON =========
-
-          ],
-        )
-      ),
+            );
+        }
+      }
+      
     );
   }
 }

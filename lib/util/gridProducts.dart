@@ -6,11 +6,14 @@ import 'package:first_proj/pages/productDetails.dart';
 import 'package:provider/provider.dart';
 import 'package:first_proj/util/databaseProduct.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:first_proj/util/user.dart';
 
 // PURPOSE:
 // Creates the gridview of products for the HOMEPAGE
 // OR
 // Creates the gridview of a selected CATEGORY page
+// OR
+// Creates the gridView for the viewProducts admin side
 
 class GridProducts extends StatefulWidget {
 
@@ -20,11 +23,13 @@ class GridProducts extends StatefulWidget {
   // homepage -> display all products
   String purpose;
   String category;
+  var user;
 
 
   // DEFAULT CONSTRUCTOR - This is for the homepage
-  GridProducts() {
+  GridProducts(var user) {
     this.purpose = 'homepage';
+    this.user = user;
   }
 
   GridProducts.admin(String purpose) {
@@ -32,9 +37,10 @@ class GridProducts extends StatefulWidget {
   }
 
   // NAMED CONSTRUCTOR - For when a category is selected
-  GridProducts.categoryList(String category) {
+  GridProducts.categoryList(String category, var user) {
     this.purpose = 'category';
     this.category = category;
+    this.user = user;
   }
 
   @override
@@ -76,9 +82,7 @@ class _ProductsState extends State<GridProducts> {
             return Scaffold(
               body: GridView.count(
                 physics: BouncingScrollPhysics(),
-                //mainAxisSpacing: 15,
                 crossAxisCount: 2,
-                //childAspectRatio: 0.90,
                 childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.4),
 
                 // This is a function that traverses through all the items and makes a gridview out of all of them.
@@ -99,6 +103,7 @@ class _ProductsState extends State<GridProducts> {
                         allPictures: snapshot.data[index].data['image'],
                         prodID: snapshot.data[index].documentID,
                         purpose: widget.purpose,
+                        user: widget.user,
                       ),
                     );
                   }
@@ -127,6 +132,7 @@ class SingleProduct extends StatelessWidget {
   final allPictures;
   final purpose;
   final prodID;
+  var user;
 
   SingleProduct({
     this.productName,
@@ -137,6 +143,7 @@ class SingleProduct extends StatelessWidget {
     this.allPictures,
     this.purpose,
     this.prodID,
+    this.user,
   });
 
   @override
@@ -161,7 +168,7 @@ class SingleProduct extends StatelessWidget {
                 onTap: () {
                   return Navigator.of(context)
                       .push(new MaterialPageRoute(builder: (context) {
-                    return ProductDescription(productName, productPrice, allPictures, desc, stock, purpose);
+                    return ProductDescription(productName, productPrice, allPictures, desc, stock, purpose, prodID, user);
                   }));
                 },
               )

@@ -1,58 +1,81 @@
+import 'package:first_proj/pages/emptyCartNew.dart';
+import 'package:first_proj/util/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:first_proj/pages/checkout.dart';
+import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // PURPOSE:
 // Create the cart page
 
 // This Function creates a ListView of the items in the user's shopping cart
 class ShoppingCart extends StatefulWidget {
+
+  var user;
+  ShoppingCart({this.user});
+  
   @override
   _ShoppingCartState createState() => _ShoppingCartState();
 }
 
 class _ShoppingCartState extends State<ShoppingCart> {
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return StreamBuilder(
+      stream: Firestore.instance.collection('UserCart').document(widget.user.uid).snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.data['productID'].toList().length <= 0) {
+          return EmptyCart();
+        } else {
+          if(snapshot.connectionState == ConnectionState.waiting){
+            return Loading();
+          } 
+          else {
+            return Scaffold(
+              // =========== START APP BAR ===========
+              appBar: AppBar(
+                leading: BackButton(
+                  color: Colors.black,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                title: Text(
+                  "My Cart",
+                  style: TextStyle(
+                    color: Colors.black,
+                  )
+                ),
+                centerTitle: true,
+                backgroundColor: Colors.white,
+              ),
+              // =========== END APP BAR ===========
 
-      // =========== START APP BAR ===========
-      appBar: AppBar(
-        leading: BackButton(
-          color: Colors.black,
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: Text(
-          "My Cart",
-          style: TextStyle(
-            color: Colors.black,
-          )
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-      ),
-      // =========== END APP BAR ===========
+              // ================= START LIST VIEW =================
+              body: ListView.builder(
+                itemCount: snapshot.data['productID'].toList().length,
+                // Calls the same function to make the details of one product
+                itemBuilder: (BuildContext context, int index) {
+                  print('test1');
+                  return BuildCard(
+                    snapshot.data['products'][index]['name'].toString(),
+                    snapshot.data['products'][index]['image'][0].toString(),
+                    snapshot.data['products'][index]['price'].toString(),
+                    snapshot.data['products'][index]['size'].toString(),
+                  );
+                },
+                scrollDirection: Axis.vertical,
+              ),
+              // ================= END LIST VIEW =================
 
-      // ================= START LIST VIEW =================
-      body: ListView.builder(
-        itemCount: 7,
-        // Calls the same function to make the details of one product
-        itemBuilder: (BuildContext context, int index) {
-          return BuildCard(
-            prodName: 'Generic Coat',
-            prodPrice: '600',
-            prodSize: 'Small',
-            prodQuantity: '2',
-          );
-        },
-        scrollDirection: Axis.vertical,
-      ),
-      // ================= END LIST VIEW =================
-
-      // Calls function at the bottom of this file to create the bottom navigation bar.
-      bottomNavigationBar: BottomNavigation(),
+              // Calls function at the bottom of this file to create the bottom navigation bar.
+              bottomNavigationBar: BottomNavigation(user: widget.user),
+            );
+          }
+        }
+      }
     );
   }
 }
@@ -61,15 +84,24 @@ class _ShoppingCartState extends State<ShoppingCart> {
 class BuildCard extends StatelessWidget {
 
   String prodName;
+  String prodImg;
   String prodPrice;
   String prodSize;
-  String prodQuantity;
 
-  BuildCard({this.prodName, this.prodPrice, this.prodQuantity, this.prodSize});
+  BuildCard(String prodName, String prodImg, String prodPrice, String prodSize) {
+    print('I AM IN');
+    this.prodName = prodName;
+    this.prodImg = prodImg;
+    this.prodPrice = prodPrice;
+    this.prodSize = prodSize;
+    
+  }
+  
   static const sizeList = ['Small', 'Medium', 'Large'];
   var currentSelected = "Small";
   @override
   Widget build(BuildContext context) {
+    print('test2');
     return Row(
       children: <Widget>[
 
@@ -82,7 +114,7 @@ class BuildCard extends StatelessWidget {
             width: 150,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12.0),
-              child: Image.asset('images/cute-cheap-clothes-under-50.jpeg'),
+              child: Image.network(prodImg),
             ),
           ),
         ),
@@ -96,22 +128,24 @@ class BuildCard extends StatelessWidget {
               height: 150,
               child: Align(
                 alignment: Alignment(0,-0.9),
-                child: Text('Generic Coat')
+                child: Text(prodName, style: TextStyle(fontSize: 20,))
               ),
             ),
+            SizedBox(height: 15,),
 
             // PRICE
             Container(
               height: 150,
               child: Align(
                 alignment: Alignment(0,-0.6),
-                child: Text('PKR 600'),
+                child: Text(prodPrice, style: TextStyle(fontSize: 20,)),
               ),
             ),
 
             // SIZE
             Container(
               height: 150,
+              width: 200,
               child: Align(
                 alignment: Alignment(0,-0.1),
                 child: RaisedButton(
@@ -120,34 +154,7 @@ class BuildCard extends StatelessWidget {
                       side: BorderSide(color: Colors.black)
                   ),
                   color: Colors.white,
-                  child:  Text('Size: '),
-                  onPressed: (){},
-                ),
-              ),
-            ),
-            Positioned(
-              top: 62,
-              left: 59 ,
-              child: Container(
-                height: 23,
-                width: 25,
-                color: Colors.white,
-                child: Text('XL', style: TextStyle(fontWeight: FontWeight.bold), ),
-              ),
-            ),
-
-            // QUANTITY
-            Container(
-              height: 150,
-              child: Align(
-                alignment: Alignment(0,1),
-                child: RaisedButton(
-                  shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(5),
-                    side: BorderSide(color: Colors.black)
-                  ),
-                  color: Colors.white,
-                  child: Text('Quantity'),
+                  child:  Text('Size: $prodSize'),
                   onPressed: (){},
                 ),
               ),
@@ -169,6 +176,10 @@ class BuildCard extends StatelessWidget {
 
 // Bottom navigation bar for total price and Checkout button
 class BottomNavigation extends StatefulWidget {
+
+  var user;
+  BottomNavigation({this.user});
+
   @override
   _BottomNavigationState createState() => _BottomNavigationState();
 }
@@ -211,7 +222,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
               onTap: () {
                 Navigator.push(context,
                   MaterialPageRoute(
-                    builder: (context) => Checkout(),
+                    builder: (context) => Checkout(user: widget.user,),
                   ));
               },
               child: Container(

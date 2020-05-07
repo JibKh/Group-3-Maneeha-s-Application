@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 // The purpose of this page is to create the categories page
 
 class Categories extends StatelessWidget {
+
+  var user;
+  Categories({this.user});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,14 +19,17 @@ class Categories extends StatelessWidget {
           Category(
             imageLocation: 'images/pic1.jpg',
             imageCaption: 'Shirt',
+            user: user,
           ),
           Category(
             imageLocation: 'images/pic2.jpg',
             imageCaption: 'Pants',
+            user: user,
           ),
           Category(
             imageLocation: 'images/pic3.jpg',
             imageCaption: 'Skirt',
+            user: user,
           ),
         ],
       ),
@@ -33,8 +40,9 @@ class Categories extends StatelessWidget {
 class Category extends StatelessWidget {
   final String imageLocation;
   final String imageCaption;
+  var user;
 
-  Category({this.imageLocation, this.imageCaption});
+  Category({this.imageLocation, this.imageCaption, this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +52,7 @@ class Category extends StatelessWidget {
         onTap: () {
           return Navigator.of(context)
             .push(new MaterialPageRoute(builder: (context) {
-              return ProductListCategories(imageCaption.toLowerCase());
+              return ProductListCategories(imageCaption.toLowerCase(), user);
               }));
         },
         child: Stack(

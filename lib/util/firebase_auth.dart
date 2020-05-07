@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_proj/util/user.dart';
+import 'package:first_proj/util/databaseUserCart.dart' as cart;
+import 'package:first_proj/util/databaseUserOrders.dart' as order;
 
 // Purpose of this file is to carry out firebase authentication for signup and sign in
 
@@ -23,6 +25,8 @@ class AuthService {
     try {
       AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
+
+      
       return _userFromFirebaseUser(user);
     } catch(e) {
       print(e.toString());
@@ -50,6 +54,8 @@ class AuthService {
 
       // Create a new document for the user with the uid
       //await DatabaseService(uid: user.uid).updateUserData("-1", "-1", -1);
+      await cart.DatabaseService(uid: user.uid).updateUserCartData([], [], '', -1, 'none', user.uid); // Create new record of user
+      await order.DatabaseService(uid: user.uid).updateUserOrderData([], [], '', -1, 'none', user.uid);
       return _userFromFirebaseUser(user);
     } catch(e) {
       print(e.toString());
