@@ -15,10 +15,10 @@ class _EditProductsState extends State<EditProducts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Edit Products"),
-        ),
-        body: GridProducts.admin('adminEdit'), // This takes you to util/gridProducts.dart. Line 198 is the Edit Button. Add your function there.
+      appBar: AppBar(
+        title: Text("Edit Products"),
+      ),
+      body: GridProducts.admin('adminEdit'), // This takes you to util/gridProducts.dart. Line 198 is the Edit Button. Add your function there.
     );
   }
 }
@@ -67,12 +67,12 @@ class _List_of_ProductsState extends State<List_of_Products> {
                   String Quantity=snapshot.data[index].data["stock"];
                   String Category=snapshot.data[index].data["category"];
                   return ListTile(
-                      leading: Image.network(image,
-                        width: 120,
-                        fit: BoxFit.fitWidth,),
-                      title: Text(ProductName),
+                    leading: Image.network(image,
+                      width: 120,
+                      fit: BoxFit.fitWidth,),
+                    title: Text(ProductName),
 // ======================OVER HERE YOU WILL ACCES EDIT PRODUCTS PAGE AND EDIT THE PRODCUT INFO====
-                      onTap: ()=>{},
+                    onTap: ()=>{},
 
 
 
@@ -115,3 +115,6 @@ void showPopup(context,i)
     },
   );
 }
+
+// idea taken from the following source
+//https://youtu.be/40cB_O6iY8o

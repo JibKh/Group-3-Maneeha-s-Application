@@ -57,7 +57,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
               body: ListView.builder(
                 itemCount: snapshot.data['productID'].toList().length,
                 // Calls the same function to make the details of one product
-                itemBuilder: (BuildContext context, int index) {
+                itemBuilder: (BuildContext context, var index) {
                   print('test1');
                   return BuildCard(
                     snapshot.data['products'][index]['name'].toString(),
@@ -107,11 +107,18 @@ class BuildCard extends StatelessWidget {
 
         // IMAGE
         Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Container(
+         padding: const EdgeInsets.all(12.0),
+           child: Container(
             alignment: Alignment(-1,0),
             height: 150,
             width: 150,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(this.prodImg),
+                fit: BoxFit.fill,
+              ),
+              borderRadius: BorderRadius.circular(12.0),
+            ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12.0),
               child: Image.network(prodImg),
@@ -208,10 +215,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
                   Text(
                     'Total: ',
                     style: TextStyle(fontSize: 18),
-                  ),
-                  Text(
-                    'Rs. 600',
-                    style: TextStyle(fontSize: 24,)
                   ),
                 ]
               )

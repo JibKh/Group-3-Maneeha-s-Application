@@ -33,8 +33,8 @@ class _AdminState extends State<Admin> {
 
         body: TabBarView(
           children: <Widget>[
-            Inventory(),
-            Orders(),
+            Inventory(), //shows list of opens on inventory side
+            Orders(), //shows list of opens on orders side
           ],
         ),
 
