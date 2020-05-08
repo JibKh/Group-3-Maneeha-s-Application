@@ -49,7 +49,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                   )
                 ),
                 centerTitle: true,
-                backgroundColor: Colors.white,
+                backgroundColor: Colors.white.withOpacity(0.97),
               ),
               // =========== END APP BAR ===========
 
@@ -58,12 +58,20 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 itemCount: snapshot.data['productID'].toList().length,
                 // Calls the same function to make the details of one product
                 itemBuilder: (BuildContext context, var index) {
-                  print('test1');
-                  return BuildCard(
-                    snapshot.data['products'][index]['name'].toString(),
-                    snapshot.data['products'][index]['image'][0].toString(),
-                    snapshot.data['products'][index]['price'].toString(),
-                    snapshot.data['products'][index]['size'].toString(),
+                  return Container(
+                    padding: EdgeInsets.only(top: 15),
+                    child: Column(
+                      children: <Widget>[
+                        BuildCard(
+                          snapshot.data['products'][index]['name'].toString(),
+                          snapshot.data['products'][index]['image'][0].toString(),
+                          snapshot.data['products'][index]['price'].toString(),
+                          snapshot.data['products'][index]['size'].toString(),
+                          widget.user,
+                        ),
+                        Divider(thickness: 0.7,)
+                      ],
+                    ),
                   );
                 },
                 scrollDirection: Axis.vertical,
@@ -87,99 +95,97 @@ class BuildCard extends StatelessWidget {
   String prodImg;
   String prodPrice;
   String prodSize;
+  var user;
 
-  BuildCard(String prodName, String prodImg, String prodPrice, String prodSize) {
-    print('I AM IN');
+  BuildCard(String prodName, String prodImg, String prodPrice, String prodSize, var user) {
     this.prodName = prodName;
     this.prodImg = prodImg;
     this.prodPrice = prodPrice;
     this.prodSize = prodSize;
+    this.user = user;
     
   }
   
   static const sizeList = ['Small', 'Medium', 'Large'];
   var currentSelected = "Small";
+
   @override
   Widget build(BuildContext context) {
-    print('test2');
-    return Row(
-      children: <Widget>[
-
-        // IMAGE
-        Padding(
-         padding: const EdgeInsets.all(12.0),
-           child: Container(
-            alignment: Alignment(-1,0),
-            height: 150,
-            width: 150,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(this.prodImg),
-                fit: BoxFit.fill,
-              ),
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12.0),
-              child: Image.network(prodImg),
-            ),
-          ),
-        ),
-
-        // INFORMATION
-        Stack(
+    return StreamBuilder(
+      stream: Firestore.instance.collection('UserCart').document(user.uid).snapshots(),
+      builder: (context, snapshot) {
+        return Row(
           children: <Widget>[
 
-            // NAME
-            Container(
-              height: 150,
-              child: Align(
-                alignment: Alignment(0,-0.9),
-                child: Text(prodName, style: TextStyle(fontSize: 20,))
-              ),
-            ),
-            SizedBox(height: 15,),
-
-            // PRICE
-            Container(
-              height: 150,
-              child: Align(
-                alignment: Alignment(0,-0.6),
-                child: Text(prodPrice, style: TextStyle(fontSize: 20,)),
-              ),
-            ),
-
-            // SIZE
-            Container(
-              height: 150,
-              width: 200,
-              child: Align(
-                alignment: Alignment(0,-0.1),
-                child: RaisedButton(
-                  shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(5),
-                      side: BorderSide(color: Colors.black)
+            // IMAGE
+            Padding(
+             padding: const EdgeInsets.all(12.0),
+               child: Container(
+                alignment: Alignment(-1,0),
+                height: 150,
+                width: 150,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(this.prodImg),
+                    fit: BoxFit.fill,
                   ),
-                  color: Colors.white,
-                  child:  Text('Size: $prodSize'),
-                  onPressed: (){},
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12.0),
+                  child: Image.network(prodImg),
                 ),
               ),
             ),
 
-            // DELETE
-            Container(
-              height: 150,
-              width: 200,
-              alignment: Alignment(1.5,-1.15),
-              child: IconButton(icon: Icon(Icons.delete,color: Colors.black,),onPressed: (){},),
-            )
+            // INFORMATION
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+
+                // NAME
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    child: Text(prodName, style: TextStyle(fontSize: 20,)),
+                  ),
+                ),
+                SizedBox(height: 15,),
+
+                // PRICE
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    child: Text('Rs. $prodPrice', style: TextStyle(fontSize: 20,)),
+                  ),
+                ),
+
+                // SIZE
+                Container(
+                  child: Align(
+                    alignment: Alignment(0,-0.1),
+                    child: RaisedButton(
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(5),
+                          side: BorderSide(color: Colors.black)
+                      ),
+                      color: Colors.white,
+                      child:  Text('Size: $prodSize'),
+                      onPressed: (){},
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
-        ),
-      ],
+        );
+      }
     );
   }
 }
+
+
+
 
 // Bottom navigation bar for total price and Checkout button
 class BottomNavigation extends StatefulWidget {
@@ -213,8 +219,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget> [
                   Text(
-                    'Total: ',
+                    'Total:',
                     style: TextStyle(fontSize: 18),
+                  ),
+                  Text(
+                    'Rs. 600',
+                    style: TextStyle(fontSize: 22),
                   ),
                 ]
               )

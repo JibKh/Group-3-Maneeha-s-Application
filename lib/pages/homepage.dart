@@ -16,28 +16,36 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    
-    //creating bool variable that check if the screen size is less than or greater than a certain threshold
-    final double shortestSize = MediaQuery.of(context).size.width;
-
-    final bool useSmall = shortestSize<415.0;
-
     return Scaffold(
 
       // ======================== START BODY ========================
-      body: Column(
-        children: <Widget>[
-          // ====== START GRIDVIEW OF PRODUCTS ======
-          new Padding(
-            padding: EdgeInsets.symmetric(vertical: 10),
-          ),
-          new Flexible(
-            //depending on the threshold we choose the appropriate gridview
-            child: useSmall ? GridProducts.small('small', widget.user) : GridProducts(widget.user),
-          )
-          // ====== END GRIDVIEW OF PRODUCTS ======
-        ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 15),
+        child: Column(
+          children: <Widget>[
+            // ====== START GRIDVIEW OF PRODUCTS ====== 
+            new Flexible(
+              //depending on the threshold we choose the appropriate gridview
+              child: GridProducts(widget.user),
+            )
+            // ====== END GRIDVIEW OF PRODUCTS ======
+          ],
+        ),
       )
+
+      // body: ListView(
+      //   children: <Widget>[
+          
+      //     // ====== START GRIDVIEW OF PRODUCTS ======
+      //     new Container(
+      //       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      //       height: 700.0,
+      //       child: GridProducts(),
+      //     ),
+      //     // ====== END GRIDVIEW OF PRODUCTS ======
+
+      //   ],
+      // )
     );
   }
 }

@@ -263,6 +263,8 @@ class BottomNavigation extends StatefulWidget {
   var user;
   BottomNavigation({this.user});
 
+  bool loading = false;
+
   final CollectionReference userCart = Firestore.instance.collection('UserCart');
   final CollectionReference userOrder = Firestore.instance.collection('UserOrders');
   final CollectionReference orders = Firestore.instance.collection('Orders');
@@ -276,20 +278,24 @@ class BottomNavigation extends StatefulWidget {
   updateOrder(dynamic snapshot) async {
     for (int i = 0; i < snapshot.data.length; i++) {
       if (snapshot.data[i].data['userID'] == user.uid) {
+        orderID = orderID + 1;
+        var dict = {
+          'userID': user.uid,
+          'productID': snapshot.data[i].data['productID'],
+          'products': snapshot.data[i].data['products'],
+          'orderProgress': 'Started',
+          'location': form1 + ', ' + form2 +', ' + form3,
+          'contact': contact,
+          'orderID': orderID,
+        };
 
           await userOrder.document(user.uid).updateData({
-            'userID': user.uid,
-            'productID': FieldValue.arrayUnion(snapshot.data[i].data['productID']),
-            'products': FieldValue.arrayUnion(snapshot.data[i].data['products']),
-            'orderProgress': 'Started',
-            'location': form1 + ', ' + form2 +', ' + form3,
-            'contact': contact,
+            'orders': FieldValue.arrayUnion([dict]),
           });
           await userCart.document(user.uid).updateData({
           'productID': [],
           'products': [],
           });
-          orderID = orderID + 1;
           await DatabaseService(uid: orderID)
             .updateOrderData(
               snapshot.data[i].data['productID'], 
@@ -297,14 +303,14 @@ class BottomNavigation extends StatefulWidget {
               form1 + ', ' + form2 +', ' + form3, 
               contact,
               'Started', 
-              user.uid);
+              user.uid,
+              orderID,
+            );
           return;
       } else {
         print('sed');
       }
     }
-
-    
   }
 
   @override
@@ -320,14 +326,20 @@ class _BottomNavigationState extends State<BottomNavigation> {
         if(snapshot.connectionState == ConnectionState.waiting){
           return Loading();
         } else {
-            return BottomAppBar(
+            return widget.loading ? Loading() : BottomAppBar(
               shape: CircularNotchedRectangle(),
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
                 child: InkWell(
                   onTap: () async {
                     // CALL ADD TO CART PAGE USING THE FUNCTION ABOVE
+                    setState(() {
+                      widget.loading = true;
+                    });
                     await widget.updateOrder(snapshot);
+                    setState(() {
+                      widget.loading = false;
+                    });
                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
                       Confirmation(user: widget.user)), (Route<dynamic> route) => false);
                   },

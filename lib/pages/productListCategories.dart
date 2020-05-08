@@ -44,6 +44,8 @@ class _ProductListCategories extends State<ProductListCategories> {
       // ======================== START BODY ========================
       body: Column(
         children: <Widget>[
+
+          // Display the category
           new Container(
             padding: EdgeInsets.symmetric(horizontal: 18),
             height: 47,

@@ -13,7 +13,7 @@ class DatabaseService {
   final CollectionReference orderCollection = Firestore.instance.collection('Orders');
   
   // Sets initial data
-  Future updateOrderData(dynamic prodID, dynamic products, String location, int contact, String orderProgress, String userID) async {
+  Future updateOrderData(dynamic prodID, dynamic products, String location, int contact, String orderProgress, String userID, int orderID) async {
     return await orderCollection.document(uid.toString()).setData({
       'productID': prodID,
       'products': products,
@@ -21,6 +21,7 @@ class DatabaseService {
       'contact': contact,
       'orderProgress': orderProgress,
       'userID': userID,
+      'orderID': orderID,
     });
   }
 

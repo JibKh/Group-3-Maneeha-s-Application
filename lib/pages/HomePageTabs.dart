@@ -3,7 +3,7 @@ import 'package:first_proj/pages/search.dart';
 import 'package:first_proj/pages/viewUserOrders.dart';
 import 'package:flutter/material.dart';
 import 'package:first_proj/pages/homepage.dart';
-import 'package:first_proj/pages/Categories.dart';
+import 'package:first_proj/pages/categories.dart';
 import 'package:first_proj/pages/cart.dart';
 import 'package:first_proj/util/firebase_auth.dart';
 
@@ -25,8 +25,11 @@ class _HomePageTabsState extends State<HomePageTabs> {
 
   final AuthService _auth = AuthService();
 
+  bool admin = false;
+
   @override
   Widget build(BuildContext context) {
+    if (widget.user.email == 'admin@admin.com') {admin = true;}
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -37,8 +40,7 @@ class _HomePageTabsState extends State<HomePageTabs> {
           elevation: 2,
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
-          title: 
-          Center(child: Text('Maneeha\'s', style: TextStyle(color: Colors.black))),
+          title: Center(child: Text('Maneeha\'s', style: TextStyle(color: Colors.black))),
           actions: <Widget>[
             IconButton(icon: Icon(Icons.search), color: Colors.black, onPressed: () {
               showSearch(context: context, delegate: Search());
@@ -64,22 +66,19 @@ class _HomePageTabsState extends State<HomePageTabs> {
           ],
         ),
 
-
-
-        
-                      //TEMPORARILY ADDED
-                          floatingActionButton: new FloatingActionButton(
-                            elevation: 0.0,
-                            child: new Icon(Icons.person),
-                            backgroundColor: new Color(0xFFE57373),
-                            onPressed: (){
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Admin(),
-                                  ));
-                            }
-                          ),
+        //Admin Button
+        floatingActionButton: admin == true ? new FloatingActionButton(
+          elevation: 0.0,
+          child: new Icon(Icons.person),
+          backgroundColor: new Color(0xFFE57373),
+          onPressed: (){
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Admin(user: widget.user),
+                ));
+          }
+        ) : null,
 
         // ======================== END APP BAR and HOME - CATEGORIES BAR ========================
 
@@ -98,14 +97,14 @@ class _HomePageTabsState extends State<HomePageTabs> {
                 ),
               ),
               decoration: BoxDecoration(
-                color: Colors.pink
+                color: Colors.black
               ),
             ),
 
             InkWell(
               onTap: () {},
               child: ListTile(
-                title: Text('Home'),
+                title: Text('Home', style: TextStyle(fontSize: 17, letterSpacing: 0.7)),
                 leading: Icon(Icons.home),
               )
             ),
@@ -118,7 +117,7 @@ class _HomePageTabsState extends State<HomePageTabs> {
                 }));
               },
               child: ListTile(
-                title: Text('My Orders'),
+                title: Text('My Orders', style: TextStyle(fontSize: 17, letterSpacing: 0.7)),
                 leading: Icon(Icons.airport_shuttle),
               )
             ),
@@ -130,7 +129,7 @@ class _HomePageTabsState extends State<HomePageTabs> {
                 }));
               },
               child: ListTile(
-                title: Text('Shopping Cart'),
+                title: Text('Shopping Cart', style: TextStyle(fontSize: 17, letterSpacing: 0.7)),
                 leading: Icon(Icons.shopping_cart),
               )
             ),
@@ -143,7 +142,7 @@ class _HomePageTabsState extends State<HomePageTabs> {
                 await _auth.signOut();
               },
               child: ListTile(
-                title: Text('Log Out'),
+                title: Text('Log Out', style: TextStyle(fontSize: 17, letterSpacing: 0.7)),
                 leading: Icon(Icons.exit_to_app),
               )
             ),

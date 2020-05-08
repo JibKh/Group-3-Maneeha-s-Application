@@ -3,6 +3,10 @@ import 'UpdateOrders.dart';
 import 'ViewOrders.dart';
 
 class Orders extends StatelessWidget {
+
+  var user;
+  Orders({this.user});
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -16,7 +20,7 @@ class Orders extends StatelessWidget {
                     context,
                     MaterialPageRoute(
 //  ===========================takes u to ViewOrders Page========================
-                      builder: (context) => ViewOrders(),
+                      builder: (context) => ViewOrders(user: user),
                     ));
               },
             ),

@@ -90,7 +90,8 @@ class _ProductsState extends State<GridProducts> {
               body: GridView.count(
                 physics: BouncingScrollPhysics(),
                 crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.4),
+                //childAspectRatio: MediaQuery.of(context).size.width / 1,
+                childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.27),
 
                 // This is a function that traverses through all the items and makes a gridview out of all of them.
                 // It calls the widget SingleProduct
@@ -155,14 +156,13 @@ class SingleProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var screensize = MediaQuery.of(context).size;
     return Container(
       // width: 50,
         child: Column(
           children: <Widget>[
             // ============== START ITEM PICTURE ==============
             AspectRatio(
-              aspectRatio: this.purpose == 'small' ? 0.95 : 0.9,
+              aspectRatio: this.purpose == 'small' ? 0.95 : 0.8,
               child: Card(
                 elevation: 0,
                 child: Material(
@@ -194,10 +194,10 @@ class SingleProduct extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+                    padding: EdgeInsets.symmetric(horizontal: 3, vertical: 3),
 
                     child: Text('$productName',
-                        style: TextStyle(fontSize: this.purpose == 'small' ? 13 : 15, fontWeight: FontWeight.w400)),
+                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, letterSpacing: 0.8)),
                   ),
 
                   // Remove product button for admin only

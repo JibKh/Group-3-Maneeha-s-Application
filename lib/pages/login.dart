@@ -136,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                             });
                             
                           } else {
-                            //Navigator.pop(context);
+                            Navigator.pop(context);
                             setState(() => loading = false);
                           }
                         }

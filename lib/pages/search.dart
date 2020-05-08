@@ -50,7 +50,7 @@ class Search extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     return query.isEmpty ? 
       ListView.builder(itemBuilder: (context, index) => ListTile(
-        title: Text('Search for some shoes?'),),
+        title: Text('Search for some shirts?'),),
       itemCount: 1,
       ) 
       :
@@ -64,7 +64,7 @@ class Search extends SearchDelegate<String> {
             } else {
               List output = [];
               for (var x in snapshot.data) {
-                if(x.data['name'].contains(query)){
+                if(x.data['name'].toLowerCase().contains(query)){
                   output.add(x.data['name']);
                 }
               }

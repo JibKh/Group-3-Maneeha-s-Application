@@ -1,4 +1,5 @@
 import 'package:first_proj/util/databaseOrders.dart';
+import 'package:first_proj/pages/orderDetails.dart';
 import 'package:first_proj/util/loading.dart';
 import 'package:first_proj/util/order.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,10 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
-var firestore=Firestore.instance;
+var firestore = Firestore.instance;
 
 //=========MyList holds all information about orders displayed in Card format============
 class ViewOrders extends StatefulWidget {
+
+  var user;
+  ViewOrders({this.user});
+
   @override
   _ViewOrdersState createState() => _ViewOrdersState();
 }
@@ -19,7 +24,7 @@ class _ViewOrdersState extends State<ViewOrders> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("View Orders - Backend working"),
+          title: Text("View Orders"),
         ),
         body: ListOfOrders()
     );
@@ -56,12 +61,12 @@ class _ListOfOrdersState extends State<ListOfOrders> {
                 crossAxisCount: 2,
                 children: List.generate(snapshot.data.length, (index) {
                   return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 9, vertical: 0),
+                    padding: EdgeInsets.symmetric(horizontal: 9, vertical: 8),
                     child: SingleOrder(
-                      userID: snapshot.data[index].data['userID'],
                       location: snapshot.data[index].data['location'],
                       contact: snapshot.data[index].data['contact'],
                       products: snapshot.data[index].data['products'],
+                      userID: snapshot.data[index].data['userID'],
                     )
                   );
                 })
@@ -76,42 +81,59 @@ class _ListOfOrdersState extends State<ListOfOrders> {
 
 class SingleOrder extends StatelessWidget {
 
-  String userID;
   String location;
   int contact;
+  String userID;
   dynamic products;
 
-  SingleOrder({this.userID, this.location, this.contact, this.products});
+  SingleOrder({this.location, this.contact, this.products, this.userID});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return InkWell(
       child: Card(
         elevation: 5,
-        child: Container(
-        height: 100.0,
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 10,),
-            Container(
-              padding: EdgeInsets.all(15),
-              alignment: Alignment.centerLeft,
-              child: Text('UserID: /$userID', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
-            ),
-            Container(
-              padding: EdgeInsets.all(8),
-              alignment: Alignment.centerLeft,
-              child: Text('Location: /$location', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
-            ),
-            Container(
-              padding: EdgeInsets.all(8),
-              alignment: Alignment.centerLeft,
-              child: Text('Contact: /$contact', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 5,),
+              Container(
+                padding: EdgeInsets.all(8),
+                alignment: Alignment.centerLeft,
+                child: Text('User: $userID', style: TextStyle(fontSize: 16,)),
+              ),
+              SizedBox(height: 5,),
+              Container(
+                padding: EdgeInsets.all(8),
+                alignment: Alignment.centerLeft,
+                child: Text('Location: $location', style: TextStyle(fontSize: 16,)),
+              ),
+              Container(
+                padding: EdgeInsets.all(8),
+                alignment: Alignment.centerLeft,
+                child: Text('Contact: $contact', style: TextStyle(fontSize: 16,)),
+              ),
+              for (var i in products) Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text('Name: ' + i['name'] + '\nSize: ' + i['size'], style: TextStyle(fontSize: 16)
+                  ),),
+              )
+              // Container(
+              //   padding: EdgeInsets.all(5),
+              //   alignment: Alignment.centerLeft,
+              //   child: Text('Name: $products', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+              // ),
+            ],
+          ),
         ),
       ),
-    ),
+      onTap: () {
+        Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
+          return OrderDetails(contact: contact, address: location, products: products,);
+        }));
+      },
     );
   }
 }

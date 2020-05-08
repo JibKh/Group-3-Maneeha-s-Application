@@ -1,6 +1,13 @@
+import 'package:first_proj/admin/ViewOrders.dart';
+import 'package:first_proj/admin/editOrders.dart';
+import 'package:first_proj/util/databaseOrders.dart';
+import 'package:first_proj/pages/orderDetails.dart';
+import 'package:first_proj/util/loading.dart';
+import 'package:first_proj/util/order.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
 var firestore=Firestore.instance;
 
@@ -15,175 +22,127 @@ class _UpdateOrdersState extends State<UpdateOrders> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Products List"),
+          title: Text("Choose an Order"),
+          centerTitle: true,
         ),
-        body: List_of_Orders()
+        body: ListOfOrders()
     );
   }
 }
 
-class List_of_Orders extends StatefulWidget {
+class ListOfOrders extends StatefulWidget {
   @override
-  _List_of_OrdersState createState() => _List_of_OrdersState();
+  _ListOfOrdersState createState() => _ListOfOrdersState();
 }
 
-class _List_of_OrdersState extends State<List_of_Orders> {
-  @override
+class _ListOfOrdersState extends State<ListOfOrders> {
 
-//  =========getting orders from database===============================
-
-  Future getOrders() async{
-
-    QuerySnapshot snap= await firestore.collection("Orders").getDocuments();
-    return snap.documents;
-
+  Future getPosts() async {
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore.collection("Orders").getDocuments();
+    return qn.documents;
   }
-
+  
+  @override
   Widget build(BuildContext context) {
-
-    return Container(
-//      ==============taking the values from the database and displaying them============
-      child: FutureBuilder(future:getOrders(),
-        builder: (context,snapshot){
-          if(snapshot.connectionState==ConnectionState.waiting)
-          {
-            return Center(child:Text("Loading"));
-          }
-          else {
-            print("heloo");
-            return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder:(context,index){
-
-// ====================WE GOT THE DATA FROM DATABASE NOW WE WILL DISPLAY IT===============
-
-                  
-                  String Ostatus=snapshot.data[index].data["status"];
-                  String Oaddress=snapshot.data[index].data["address"];
-                  String Ocontact=snapshot.data[index].data["contact"];
-                  String Opn=snapshot.data[index].data["product name"];
-                  var i=snapshot.data[index].documentID  ;
-
-                  return ListView(
-
-                    children: <Widget>[
-
-                    Row (
-                            children: <Widget>[
-                        
-
-                        Stack (
-                            children: <Widget>[
-
-                            
-
-                            //status
-                            Container(
-                              height: 150,
-                              child: Align(
-                                alignment: Alignment(0,-0.9),
-                                child: Text(Ostatus)
-                              ),
-                            ),
-
-
-
-                            //address
-                            Container(
-                              height: 150,
-                              child: Align(
-                                alignment: Alignment(0,-0.6),
-                                child: Text(Oaddress),
-                              ),
-                            ),
-
-
-
-                            //contact
-                            Container(
-                              height: 150,
-                              child: Align(
-                                alignment: Alignment(0,-0.3),
-                                child: Text(Ocontact),
-                              ),
-                            ),
-
-
-
-                            //product name
-                            Container(
-                              height: 150,
-                              child: Align(
-                                alignment: Alignment(0,-0.1),
-                                child: Text(Opn),
-                              ),
-                            ),
-
-
-
-                            Container(
-                              height: 150,
-                              width: 200,
-                              child: Align(
-                                alignment: Alignment(0.8,-0.1),
-                                child: RaisedButton(
-                                  shape: new RoundedRectangleBorder(
-                                      borderRadius: new BorderRadius.circular(16.0),
-                                      side: BorderSide(color: Colors.black)
-                                  ),
-                                  color: Colors.white,
-                                  child: Text('Delete'),
-                                  onPressed: (){
-                                    showPopup(context, i);
-                                  },
-                                ),
-                              ),
-                            ),
-
-
-
-                          ]
-                        ),
-                      ],
-              )
-           ]
-
-                   // onTap: ()=> showPopup(context,i),
-
+    return StreamProvider<List<Order>>.value(
+      value: DatabaseService().order,
+      child: FutureBuilder(
+        future: getPosts(),
+        builder: (_, snapshot) {
+          if(snapshot.connectionState == ConnectionState.waiting){
+            // Shows a loading screen while waiting
+            return Loading();
+          } else {
+            return Scaffold (
+              body: GridView.count(
+                physics: BouncingScrollPhysics(),
+                crossAxisCount: 2,
+                children: List.generate(snapshot.data.length, (index) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 9, vertical: 8),
+                    child: SingleOrder(
+                      location: snapshot.data[index].data['location'],
+                      contact: snapshot.data[index].data['contact'],
+                      products: snapshot.data[index].data['products'],
+                      userID: snapshot.data[index].data['userID'],
+                      status: snapshot.data[index].data['orderProgress'],
+                      orderID: snapshot.data[index].data['orderID'],
+                    )
                   );
-
-                } );
+                })
+              )
+            );
           }
-        },),
+        }
+      )
     );
   }
 }
-void showPopup(context,i)
-{
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      // return object of type Dialog
-      return AlertDialog(
-        title: new Text("Order Delivered"),
-        content: new Text("Are you sure you want to change status to completed"),
-        actions: <Widget>[
-          // usually buttons at the bottom of the dialog
-          new FlatButton(
-            child: new Text("Close"),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+
+class SingleOrder extends StatelessWidget {
+
+  String location;
+  int contact;
+  String userID;
+  dynamic products;
+  String status;
+  int orderID;
+
+  SingleOrder({this.location, this.contact, this.products, this.userID, this.status, this.orderID});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      child: Card(
+        elevation: 5,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 5,),
+              Container(
+                padding: EdgeInsets.all(8),
+                alignment: Alignment.centerLeft,
+                child: Text('User: $userID', style: TextStyle(fontSize: 16,)),
+              ),
+              SizedBox(height: 5,),
+              Container(
+                padding: EdgeInsets.all(8),
+                alignment: Alignment.centerLeft,
+                child: Text('Progress: $status', style: TextStyle(fontSize: 16,)),
+              ),
+              SizedBox(height: 5,),
+              Container(
+                padding: EdgeInsets.all(8),
+                alignment: Alignment.centerLeft,
+                child: Text('Location: $location', style: TextStyle(fontSize: 16,)),
+              ),
+              Container(
+                padding: EdgeInsets.all(8),
+                alignment: Alignment.centerLeft,
+                child: Text('Contact: $contact', style: TextStyle(fontSize: 16,)),
+              ),
+              for (var i in products) Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text('Name: ' + i['name'] + '\nSize: ' + i['size'], style: TextStyle(fontSize: 16)
+                  ),),
+              )
+              // Container(
+              //   padding: EdgeInsets.all(5),
+              //   alignment: Alignment.centerLeft,
+              //   child: Text('Name: $products', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+              // ),
+            ],
           ),
-          new FlatButton(
-            child: new Text("Accept"),
-            onPressed: () {
-//              we have document id as i
-              Firestore.instance.collection("Orders").document(i).updateData({"status":"Completed"});
-            },
-          )
-        ],
-      );
-    },
-  );
+        ),
+      ),
+      onTap: () {
+        Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
+          return Container();//EditOrders(userID: userID, orderID: orderID);
+        }));
+      },
+    );
+  }
 }

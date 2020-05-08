@@ -14,13 +14,18 @@ class DatabaseService {
 
   // Sets initial data
   Future updateUserOrderData(dynamic prodID, dynamic products, String location, int contact, String orderProgress, String userID) async {
+
+    // var dict = {
+    //   'productID': prodID,
+    //   'products': products,
+    //   'location': location,
+    //   'contact': contact,
+    //   'orderProgress': orderProgress,
+    //   'userID': userID,
+    // };
+
     return await userOrderCollection.document(uid).setData({
-      'productID': prodID,
-      'products': products,
-      'location': location,
-      'contact': contact,
-      'orderProgress': orderProgress,
-      'userID': userID,
+      'orders': [],
     });
   }
 
@@ -41,5 +46,5 @@ class DatabaseService {
     return userOrderCollection.snapshots()
       .map(userOrderFromSnapshot);
   }
-
 }
+

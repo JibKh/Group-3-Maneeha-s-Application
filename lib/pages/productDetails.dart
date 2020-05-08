@@ -262,13 +262,13 @@ class _BottomNavigationState extends State<BottomNavigation> {
                     InkWell(
                       onTap: () async {
                         if (widget.purpose == 'homepage' || widget.purpose == 'category' || widget.purpose == 'small') {
+                          // WE WANT TO UPDATE THE USER CART WITH THIS PRODUCT AND GIVE A CONFIRMATION.
+                          await updateCart(snapshot);
                           showDialog(
                             context: context,
                             builder: (_) => CupertinoAlertDialog(title: Text('Added!')),
                             barrierDismissible: true,
                           );
-                          // WE WANT TO UPDATE THE USER CART WITH THIS PRODUCT AND GIVE A CONFIRMATION.
-                          await updateCart(snapshot);
                         }
                       },
                       child: Container(
@@ -280,7 +280,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                         ),
                         child: Center(
                           child: Text(
-                            widget.purpose != 'homepage' && widget.purpose != 'category' && widget.purpose == 'small'? 'Can\'t add to cart as admin' : 'Add to Cart', // This will inform the admin that they cannot press this button.
+                            widget.purpose != 'homepage' && widget.purpose != 'category' && widget.purpose != 'small'? 'Can\'t add to cart as admin' : 'Add to Cart', // This will inform the admin that they cannot press this button.
                             style: TextStyle(
                               fontSize: widget.purpose != 'homepage' && widget.purpose != 'category' ? 13.0 : 18.0,
                               fontWeight: FontWeight.w400,

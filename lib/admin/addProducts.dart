@@ -31,7 +31,7 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController ProdDesc = TextEditingController();
   TextEditingController ProdQuantity = TextEditingController();
 //  links db_products class to this file
-  ProductService productService=ProductService();
+  ProductService productService = ProductService();
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   
@@ -294,7 +294,7 @@ void _selectImage(Future<File> pickImage, int imgnum) async{
 //            now well call the function to upload the products
 //            inside the function arguments pass the product information
         ProductService().uploadProducts(ProdName.text, ProdCat.text, urls,ProdPrice.text,ProdQuantity.text, ProdDesc.text);
-          };
+      }
         showDialog(
             context: context,
             builder: (context) {
