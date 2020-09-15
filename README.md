@@ -1,7 +1,7 @@
 # Maneeha's
 
 ## About
-This project was made for a client, Maneeha, to satisfy her E-Commerce requirements. She wanted an Android application which sells fashionable clothes. So we designed an aesthetically UI using Flutter and Firebase integration to satisfy her needs.
+This project was made for a client, Maneeha, to satisfy her E-Commerce requirements. She wanted an Android application which sells fashionable clothes. So we designed an aesthetically pleasing UI using Flutter and Firebase integration to satisfy her needs.
 
 ## Updates  
 UI Updates  
